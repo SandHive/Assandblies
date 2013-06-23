@@ -45,6 +45,12 @@ namespace Sand.Controls
         public Guid Guid { get { return _guid; } }
 
         /// <summary>
+        /// Gets the movement data where all information about the current item 
+        /// movement is stored.
+        /// </summary>
+        internal SandPanelItemMovementData MovementData { get; private set; }
+
+        /// <summary>
         /// Gets the parent SandPanel object.
         /// </summary>
         protected SandPanel ParentSandPanel { get; private set; }
@@ -74,7 +80,8 @@ namespace Sand.Controls
             Point mouseLocation = e.GetPosition( this.ParentSandPanel );
 
             //-- Calculate the offset between the upper left corner and the mouse location
-            this.Tag = new Point(
+            this.MovementData = new SandPanelItemMovementData();
+            this.MovementData.UpperLeftCornerOffset = new Point(
 
                 mouseLocation.X - SandPanel.GetLeft( this ),
                 mouseLocation.Y - SandPanel.GetTop( this )
@@ -93,7 +100,7 @@ namespace Sand.Controls
             //-- Return when the offset point was not calculated before (may occur
             //-- when the mouse is pressed shortly beyond the TestItem and is moved
             //-- into it at once)
-            if( ( this.Tag == null ) || ( e.LeftButton != MouseButtonState.Pressed ) ) 
+            if( ( this.MovementData == null ) || ( e.LeftButton != MouseButtonState.Pressed ) ) 
             {
                 //-- Something is wrong, we shall abort here
                 e.Handled = true;
@@ -102,10 +109,9 @@ namespace Sand.Controls
 
             //-- Determine elementary TestItem positions
             Point mouseLocation = e.GetPosition( this.ParentSandPanel );
-            Point offset = (Point) this.Tag;
-            double itemLeft = mouseLocation.X - offset.X;
+            double itemLeft = mouseLocation.X - this.MovementData.UpperLeftCornerOffset.X;
             double itemRight = itemLeft + this.ActualWidth;
-            double itemTop = mouseLocation.Y - offset.Y;
+            double itemTop = mouseLocation.Y - this.MovementData.UpperLeftCornerOffset.Y;
             double itemBottom = itemTop + this.ActualHeight;
 
             #region //-- Handle the x-position of the TestItem
@@ -155,8 +161,8 @@ namespace Sand.Controls
             base.OnMouseUp( e );
 
             //-- Reset all made settings on TestItem
+            this.MovementData = null;
             this.ReleaseMouseCapture();
-            this.Tag = null;
         }
 
         #endregion ContentControl Members
