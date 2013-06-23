@@ -81,7 +81,7 @@ namespace Sand.Controls
 
             //-- Calculate the offset between the upper left corner and the mouse location
             this.MovementData = new SandPanelItemMovementData();
-            this.MovementData.UpperLeftCornerOffset = new Point(
+            this.MovementData.MouseToItemLocationOffset = new Point(
 
                 mouseLocation.X - SandPanel.GetLeft( this ),
                 mouseLocation.Y - SandPanel.GetTop( this )
@@ -109,50 +109,47 @@ namespace Sand.Controls
 
             //-- Determine elementary TestItem positions
             Point mouseLocation = e.GetPosition( this.ParentSandPanel );
-            double itemLeft = mouseLocation.X - this.MovementData.UpperLeftCornerOffset.X;
+            double itemLeft = mouseLocation.X - this.MovementData.MouseToItemLocationOffset.X;
             double itemRight = itemLeft + this.ActualWidth;
-            double itemTop = mouseLocation.Y - this.MovementData.UpperLeftCornerOffset.Y;
+            double itemTop = mouseLocation.Y - this.MovementData.MouseToItemLocationOffset.Y;
             double itemBottom = itemTop + this.ActualHeight;
+            #region double newX = ...
 
-            #region //-- Handle the x-position of the TestItem
+            double newX = itemLeft;
 
             if( itemLeft < 0 )
             {
                 //-- The item would leave the left border of the Canvas object, so let's prevent that 
-                SandPanel.SetLeft( this, 0 );
+                newX = 0;
             }
             else if( itemRight > this.ParentSandPanel.ActualWidth )
             {
                 //-- The item would leave the right border of the Canvas object, so let's prevent that too
-                SandPanel.SetLeft( this, this.ParentSandPanel.ActualWidth - this.ActualWidth );
-            }
-            else
-            {
-                //-- The item is within the x-axe borders, so let's just apply its new x-position
-                SandPanel.SetLeft( this, itemLeft );
+                newX = this.ParentSandPanel.ActualWidth - this.ActualWidth;
             }
 
-            #endregion //-- Handle the x-position of the TestItem
+            #endregion double newX = ...
+            #region double newY = ...
 
-            #region //-- Handle the y-position of the TestItem
+            double newY = itemTop;
 
             if( itemTop < 0 )
             {
                 //-- The item would leave the top border of the Canvas object, so let's prevent that
-                SandPanel.SetTop( this, 0 );
+                newY = 0;
             }
             else if( itemBottom > this.ParentSandPanel.ActualHeight )
             {
                 //-- The item would leave the bottom border of the Canvas object, so let's prevent that too
-                SandPanel.SetTop( this, this.ParentSandPanel.ActualHeight - this.ActualHeight );
-            }
-            else
-            {
-                //-- The item is within the y-axe borders, so let's just apply its new y-position
-                SandPanel.SetTop( this, itemTop );
+                newY = this.ParentSandPanel.ActualHeight - this.ActualHeight;
             }
 
-            #endregion //-- Handle the y-position of the TestItem
+            #endregion double newY = ...
+
+            //-- Apply the new location
+            this.MovementData.Location = new Point( newX, newY );
+            SandPanel.SetLeft( this, newX );
+            SandPanel.SetTop( this, newY );
         }
 
         protected override void OnMouseUp( MouseButtonEventArgs e )

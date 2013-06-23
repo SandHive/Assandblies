@@ -37,10 +37,15 @@ namespace Sand.Controls
         #region Properties
 
         /// <summary>
-        /// Gets or sets the offset between the upper left corner and the 
-        /// current mouse location.
+        /// Gets or sets the coordinates of the upper-left corner of the 
+        /// SandPanelItem object.
         /// </summary>
-        public Point UpperLeftCornerOffset { get; set; }
+        public Point Location { get; set; }
+
+        /// <summary>
+        /// Gets or sets the offset between the item and mouse location.
+        /// </summary>
+        public Point MouseToItemLocationOffset { get; set; }
 
         #endregion Properties
         //---------------------------------------------------------------------
