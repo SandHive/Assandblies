@@ -27,14 +27,64 @@ namespace Sand.Controls
     public class SandPanelWidgetGridCell : Border
     {
         //---------------------------------------------------------------------
+        #region Events
+
+        public static readonly RoutedEvent WidgetEnterEvent = EventManager.RegisterRoutedEvent( "WidgetEnter", RoutingStrategy.Bubble, typeof( RoutedEventHandler ), typeof( SandPanelWidgetGridCell ) );
+        /// <summary>
+        /// Occurs when a widget enters the cell.
+        /// </summary>
+        public event RoutedEventHandler WidgetEnter
+        {
+            add 
+            { 
+                this.AddHandler( SandPanelWidgetGridCell.WidgetEnterEvent, value ); 
+            }
+            remove 
+            { 
+                this.RemoveHandler( SandPanelWidgetGridCell.WidgetEnterEvent, value ); 
+            }
+        }
+
+        public static readonly RoutedEvent WidgetLeaveEvent = EventManager.RegisterRoutedEvent( "WidgetLeave", RoutingStrategy.Bubble, typeof( RoutedEventHandler ), typeof( SandPanelWidgetGridCell ) );
+        /// <summary>
+        /// Occurs when a widget leaves the cell.
+        /// </summary>
+        public event RoutedEventHandler WidgetLeave
+        {
+            add
+            {
+                this.AddHandler( SandPanelWidgetGridCell.WidgetLeaveEvent, value );
+            }
+            remove
+            {
+                this.RemoveHandler( SandPanelWidgetGridCell.WidgetLeaveEvent, value );
+            }
+        }
+
+        #endregion Events
+        //---------------------------------------------------------------------
         #region Properties
 
-
+        public static DependencyProperty IsWidgetOverProperty = DependencyProperty.Register( "IsWidgetOver", typeof( bool ), typeof( SandPanelWidgetGridCell ), new PropertyMetadata( false ) );
+        /// <summary>
+        /// Gets or sets the height of a cell.
+        /// </summary>
+        public bool IsWidgetOver
+        {
+            get { return (bool) this.GetValue( SandPanelWidgetGridCell.IsWidgetOverProperty ); }
+            set { this.SetValue( SandPanelWidgetGridCell.IsWidgetOverProperty, value ); }
+        }
 
         #endregion Properties
         //---------------------------------------------------------------------
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the SandPanelWidgetGridCell class.
+        /// </summary>
+        /// <param name="size">
+        /// The cell size.
+        /// </param>
         public SandPanelWidgetGridCell( Size size )
         {
             base.Width = size.Width;
