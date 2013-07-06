@@ -21,12 +21,19 @@
 
 using System;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 //-----------------------------------------------------------------------------
 namespace Sand.Controls
 {
     public class SandPanelWidgetGrid : SandPanel
     {
+        //---------------------------------------------------------------------
+        #region Fields
+
+        private SandPanelWidgetGridCell[,] _widgetGridCells;
+
+        #endregion Fields
         //---------------------------------------------------------------------
         #region Properties
 
@@ -102,6 +109,46 @@ namespace Sand.Controls
         
         #endregion Properties
         //---------------------------------------------------------------------
+        #region Event Handling
+
+        private void item_MouseMove( object sender, MouseEventArgs e )
+        {
+            //-- Create a shortcut to the SandPanelWidget object
+            var widget = (SandPanelWidget) sender;
+
+            //-- Determine the affected cell
+            var cell = this.getCell( widget );
+
+            if( widget.MovementData.HoveredWidgetGridCell == null )
+            {
+                widget.MovementData.HoveredWidgetGridCell = cell;
+                cell.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetEnterEvent ) );
+                cell.IsWidgetOver = true;
+            }
+            else if( cell != widget.MovementData.HoveredWidgetGridCell )
+            {
+                widget.MovementData.HoveredWidgetGridCell.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetLeaveEvent ) );
+                widget.MovementData.HoveredWidgetGridCell.IsWidgetOver = false;
+
+                widget.MovementData.HoveredWidgetGridCell = cell;
+                cell.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetEnterEvent ) );
+                cell.IsWidgetOver = true;
+            }
+        }
+
+        private void item_PreviewMouseUp( object sender, MouseButtonEventArgs e )
+        {
+            //-- Create a shortcut to the SandPanelItem object
+            var item = (SandPanelItem) sender;
+
+            if( item.MovementData.HoveredWidgetGridCell != null )
+            {
+                item.MovementData.HoveredWidgetGridCell.Background = Brushes.White;
+            }
+        }
+
+        #endregion Event Handling
+        //---------------------------------------------------------------------
         #region SandPanel Members
 
         protected override void OnInitialized( EventArgs e )
@@ -125,11 +172,12 @@ namespace Sand.Controls
             SandPanelWidgetGridCell cell;
             double cellLeft = 0;
             double cellTop = 0;
-            for( int i = 0; i < this.RowCount; i++ )
+            _widgetGridCells = new SandPanelWidgetGridCell[this.ColumnCount,this.RowCount];
+            for( int y = 0; y < this.RowCount; y++ )
             {
                 cellLeft = 0;
 
-                for( int j = 0; j < this.ColumnCount; j++ )
+                for( int x = 0; x < this.ColumnCount; x++ )
                 {
                     cell = new SandPanelWidgetGridCell( totalCellSize );
                     
@@ -139,7 +187,9 @@ namespace Sand.Controls
                         cell.BorderThickness = new Thickness( 1 );
                     };
 
+                    _widgetGridCells[x,y] = cell;
                     base.Children.Add( cell );
+                    SandPanelWidgetGrid.SetZIndex( cell, int.MinValue );
                     SandPanelWidgetGrid.SetLeft( cell, cellLeft );
                     SandPanelWidgetGrid.SetTop( cell, cellTop );
 
@@ -152,7 +202,35 @@ namespace Sand.Controls
             #endregion //-- Add all cells
         }
 
+        protected override void OnItemAdded( SandPanelItem item )
+        {
+            base.OnItemAdded( item );
+
+            //-- Register to events
+            item.MouseMove += item_MouseMove;
+            item.PreviewMouseUp += item_PreviewMouseUp;
+        }
+
         #endregion SandPanel Members
+        //---------------------------------------------------------------------
+        #region Methods
+
+        private SandPanelWidgetGridCell getCell( SandPanelWidget widget )
+        {
+            //-- Calculate the total size of a cell
+            Size totalCellSize = new Size(
+
+                this.CellWidth + this.CellPadding.Left + this.CellPadding.Right,
+                this.CellHeight + this.CellPadding.Top + this.CellPadding.Bottom
+            );
+            
+            int cellXIndex = (int) ( widget.MovementData.Location.X / totalCellSize.Width );
+            int cellYIndex = (int) ( widget.MovementData.Location.Y / totalCellSize.Height );
+
+            return _widgetGridCells[cellXIndex, cellYIndex];
+        }
+
+        #endregion Methods
         //---------------------------------------------------------------------
     }
 }

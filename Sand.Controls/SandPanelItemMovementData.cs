@@ -19,12 +19,7 @@
  * IN THE SOFTWARE.
  */
 
-using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Effects;
 //-----------------------------------------------------------------------------
 namespace Sand.Controls
 {
@@ -35,6 +30,11 @@ namespace Sand.Controls
     {
         //---------------------------------------------------------------------
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the current hovered SandPanelWidgetGridCell object.
+        /// </summary>
+        public SandPanelWidgetGridCell HoveredWidgetGridCell { get; set; }
 
         /// <summary>
         /// Gets or sets the coordinates of the upper-left corner of the 

@@ -16,7 +16,8 @@
             <sc:SandPanelWidgetGrid ColumnCount="5" RowCount="5" ShowGrid="True" x:Name="_sandPanelWidgetGrid">
                                 
                 <sc:SandPanel.Resources>
-                    
+
+                    <!-- <Style TargetType="{x:Type sc:SandPanelWidget}"> -->
                     <Style TargetType="{x:Type sc:SandPanelWidget}">
                         
                         <Setter Property="Template">
@@ -36,18 +37,27 @@
                         </Setter>
                         
                     </Style>
+
+                    <!-- <Style TargetType="{x:Type sc:SandPanelWidgetGridCell}"> -->
+                    <Style TargetType="{x:Type sc:SandPanelWidgetGridCell}">
+                        <Style.Triggers>
+                            <Trigger Property="sc:SandPanelWidgetGridCell.IsWidgetOver" Value="True">
+                                <Setter Property="Border.Background" Value="Yellow" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
                     
                 </sc:SandPanel.Resources>
                 
-                <sc:SandPanelWidget>
+                <sc:SandPanelWidget Canvas.Left="10">
                     <Image Source="Images/convert_icon256.png" />
                 </sc:SandPanelWidget>
 
-                <sc:SandPanelWidget>
+                <sc:SandPanelWidget Canvas.Left="100">
                     <Image Source="Images/convert_icon256.png" />
                 </sc:SandPanelWidget>
 
-                <sc:SandPanelWidget>
+                <sc:SandPanelWidget Canvas.Left="200">
                     <Image Source="Images/convert_icon256.png" />
                 </sc:SandPanelWidget>
 
