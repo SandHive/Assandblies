@@ -59,9 +59,10 @@ namespace Sand.Controls
             if( e.Handled ) { return; }
 
             //-- Get the location of the current mouse movement
-            Point mouseLocation = e.GetPosition( this.ParentSandPanel );
+            var parentSandPanel = (SandPanel) this.Parent;
+            Point mouseLocation = e.GetPosition( parentSandPanel );
 
-            if( ( mouseLocation.X < 0 ) || ( mouseLocation.X > base.ParentSandPanel.ActualWidth ) || ( mouseLocation.Y < 0 ) || ( mouseLocation.Y > base.ParentSandPanel.ActualHeight ) )
+            if( ( mouseLocation.X < 0 ) || ( mouseLocation.X > parentSandPanel.ActualWidth ) || ( mouseLocation.Y < 0 ) || ( mouseLocation.Y > parentSandPanel.ActualHeight ) )
             {
                 //-- Make the mouse cursor visible when it leaves the canvas
                 Mouse.OverrideCursor = null;

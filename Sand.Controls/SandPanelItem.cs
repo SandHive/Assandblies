@@ -48,23 +48,9 @@ namespace Sand.Controls
         /// </summary>
         internal SandPanelItemMovementData MovementData { get; private set; }
 
-        /// <summary>
-        /// Gets the parent SandPanel object.
-        /// </summary>
-        protected SandPanel ParentSandPanel { get; private set; }
-
         #endregion Properties
         //---------------------------------------------------------------------
         #region ContentControl Members
-
-        public override void OnApplyTemplate()
-        {
-            //-- Call the base implementation
-            base.OnApplyTemplate();
-
-            //-- Apply the parent SandPanel object when it was not applied before
-            this.ParentSandPanel = (SandPanel) this.Parent;
-        }
 
         protected override void OnMouseDown( MouseButtonEventArgs e )
         {
@@ -75,7 +61,7 @@ namespace Sand.Controls
             if( e.Handled ) { return; }
 
             //-- Get the location of the current mouse movement
-            Point mouseLocation = e.GetPosition( this.ParentSandPanel );
+            Point mouseLocation = e.GetPosition( (SandPanel) this.Parent );
 
             //-- Calculate the offset between the upper left corner and the mouse location
             this.MovementData = new SandPanelItemMovementData();
@@ -106,7 +92,8 @@ namespace Sand.Controls
             }
 
             //-- Determine elementary TestItem positions
-            Point mouseLocation = e.GetPosition( this.ParentSandPanel );
+            var parentSandPanel = (SandPanel) this.Parent;
+            Point mouseLocation = e.GetPosition( parentSandPanel );
             double itemLeft = mouseLocation.X - this.MovementData.MouseToItemLocationOffset.X;
             double itemRight = itemLeft + this.ActualWidth;
             double itemTop = mouseLocation.Y - this.MovementData.MouseToItemLocationOffset.Y;
@@ -120,10 +107,10 @@ namespace Sand.Controls
                 //-- The item would leave the left border of the Canvas object, so let's prevent that 
                 newX = 0;
             }
-            else if( itemRight > this.ParentSandPanel.ActualWidth )
+            else if( itemRight > parentSandPanel.ActualWidth )
             {
                 //-- The item would leave the right border of the Canvas object, so let's prevent that too
-                newX = this.ParentSandPanel.ActualWidth - this.ActualWidth;
+                newX = parentSandPanel.ActualWidth - this.ActualWidth;
             }
 
             #endregion double newX = ...
@@ -136,10 +123,10 @@ namespace Sand.Controls
                 //-- The item would leave the top border of the Canvas object, so let's prevent that
                 newY = 0;
             }
-            else if( itemBottom > this.ParentSandPanel.ActualHeight )
+            else if( itemBottom > parentSandPanel.ActualHeight )
             {
                 //-- The item would leave the bottom border of the Canvas object, so let's prevent that too
-                newY = this.ParentSandPanel.ActualHeight - this.ActualHeight;
+                newY = parentSandPanel.ActualHeight - this.ActualHeight;
             }
 
             #endregion double newY = ...
