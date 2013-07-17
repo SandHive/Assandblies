@@ -31,6 +31,20 @@ namespace Sand.Controls
     public class SandPanelWidget : SandPanelItem
     {
         //---------------------------------------------------------------------
+        #region Properties
+
+        public static DependencyProperty MouseDownEffectProperty = DependencyProperty.Register( "MouseDownEffect", typeof( Effect ), typeof( SandPanelWidget ), new PropertyMetadata( new DropShadowEffect { Color = Colors.Black, Direction = 320, ShadowDepth = 4, Opacity = 1 } ) );
+        /// <summary>
+        /// Gets or sets the effect when a mouse button is pressed.
+        /// </summary>
+        public Effect MouseDownEffect
+        {
+            get { return (Effect) this.GetValue( SandPanelWidget.MouseDownEffectProperty ); }
+            set { this.SetValue( SandPanelWidget.MouseDownEffectProperty, value ); }
+        }
+
+        #endregion Properties
+        //---------------------------------------------------------------------
         #region Event Handling
 
         protected override void OnMouseDown( MouseButtonEventArgs e )
@@ -41,13 +55,7 @@ namespace Sand.Controls
             //-- Hide the mouse cursor ...
             Mouse.OverrideCursor = Cursors.None;
             //-- ... and show some nice effect around the affected item
-            this.Effect = new DropShadowEffect
-            {
-                Color = Colors.Black,
-                Direction = 320,
-                ShadowDepth = 4,
-                Opacity = 1
-            };
+            this.Effect = this.MouseDownEffect;
         }
 
         protected override void OnMouseMove( MouseEventArgs e )
