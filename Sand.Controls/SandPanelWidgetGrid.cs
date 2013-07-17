@@ -141,9 +141,12 @@ namespace Sand.Controls
             //-- Create a shortcut to the SandPanelItem object
             var item = (SandPanelItem) sender;
 
-            if( item.MovementData.HoveredWidgetGridCell != null )
+            if( item.MovementData != null )
             {
-                item.MovementData.HoveredWidgetGridCell.Background = Brushes.White;
+                if( item.MovementData.HoveredWidgetGridCell != null )
+                {
+                    item.MovementData.HoveredWidgetGridCell.Background = Brushes.White;
+                }
             }
         }
 

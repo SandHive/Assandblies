@@ -57,6 +57,8 @@ namespace Sand.Controls
             //-- Call the base implementation
             base.OnMouseDown( e );
 
+            if( e.RightButton == MouseButtonState.Pressed ) { e.Handled = true; }
+
             //-- Check for abortion
             if( e.Handled ) { return; }
 

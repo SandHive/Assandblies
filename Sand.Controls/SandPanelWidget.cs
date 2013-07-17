@@ -52,6 +52,9 @@ namespace Sand.Controls
             //-- Call the base implementation
             base.OnMouseDown( e );
 
+            //-- Check for abortion
+            if( e.Handled ) { return; }
+
             //-- Hide the mouse cursor ...
             Mouse.OverrideCursor = Cursors.None;
             //-- ... and show some nice effect around the affected item
