@@ -193,12 +193,10 @@ namespace Sand.Controls
 
             if( gridCell != widget.MovementData.HoveredWidgetGridCell )
             {
-                widget.MovementData.HoveredWidgetGridCell.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetLeaveEvent ) );
-                widget.MovementData.HoveredWidgetGridCell.IsWidgetOver = false;
+                widget.MovementData.HoveredWidgetGridCell.OnWidgetLeave( widget );
 
                 widget.MovementData.HoveredWidgetGridCell = gridCell;
-                gridCell.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetEnterEvent ) );
-                gridCell.IsWidgetOver = true;
+                gridCell.OnWidgetEnter( widget );
             }
         }
 
@@ -208,8 +206,7 @@ namespace Sand.Controls
             var gridCell = this.GetGridCell( widget );
                         
             widget.MovementData.HoveredWidgetGridCell = gridCell;
-            gridCell.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetEnterEvent ) );
-            gridCell.IsWidgetOver = true;
+            gridCell.OnWidgetEnter( widget);
         }
 
         internal void OnWidgetMovingStopped( SandPanelWidget widget )

@@ -73,7 +73,7 @@ namespace Sand.Controls
         public bool IsWidgetOver
         {
             get { return (bool) this.GetValue( SandPanelWidgetGridCell.IsWidgetOverProperty ); }
-            set { this.SetValue( SandPanelWidgetGridCell.IsWidgetOverProperty, value ); }
+            private set { this.SetValue( SandPanelWidgetGridCell.IsWidgetOverProperty, value ); }
         }
 
         #endregion Properties
@@ -114,6 +114,18 @@ namespace Sand.Controls
             SandPanelWidgetGrid.SetTop( widget, Math.Abs( cellInGridLocation.Y ) + yOffset );
 
             #endregion //-- Place the widget to the cell's center
+        }
+
+        internal void OnWidgetEnter( SandPanelWidget widget )
+        {
+            this.IsWidgetOver = true;
+            this.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetEnterEvent ) );
+        }
+
+        internal void OnWidgetLeave( SandPanelWidget widget )
+        {
+            this.IsWidgetOver = false;
+            this.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetLeaveEvent ) );
         }
 
         #endregion Methods
