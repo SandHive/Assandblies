@@ -19,6 +19,7 @@
  * IN THE SOFTWARE.
  */
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 //-----------------------------------------------------------------------------
@@ -92,6 +93,30 @@ namespace Sand.Controls
         }
 
         #endregion Constructors
+        //---------------------------------------------------------------------
+        #region Methods
+
+        internal void OnWidgetDropped( SandPanelWidget widget )
+        {
+            this.IsWidgetOver = false;
+
+            #region //-- Place the widget to the cell's center
+
+            //-- Get the location of the cell within the widget grid
+            Point cellInGridLocation = ( (SandPanelWidgetGrid) this.Parent ).TranslatePoint( new Point(), this );
+
+            //-- Calculate the offset in order to center the widget
+            double xOffset = ( this.Width - widget.RenderSize.Width ) / 2;
+            double yOffset = ( this.Height - widget.RenderSize.Height ) / 2;
+
+            //-- Move the widget to the cell's center
+            SandPanelWidgetGrid.SetLeft( widget, Math.Abs( cellInGridLocation.X ) + xOffset );
+            SandPanelWidgetGrid.SetTop( widget, Math.Abs( cellInGridLocation.Y ) + yOffset );
+
+            #endregion //-- Place the widget to the cell's center
+        }
+
+        #endregion Methods
         //---------------------------------------------------------------------
     }
 }

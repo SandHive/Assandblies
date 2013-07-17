@@ -218,7 +218,7 @@ namespace Sand.Controls
             if( widget.MovementData == null ) { return; }
             if( widget.MovementData.HoveredWidgetGridCell == null ) { return; }
             
-            widget.MovementData.HoveredWidgetGridCell.IsWidgetOver = false;
+            widget.MovementData.HoveredWidgetGridCell.OnWidgetDropped( widget );
         }
 
         #endregion Methods
