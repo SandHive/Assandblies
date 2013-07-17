@@ -33,6 +33,8 @@ namespace Sand.Controls
         //---------------------------------------------------------------------
         #region Properties
 
+        internal bool IsMoving { get; private set; }
+
         public static DependencyProperty MouseDownEffectProperty = DependencyProperty.Register( "MouseDownEffect", typeof( Effect ), typeof( SandPanelWidget ), new PropertyMetadata( new DropShadowEffect { Color = Colors.Black, Direction = 320, ShadowDepth = 4, Opacity = 1 } ) );
         /// <summary>
         /// Gets or sets the effect when a mouse button is pressed.
@@ -59,6 +61,11 @@ namespace Sand.Controls
             Mouse.OverrideCursor = Cursors.None;
             //-- ... and show some nice effect around the affected item
             this.Effect = this.MouseDownEffect;
+
+            //-- Inform the widget grid about the started moving
+            ( (SandPanelWidgetGrid) this.Parent ).OnWidgetMovingStarted( this );
+
+            this.IsMoving = true;
         }
 
         protected override void OnMouseMove( MouseEventArgs e )
@@ -82,18 +89,26 @@ namespace Sand.Controls
             {
                 Mouse.OverrideCursor = Cursors.None;
             }
+
+            //-- Inform the widget grid about the movement
+            ( (SandPanelWidgetGrid) this.Parent ).OnWidgetMove( this );
         }
 
         protected override void OnMouseUp( MouseButtonEventArgs e )
         {
+            //-- Inform the widget grid about the stopped moving (should be done 
+            //-- first, before all data is reset)
+            ( (SandPanelWidgetGrid) this.Parent ).OnWidgetMovingStopped( this );
+
             //-- Call the base implementation
             base.OnMouseUp( e );
 
             //-- The mouse cursor was set to Cursors.None before, so let's reset it again
             Mouse.OverrideCursor = null;
 
-            //-- Reset all made settings on TestItem
+            //-- Reset all made settings
             this.Effect = null;
+            this.IsMoving = false;
         }
 
         #endregion Event Handling

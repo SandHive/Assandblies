@@ -109,49 +109,6 @@ namespace Sand.Controls
         
         #endregion Properties
         //---------------------------------------------------------------------
-        #region Event Handling
-
-        private void item_MouseMove( object sender, MouseEventArgs e )
-        {
-            //-- Create a shortcut to the SandPanelWidget object
-            var widget = (SandPanelWidget) sender;
-
-            //-- Determine the affected cell
-            var cell = this.getCell( widget );
-
-            if( widget.MovementData.HoveredWidgetGridCell == null )
-            {
-                widget.MovementData.HoveredWidgetGridCell = cell;
-                cell.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetEnterEvent ) );
-                cell.IsWidgetOver = true;
-            }
-            else if( cell != widget.MovementData.HoveredWidgetGridCell )
-            {
-                widget.MovementData.HoveredWidgetGridCell.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetLeaveEvent ) );
-                widget.MovementData.HoveredWidgetGridCell.IsWidgetOver = false;
-
-                widget.MovementData.HoveredWidgetGridCell = cell;
-                cell.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetEnterEvent ) );
-                cell.IsWidgetOver = true;
-            }
-        }
-
-        private void item_PreviewMouseUp( object sender, MouseButtonEventArgs e )
-        {
-            //-- Create a shortcut to the SandPanelItem object
-            var item = (SandPanelItem) sender;
-
-            if( item.MovementData != null )
-            {
-                if( item.MovementData.HoveredWidgetGridCell != null )
-                {
-                    item.MovementData.HoveredWidgetGridCell.Background = Brushes.White;
-                }
-            }
-        }
-
-        #endregion Event Handling
-        //---------------------------------------------------------------------
         #region SandPanel Members
 
         protected override void OnInitialized( EventArgs e )
@@ -205,20 +162,11 @@ namespace Sand.Controls
             #endregion //-- Add all cells
         }
 
-        protected override void OnItemAdded( SandPanelItem item )
-        {
-            base.OnItemAdded( item );
-
-            //-- Register to events
-            item.MouseMove += item_MouseMove;
-            item.PreviewMouseUp += item_PreviewMouseUp;
-        }
-
         #endregion SandPanel Members
         //---------------------------------------------------------------------
         #region Methods
 
-        private SandPanelWidgetGridCell getCell( SandPanelWidget widget )
+        private SandPanelWidgetGridCell GetGridCell( SandPanelWidget widget )
         {
             //-- Calculate the total size of a cell
             Size totalCellSize = new Size(
@@ -231,6 +179,48 @@ namespace Sand.Controls
             int cellYIndex = (int) ( widget.MovementData.Location.Y / totalCellSize.Height );
 
             return _widgetGridCells[cellXIndex, cellYIndex];
+        }
+
+        internal void OnWidgetMove( SandPanelWidget widget )
+        {
+            //-- The mouse is captured in the SandPanelItem.OnMouseDown method
+            //-- which will result in a firing of the MouseMove event although
+            //-- the MouseDown event handler is not completely processed
+            if( !widget.IsMoving ) { return; }
+
+            //-- Determine the affected cell
+            var gridCell = this.GetGridCell( widget );
+
+            if( gridCell != widget.MovementData.HoveredWidgetGridCell )
+            {
+                widget.MovementData.HoveredWidgetGridCell.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetLeaveEvent ) );
+                widget.MovementData.HoveredWidgetGridCell.IsWidgetOver = false;
+
+                widget.MovementData.HoveredWidgetGridCell = gridCell;
+                gridCell.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetEnterEvent ) );
+                gridCell.IsWidgetOver = true;
+            }
+        }
+
+        internal void OnWidgetMovingStarted( SandPanelWidget widget )
+        {
+            //-- Determine the affected cell
+            var gridCell = this.GetGridCell( widget );
+                        
+            widget.MovementData.HoveredWidgetGridCell = gridCell;
+            gridCell.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetEnterEvent ) );
+            gridCell.IsWidgetOver = true;
+        }
+
+        internal void OnWidgetMovingStopped( SandPanelWidget widget )
+        {
+            if( widget.MovementData != null )
+            {
+                if( widget.MovementData.HoveredWidgetGridCell != null )
+                {
+                    widget.MovementData.HoveredWidgetGridCell.Background = Brushes.White;
+                }
+            }
         }
 
         #endregion Methods
