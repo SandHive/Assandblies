@@ -214,13 +214,11 @@ namespace Sand.Controls
 
         internal void OnWidgetMovingStopped( SandPanelWidget widget )
         {
-            if( widget.MovementData != null )
-            {
-                if( widget.MovementData.HoveredWidgetGridCell != null )
-                {
-                    widget.MovementData.HoveredWidgetGridCell.Background = Brushes.White;
-                }
-            }
+            //-- Check preconditions
+            if( widget.MovementData == null ) { return; }
+            if( widget.MovementData.HoveredWidgetGridCell == null ) { return; }
+            
+            widget.MovementData.HoveredWidgetGridCell.IsWidgetOver = false;
         }
 
         #endregion Methods
