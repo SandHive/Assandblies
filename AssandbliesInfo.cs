@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyCompany( "" )]
 [assembly: AssemblyProduct( "Assandblies" )]
-[assembly: AssemblyCopyright( "Copyright ©  2013 by The Sandmakers" )]
+[assembly: AssemblyCopyright( "Copyright ©  2013 by The Sandhive Project" )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 
@@ -16,6 +16,5 @@ using System.Runtime.InteropServices;
 //      Revision
 //
 [assembly: AssemblyVersion( "0.1.*" )]
-[assembly: AssemblyFileVersion( "0.1.0.0" )]
 
 //-----------------------------------------------------------------------------
