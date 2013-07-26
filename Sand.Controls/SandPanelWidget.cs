@@ -33,6 +33,14 @@ namespace Sand.Controls
         //---------------------------------------------------------------------
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the current widget grid cell.
+        /// </summary>
+        internal SandPanelWidgetGridCell CurrentWidgetGridCell { get; set; }
+
+        /// <summary>
+        /// Gets a flag that indicates whether the widget is moving or not.
+        /// </summary>
         internal bool IsMoving { get; private set; }
 
         public static DependencyProperty MouseDownEffectProperty = DependencyProperty.Register( "MouseDownEffect", typeof( Effect ), typeof( SandPanelWidget ), new PropertyMetadata( new DropShadowEffect { Color = Colors.Black, Direction = 320, ShadowDepth = 4, Opacity = 1 } ) );
@@ -47,7 +55,7 @@ namespace Sand.Controls
 
         #endregion Properties
         //---------------------------------------------------------------------
-        #region Event Handling
+        #region SandPanelItem Members
 
         protected override void OnMouseDown( MouseButtonEventArgs e )
         {
@@ -111,7 +119,7 @@ namespace Sand.Controls
             this.IsMoving = false;
         }
 
-        #endregion Event Handling
+        #endregion SandPanelItem Members
         //---------------------------------------------------------------------
     }
 }
