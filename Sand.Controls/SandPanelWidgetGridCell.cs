@@ -90,6 +90,8 @@ namespace Sand.Controls
         {
             base.Width = size.Width;
             base.Height = size.Height;
+
+            SandPanelWidgetGrid.SetZIndex( this, int.MinValue );
         }
 
         #endregion Constructors

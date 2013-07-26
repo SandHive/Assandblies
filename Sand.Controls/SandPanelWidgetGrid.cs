@@ -149,7 +149,6 @@ namespace Sand.Controls
 
                     _widgetGridCells[x,y] = cell;
                     base.Children.Add( cell );
-                    SandPanelWidgetGrid.SetZIndex( cell, int.MinValue );
                     SandPanelWidgetGrid.SetLeft( cell, cellLeft );
                     SandPanelWidgetGrid.SetTop( cell, cellTop );
 
@@ -160,6 +159,15 @@ namespace Sand.Controls
             }
 
             #endregion //-- Add all cells
+        }
+
+        protected override void OnItemAdded( SandPanelItem item )
+        {
+            base.OnItemAdded( item );
+
+            var widget = (SandPanelWidget) item;
+
+            widget.CurrentWidgetGridCell = this.GetGridCell( widget );
         }
 
         #endregion SandPanel Members
@@ -175,8 +183,11 @@ namespace Sand.Controls
                 this.CellHeight + this.CellPadding.Top + this.CellPadding.Bottom
             );
             
-            int cellXIndex = (int) ( widget.MovementData.Location.X / totalCellSize.Width );
-            int cellYIndex = (int) ( widget.MovementData.Location.Y / totalCellSize.Height );
+            //-- Get the location of the cell within the widget grid
+            Point widgetInGridLocation = this.TranslatePoint( new Point(), widget );
+
+            int cellXIndex = (int) ( Math.Abs( widgetInGridLocation.X ) / totalCellSize.Width );
+            int cellYIndex = (int) ( Math.Abs( widgetInGridLocation.Y ) / totalCellSize.Height );
 
             return _widgetGridCells[cellXIndex, cellYIndex];
         }
