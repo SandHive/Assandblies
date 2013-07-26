@@ -113,9 +113,6 @@ namespace Sand.Controls
 
         protected override void OnInitialized( EventArgs e )
         {
-            //-- Call the base implementation
-            base.OnInitialized( e );
-
             //-- Calculate the total size of a cell
             Size totalCellSize = new Size(
 
@@ -159,6 +156,9 @@ namespace Sand.Controls
             }
 
             #endregion //-- Add all cells
+
+            //-- Call the base implementation
+            base.OnInitialized( e );
         }
 
         protected override void OnItemAdded( SandPanelItem item )
