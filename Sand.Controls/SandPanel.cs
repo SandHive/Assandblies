@@ -97,9 +97,7 @@ namespace Sand.Controls
         /// </param>
         protected virtual void OnItemAdded( SandPanelItem item )
         {
-            //-- Set some Canvas properties
-            SandPanel.SetLeft( item, 20 );
-            SandPanel.SetTop( item, 2 * this.Children.Count );
+            //-- Take care of the z index
             SandPanel.SetZIndex( item, this.Children.Count );
 
             //-- Register to events
