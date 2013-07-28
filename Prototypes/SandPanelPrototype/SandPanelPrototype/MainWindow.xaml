@@ -23,7 +23,7 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate>
-                                    <Border Background="Pink" BorderBrush="Green" BorderThickness="3" CornerRadius="5">
+                                    <Border Background="Lime" BorderBrush="Green" BorderThickness="3" CornerRadius="5">
                                         <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" />
                                     </Border>
                                 </ControlTemplate>
@@ -46,15 +46,24 @@
                 </sc:SandPanel.Resources>
                 
                 <sc:SandPanelWidget Canvas.Left="10">
-                    <Image Source="Images/convert_icon256.png" />
+                    <DockPanel>
+                        <TextBlock DockPanel.Dock="Bottom" HorizontalAlignment="Center" Text="1" />
+                        <Image Source="Images/convert_icon256.png" />
+                    </DockPanel>
                 </sc:SandPanelWidget>
 
                 <sc:SandPanelWidget Canvas.Left="100">
-                    <Image Source="Images/convert_icon256.png" />
+                    <DockPanel>
+                        <TextBlock DockPanel.Dock="Bottom" HorizontalAlignment="Center" Text="2" />
+                        <Image Source="Images/convert_icon256.png" />
+                    </DockPanel>
                 </sc:SandPanelWidget>
 
                 <sc:SandPanelWidget Canvas.Left="200">
-                    <Image Source="Images/convert_icon256.png" />
+                    <DockPanel>
+                        <TextBlock DockPanel.Dock="Bottom" HorizontalAlignment="Center" Text="3" />
+                        <Image Source="Images/convert_icon256.png" />
+                    </DockPanel>
                 </sc:SandPanelWidget>
 
             </sc:SandPanelWidgetGrid>
