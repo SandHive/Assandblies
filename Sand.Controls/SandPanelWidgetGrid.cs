@@ -47,16 +47,6 @@ namespace Sand.Controls
             set { this.SetValue( SandPanelWidgetGrid.CellHeightProperty, value ); }
         }
 
-        public static DependencyProperty CellMarginProperty = DependencyProperty.Register( "CellMargin", typeof( Thickness ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( new Thickness( 0 ) ) );
-        /// <summary>
-        /// Gets or sets the cell margin.
-        /// </summary>
-        public Thickness CellMargin
-        {
-            get { return (Thickness) this.GetValue( SandPanelWidgetGrid.CellMarginProperty ); }
-            set { this.SetValue( SandPanelWidgetGrid.CellMarginProperty, value ); }
-        }
-
         public static DependencyProperty CellPaddingProperty = DependencyProperty.Register( "CellPadding", typeof( Thickness ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( new Thickness( 10 ) ) );
         /// <summary>
         /// Gets or sets the cell padding.
