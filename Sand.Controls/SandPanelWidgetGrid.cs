@@ -158,6 +158,8 @@ namespace Sand.Controls
             var widget = (SandPanelWidget) item;
 
             widget.CurrentWidgetGridCell = this.GetGridCell( widget );
+
+            widget.CurrentWidgetGridCell.OnWidgetDropped( widget );
         }
 
         #endregion SandPanel Members

@@ -108,8 +108,8 @@ namespace Sand.Controls
             Point cellInGridLocation = ( (SandPanelWidgetGrid) this.Parent ).TranslatePoint( new Point(), this );
 
             //-- Calculate the offset in order to center the widget
-            double xOffset = ( this.Width - widget.RenderSize.Width ) / 2;
-            double yOffset = ( this.Height - widget.RenderSize.Height ) / 2;
+            double xOffset = ( this.Width - widget.Width ) / 2;
+            double yOffset = ( this.Height - widget.Height ) / 2;
 
             //-- Move the widget to the cell's center
             SandPanelWidgetGrid.SetLeft( widget, Math.Abs( cellInGridLocation.X ) + xOffset );
