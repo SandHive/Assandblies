@@ -11,7 +11,7 @@
     
     <DockPanel Margin="10">
 
-        <Border BorderBrush="Black" BorderThickness="1">
+        <Border BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Top">
 
             <sc:SandPanelWidgetGrid ColumnCount="5" RowCount="5" ShowGrid="True" x:Name="_sandPanelWidgetGrid">
                                 
@@ -60,7 +60,13 @@
             </sc:SandPanelWidgetGrid>
             
         </Border>
-        
+
+        <sc:SandPanel Height="200">
+            <sc:SandPanelItem Canvas.Left="100" Canvas.Top="20">
+                <Image Height="60" Source="Images/convert_icon256.png" Width="60" />
+            </sc:SandPanelItem>
+        </sc:SandPanel>
+
     </DockPanel>
     
 </Window>
