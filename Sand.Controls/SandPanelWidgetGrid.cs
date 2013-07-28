@@ -21,7 +21,6 @@
 
 using System;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Media;
 //-----------------------------------------------------------------------------
 namespace Sand.Controls
@@ -174,12 +173,12 @@ namespace Sand.Controls
                 this.CellWidth + this.CellPadding.Left + this.CellPadding.Right,
                 this.CellHeight + this.CellPadding.Top + this.CellPadding.Bottom
             );
-            
-            //-- Get the location of the cell within the widget grid
-            Point widgetInGridLocation = this.TranslatePoint( new Point(), widget );
 
-            int cellXIndex = (int) ( Math.Abs( widgetInGridLocation.X ) / totalCellSize.Width );
-            int cellYIndex = (int) ( Math.Abs( widgetInGridLocation.Y ) / totalCellSize.Height );
+            //-- Get the location of the cell within the widget grid
+            Point widgetInGridLocation = widget.TranslatePoint( new Point(), this );
+
+            int cellXIndex = (int) ( widgetInGridLocation.X / totalCellSize.Width );
+            int cellYIndex = (int) ( widgetInGridLocation.Y / totalCellSize.Height );
 
             return _widgetGridCells[cellXIndex, cellYIndex];
         }
