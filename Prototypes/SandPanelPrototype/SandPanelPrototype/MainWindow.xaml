@@ -23,19 +23,15 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate>
-                                    <Border 
-                                        Background="Pink" 
-                                        BorderBrush="Green" 
-                                        BorderThickness="3" 
-                                        CornerRadius="5" 
-                                        Height="50"
-                                        Width="50">
+                                    <Border Background="Pink" BorderBrush="Green" BorderThickness="3" CornerRadius="5">
                                         <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" />
                                     </Border>
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
-                        
+                        <Setter Property="Height" Value="50" />
+                        <Setter Property="Width" Value="50" />
+
                     </Style>
 
                     <!-- <Style TargetType="{x:Type sc:SandPanelWidgetGridCell}"> -->
