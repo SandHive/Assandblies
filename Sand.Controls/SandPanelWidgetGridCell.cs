@@ -19,7 +19,6 @@
  * IN THE SOFTWARE.
  */
 
-using System;
 using System.Windows;
 using System.Windows.Controls;
 //-----------------------------------------------------------------------------
@@ -105,15 +104,15 @@ namespace Sand.Controls
             #region //-- Place the widget to the cell's center
 
             //-- Get the location of the cell within the widget grid
-            Point cellInGridLocation = ( (SandPanelWidgetGrid) this.Parent ).TranslatePoint( new Point(), this );
+            Point cellInGridLocation = this.TranslatePoint( new Point(), (SandPanelWidgetGrid) this.Parent );
 
             //-- Calculate the offset in order to center the widget
             double xOffset = ( this.Width - widget.Width ) / 2;
             double yOffset = ( this.Height - widget.Height ) / 2;
 
             //-- Move the widget to the cell's center
-            SandPanelWidgetGrid.SetLeft( widget, Math.Abs( cellInGridLocation.X ) + xOffset );
-            SandPanelWidgetGrid.SetTop( widget, Math.Abs( cellInGridLocation.Y ) + yOffset );
+            SandPanelWidgetGrid.SetLeft( widget, cellInGridLocation.X + xOffset );
+            SandPanelWidgetGrid.SetTop( widget, cellInGridLocation.Y + yOffset );
 
             #endregion //-- Place the widget to the cell's center
         }
