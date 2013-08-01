@@ -65,6 +65,12 @@ namespace Sand.Controls
         //---------------------------------------------------------------------
         #region Properties
 
+        /// <summary>
+        /// Gets a flag that indicates whether the cell contains currently a 
+        /// widget or not. 
+        /// </summary>
+        public bool ContainsWidget { get { return this.Widget != null; } }
+
         public static DependencyProperty IsWidgetOverProperty = DependencyProperty.Register( "IsWidgetOver", typeof( bool ), typeof( SandPanelWidgetGridCell ), new PropertyMetadata( false ) );
         /// <summary>
         /// Gets or sets the height of a cell.
@@ -74,6 +80,11 @@ namespace Sand.Controls
             get { return (bool) this.GetValue( SandPanelWidgetGridCell.IsWidgetOverProperty ); }
             private set { this.SetValue( SandPanelWidgetGridCell.IsWidgetOverProperty, value ); }
         }
+
+        /// <summary>
+        /// Gets the widget that is currently in the cell. 
+        /// </summary>
+        public SandPanelWidget Widget { get; private set; }
 
         #endregion Properties
         //---------------------------------------------------------------------
@@ -99,6 +110,7 @@ namespace Sand.Controls
 
         internal void OnWidgetDropped( SandPanelWidget widget )
         {
+            this.Widget = widget;
             this.IsWidgetOver = false;
 
             #region //-- Place the widget to the cell's center
