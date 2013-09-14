@@ -19,6 +19,7 @@
  * IN THE SOFTWARE.
  */
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 //-----------------------------------------------------------------------------
@@ -63,6 +64,12 @@ namespace Sand.Controls
 
         #endregion Events
         //---------------------------------------------------------------------
+        #region Fields
+
+        private readonly Guid _guid = Guid.NewGuid();
+
+        #endregion Fields
+        //---------------------------------------------------------------------
         #region Properties
 
         /// <summary>
@@ -70,6 +77,11 @@ namespace Sand.Controls
         /// widget or not. 
         /// </summary>
         public bool ContainsWidget { get { return this.Widget != null; } }
+
+        /// <summary>
+        /// Gets a unique identifier for this object.
+        /// </summary>
+        public Guid Guid { get { return _guid; } }
 
         public static DependencyProperty IsWidgetOverProperty = DependencyProperty.Register( "IsWidgetOver", typeof( bool ), typeof( SandPanelWidgetGridCell ), new PropertyMetadata( false ) );
         /// <summary>
