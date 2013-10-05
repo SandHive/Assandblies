@@ -158,9 +158,17 @@ namespace Sand.Controls
 
             var targetGridCell = this.GetGridCell( widget );
 
-            if( targetGridCell.ContainsWidget )
+            while( targetGridCell.ContainsWidget )
             {
-                targetGridCell = _widgetGridCells[2, 2];
+                //-- Get next grid
+                if( targetGridCell.yPosInGrid == this.RowCount - 1 )
+                {
+                    targetGridCell = _widgetGridCells[targetGridCell.xPosInGrid + 1, 0];
+                }
+                else
+                {
+                    targetGridCell = _widgetGridCells[targetGridCell.xPosInGrid, targetGridCell.yPosInGrid + 1];
+                }
             }
 
             widget.CurrentWidgetGridCell = targetGridCell;
