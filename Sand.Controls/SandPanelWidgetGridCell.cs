@@ -96,7 +96,7 @@ namespace Sand.Controls
         /// <summary>
         /// Gets the widget that is currently in the cell. 
         /// </summary>
-        public SandPanelWidget Widget { get; private set; }
+        public SandPanelWidget Widget { get; internal set; }
 
         /// <summary>
         /// Gets the x position of the cell within the parent grid. 
@@ -134,6 +134,9 @@ namespace Sand.Controls
 
         internal void OnWidgetDropped( SandPanelWidget widget )
         {
+            //-- Reset the "Widget" property of the grid cell from which the widget was moved
+            widget.CurrentWidgetGridCell.Widget = null;
+
             this.Widget = widget;
             this.IsWidgetOver = false;
 
