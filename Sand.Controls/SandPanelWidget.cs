@@ -70,6 +70,10 @@ namespace Sand.Controls
             //-- ... and show some nice effect around the affected item
             this.Effect = this.MouseDownEffect;
 
+            //-- Keep the home grid cell in mind in order to be able to switch
+            //-- other hovered widgets to it
+            this.MovementData.HomeWidgetGridCell = this.CurrentWidgetGridCell;
+
             //-- Inform the widget grid about the started moving
             ( (SandPanelWidgetGrid) this.Parent ).OnWidgetMovingStarted( this );
 

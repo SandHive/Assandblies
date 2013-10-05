@@ -32,20 +32,26 @@ namespace Sand.Controls
         #region Properties
 
         /// <summary>
-        /// Gets or sets the current hovered SandPanelWidgetGridCell object.
+        /// Gets the home SandPanelWidgetGridCell object (that's the cell where
+        /// the widget has started its movement).
         /// </summary>
-        public SandPanelWidgetGridCell HoveredWidgetGridCell { get; set; }
+        public SandPanelWidgetGridCell HomeWidgetGridCell { get; internal set; }
 
         /// <summary>
-        /// Gets or sets the coordinates of the upper-left corner of the 
-        /// SandPanelItem object.
+        /// Gets the current hovered SandPanelWidgetGridCell object.
         /// </summary>
-        public Point Location { get; set; }
+        public SandPanelWidgetGridCell HoveredWidgetGridCell { get; internal set; }
 
         /// <summary>
-        /// Gets or sets the offset between the item and mouse location.
+        /// Gets the coordinates of the upper-left corner of the SandPanelItem 
+        /// object.
         /// </summary>
-        public Point MouseToItemLocationOffset { get; set; }
+        public Point Location { get; internal set; }
+
+        /// <summary>
+        /// Gets the offset between the item and mouse location.
+        /// </summary>
+        public Point MouseToItemLocationOffset { get; internal set; }
 
         #endregion Properties
         //---------------------------------------------------------------------
