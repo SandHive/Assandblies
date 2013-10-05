@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyCompany( "" )]
 [assembly: AssemblyProduct( "Assandblies" )]
-[assembly: AssemblyCopyright( "Copyright ©  2013 by The Sandhive Project" )]
+[assembly: AssemblyCopyright( "Copyright ©  2013 by The Sand Hive Project" )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 
