@@ -70,6 +70,8 @@
             
         </Border>
 
+        <Button Click="AddWidgetButton_Click" Content="Add Widget" DockPanel.Dock="Top" Margin="0,5,0,5" Name="AddWidgetButton" />
+
         <sc:SandPanel Height="200">
             <sc:SandPanelItem Canvas.Left="100" Canvas.Top="20">
                 <Image Height="60" Source="Images/convert_icon256.png" Width="60" />
