@@ -125,7 +125,7 @@ namespace Sand.Controls
 
                 for( int x = 0; x < this.ColumnCount; x++ )
                 {
-                    cell = new SandPanelWidgetGridCell( totalCellSize );
+                    cell = new SandPanelWidgetGridCell( totalCellSize, x, y );
                     
                     if( this.ShowGrid )
                     { 
@@ -156,26 +156,65 @@ namespace Sand.Controls
 
             var widget = (SandPanelWidget) item;
 
-            widget.CurrentWidgetGridCell = this.GetGridCell( widget );
+            var targetGridCell = this.GetGridCell( widget );
 
-            widget.CurrentWidgetGridCell.OnWidgetDropped( widget );
+            if( targetGridCell.ContainsWidget )
+            {
+                targetGridCell = _widgetGridCells[2, 2];
+            }
+
+            widget.CurrentWidgetGridCell = targetGridCell;
+
+            targetGridCell.OnWidgetDropped( widget );
         }
 
         #endregion SandPanel Members
         //---------------------------------------------------------------------
         #region Methods
 
-        private SandPanelWidgetGridCell GetGridCell( SandPanelWidget widget )
+        /// <summary>
+        /// Calculates the total cell size (including all paddings). 
+        /// </summary>
+        /// <returns>
+        /// The total cell size.
+        /// </returns>
+        private Size CalculateTotalCellSize()
         {
-            //-- Calculate the total size of a cell
-            Size totalCellSize = new Size(
+            return new Size(
 
                 this.CellWidth + this.CellPadding.Left + this.CellPadding.Right,
                 this.CellHeight + this.CellPadding.Top + this.CellPadding.Bottom
             );
+        }
 
+        /// <summary>
+        /// Gets the location of a cell within this grid.
+        /// </summary>
+        /// <param name="sandPanelWidgetGridCell">
+        /// The grid cell whose position should be returned.
+        /// </param>
+        /// <returns>
+        /// The cell's position within the grid.
+        /// </returns>
+        internal Point GetCellLocation( SandPanelWidgetGridCell sandPanelWidgetGridCell )
+        {
+            //-- Calculate the total size of a cell
+            Size totalCellSize = this.CalculateTotalCellSize();
+
+            return new Point(
+
+                sandPanelWidgetGridCell.xPosInGrid * totalCellSize.Width,
+                sandPanelWidgetGridCell.yPosInGrid * totalCellSize.Height
+            );
+        }
+
+        private SandPanelWidgetGridCell GetGridCell( SandPanelWidget widget )
+        {
             //-- Get the location of the cell within the widget grid
             Point widgetInGridLocation = widget.TranslatePoint( new Point(), this );
+
+            //-- Calculate the total size of a cell
+            Size totalCellSize = this.CalculateTotalCellSize();
 
             int cellXIndex = (int) ( widgetInGridLocation.X / totalCellSize.Width );
             int cellYIndex = (int) ( widgetInGridLocation.Y / totalCellSize.Height );

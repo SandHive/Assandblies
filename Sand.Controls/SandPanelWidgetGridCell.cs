@@ -98,6 +98,16 @@ namespace Sand.Controls
         /// </summary>
         public SandPanelWidget Widget { get; private set; }
 
+        /// <summary>
+        /// Gets the x position of the cell within the parent grid. 
+        /// </summary>
+        public int xPosInGrid { get; private set; }
+
+        /// <summary>
+        /// Gets the y position of the cell within the parent grid. 
+        /// </summary>
+        public int yPosInGrid { get; private set; }
+
         #endregion Properties
         //---------------------------------------------------------------------
         #region Constructors
@@ -108,10 +118,12 @@ namespace Sand.Controls
         /// <param name="size">
         /// The cell size.
         /// </param>
-        public SandPanelWidgetGridCell( Size size )
+        internal SandPanelWidgetGridCell( Size size, int xPosInGrid, int yPosInGrid )
         {
             base.Width = size.Width;
             base.Height = size.Height;
+            this.xPosInGrid = xPosInGrid;
+            this.yPosInGrid = yPosInGrid;
 
             SandPanelWidgetGrid.SetZIndex( this, int.MinValue );
         }
@@ -128,7 +140,7 @@ namespace Sand.Controls
             #region //-- Place the widget to the cell's center
 
             //-- Get the location of the cell within the widget grid
-            Point cellInGridLocation = this.TranslatePoint( new Point(), (SandPanelWidgetGrid) this.Parent );
+            Point cellInGridLocation = ( (SandPanelWidgetGrid) this.Parent ).GetCellLocation( this );
 
             //-- Calculate the offset in order to center the widget
             double xOffset = ( this.Width - widget.Width ) / 2;
