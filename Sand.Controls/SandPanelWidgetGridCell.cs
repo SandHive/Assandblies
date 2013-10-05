@@ -25,7 +25,7 @@ using System.Windows.Controls;
 //-----------------------------------------------------------------------------
 namespace Sand.Controls
 {
-    public class SandPanelWidgetGridCell : Border
+    public sealed class SandPanelWidgetGridCell : Border
     {
         //---------------------------------------------------------------------
         #region Events

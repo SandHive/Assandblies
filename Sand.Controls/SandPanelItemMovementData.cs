@@ -26,7 +26,7 @@ namespace Sand.Controls
     /// <summary>
     /// Stores all relevant data about an item movement.
     /// </summary>
-    internal class SandPanelItemMovementData
+    internal sealed class SandPanelItemMovementData
     {
         //---------------------------------------------------------------------
         #region Properties
