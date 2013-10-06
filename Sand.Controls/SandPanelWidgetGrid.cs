@@ -171,7 +171,7 @@ namespace Sand.Controls
                 }
             }
 
-            widget.CurrentWidgetGridCell = targetGridCell;
+            widget.HomeWidgetGridCell = targetGridCell;
 
             targetGridCell.OnWidgetDropped( widget );
         }

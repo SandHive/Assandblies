@@ -34,11 +34,6 @@ namespace Sand.Controls
         #region Properties
 
         /// <summary>
-        /// Gets or sets the current widget grid cell.
-        /// </summary>
-        internal SandPanelWidgetGridCell CurrentWidgetGridCell { get; set; }
-
-        /// <summary>
         /// Gets the home SandPanelWidgetGridCell object (that's the cell where
         /// the widget has started its movement).
         /// </summary>
@@ -75,10 +70,6 @@ namespace Sand.Controls
             Mouse.OverrideCursor = Cursors.None;
             //-- ... and show some nice effect around the affected item
             this.Effect = this.MouseDownEffect;
-
-            //-- Keep the home grid cell in mind in order to be able to switch
-            //-- other hovered widgets to it
-            this.HomeWidgetGridCell = this.CurrentWidgetGridCell;
 
             //-- Inform the widget grid about the started moving
             ( (SandPanelWidgetGrid) this.Parent ).OnWidgetMovingStarted( this );
