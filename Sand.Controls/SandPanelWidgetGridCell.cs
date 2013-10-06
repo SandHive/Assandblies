@@ -68,6 +68,8 @@ namespace Sand.Controls
 
         private readonly Guid _guid = Guid.NewGuid();
 
+        private SandPanelWidget _originalWidget;
+
         #endregion Fields
         //---------------------------------------------------------------------
         #region Properties
@@ -135,7 +137,7 @@ namespace Sand.Controls
         internal void OnWidgetDropped( SandPanelWidget widget )
         {
             //-- Reset the "Widget" property of the grid cell from which the widget was moved
-            widget.CurrentWidgetGridCell.Widget = null;
+            //widget.CurrentWidgetGridCell.Widget = null;
 
             this.Widget = widget;
             this.IsWidgetOver = false;
@@ -160,12 +162,37 @@ namespace Sand.Controls
         {
             this.IsWidgetOver = true;
             this.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetEnterEvent ) );
+
+            //-- Check if there is already a widget in this cell ...
+            if( this.ContainsWidget )
+            {
+                //-- ... that is not identical with the current hovered one (results in bad behaviour otherwise) ...
+                if( this.Widget != widget )
+                {
+                    //-- ... and we are not dragging back to our home grid cell ...
+                    if( this != widget.MovementData.HomeWidgetGridCell )
+                    {
+                        //-- ... then just switch both widgets
+                        _originalWidget = this.Widget;
+                        widget.MovementData.HomeWidgetGridCell.OnWidgetDropped( this.Widget );
+                        this.Widget = null;
+                    }
+                }
+            }
         }
 
         internal void OnWidgetLeave( SandPanelWidget widget )
         {
             this.IsWidgetOver = false;
             this.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetLeaveEvent ) );
+
+            if( _originalWidget != null )
+            {
+                //-- Restore the original widget that was moved when the 
+                //-- _hoverWidget had entered this cell
+                this.OnWidgetDropped( _originalWidget );
+                _originalWidget = null;
+            }
         }
 
         #endregion Methods
