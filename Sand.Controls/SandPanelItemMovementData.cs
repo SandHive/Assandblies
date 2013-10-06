@@ -32,12 +32,6 @@ namespace Sand.Controls
         #region Properties
 
         /// <summary>
-        /// Gets the home SandPanelWidgetGridCell object (that's the cell where
-        /// the widget has started its movement).
-        /// </summary>
-        public SandPanelWidgetGridCell HomeWidgetGridCell { get; internal set; }
-
-        /// <summary>
         /// Gets the current hovered SandPanelWidgetGridCell object.
         /// </summary>
         public SandPanelWidgetGridCell HoveredWidgetGridCell { get; internal set; }

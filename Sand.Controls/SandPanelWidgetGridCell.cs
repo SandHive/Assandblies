@@ -170,11 +170,11 @@ namespace Sand.Controls
                 if( this.Widget != widget )
                 {
                     //-- ... and we are not dragging back to our home grid cell ...
-                    if( this != widget.MovementData.HomeWidgetGridCell )
+                    if( this != widget.HomeWidgetGridCell )
                     {
                         //-- ... then just switch both widgets
                         _originalWidget = this.Widget;
-                        widget.MovementData.HomeWidgetGridCell.OnWidgetDropped( this.Widget );
+                        widget.HomeWidgetGridCell.OnWidgetDropped( this.Widget );
                         this.Widget = null;
                     }
                 }

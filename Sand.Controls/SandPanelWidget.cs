@@ -39,6 +39,12 @@ namespace Sand.Controls
         internal SandPanelWidgetGridCell CurrentWidgetGridCell { get; set; }
 
         /// <summary>
+        /// Gets the home SandPanelWidgetGridCell object (that's the cell where
+        /// the widget has started its movement).
+        /// </summary>
+        internal SandPanelWidgetGridCell HomeWidgetGridCell { get; set; }
+
+        /// <summary>
         /// Gets a flag that indicates whether the widget is moving or not.
         /// </summary>
         internal bool IsMoving { get; private set; }
@@ -72,7 +78,7 @@ namespace Sand.Controls
 
             //-- Keep the home grid cell in mind in order to be able to switch
             //-- other hovered widgets to it
-            this.MovementData.HomeWidgetGridCell = this.CurrentWidgetGridCell;
+            this.HomeWidgetGridCell = this.CurrentWidgetGridCell;
 
             //-- Inform the widget grid about the started moving
             ( (SandPanelWidgetGrid) this.Parent ).OnWidgetMovingStarted( this );
