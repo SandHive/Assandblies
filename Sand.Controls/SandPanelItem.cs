@@ -33,7 +33,7 @@ namespace Sand.Controls
 
         private readonly Guid  _guid = Guid.NewGuid();
 
-        private Point _mouseToItemLocationOffset;
+        private Point _mouseToItemLocationOffset = new Point( Double.MaxValue, Double.MaxValue );
 
         #endregion Fields
         //---------------------------------------------------------------------
@@ -43,12 +43,6 @@ namespace Sand.Controls
         /// Gets a unique identifier for this object.
         /// </summary>
         public Guid Guid { get { return _guid; } }
-
-        /// <summary>
-        /// Gets the movement data where all information about the current item 
-        /// movement is stored.
-        /// </summary>
-        internal SandPanelItemMovementData MovementData { get; private set; }
 
         #endregion Properties
         //---------------------------------------------------------------------
@@ -68,7 +62,6 @@ namespace Sand.Controls
             Point mouseLocation = e.GetPosition( (SandPanel) this.Parent );
 
             //-- Calculate the offset between the upper left corner and the mouse location
-            this.MovementData = new SandPanelItemMovementData();
             _mouseToItemLocationOffset = new Point(
 
                 mouseLocation.X - SandPanel.GetLeft( this ),
@@ -85,10 +78,10 @@ namespace Sand.Controls
             //-- Call the base implementation
             base.OnMouseMove( e );
 
-            //-- Return when the offset point was not calculated before (may occur
-            //-- when the mouse is pressed shortly beyond the TestItem and is moved
-            //-- into it at once)
-            if( ( this.MovementData == null ) || ( e.LeftButton != MouseButtonState.Pressed ) ) 
+            //-- Return when the offset point was not calculated before (indicated 
+            //-- by Double.MaxValue; may occur when the mouse is pressed shortly 
+            //-- beyond the TestItem and is moved into it at once)
+            if( ( _mouseToItemLocationOffset.X == Double.MaxValue ) || ( e.LeftButton != MouseButtonState.Pressed ) ) 
             {
                 //-- Something is wrong, we shall abort here
                 e.Handled = true;
@@ -146,7 +139,7 @@ namespace Sand.Controls
             base.OnMouseUp( e );
 
             //-- Reset all made settings on TestItem
-            this.MovementData = null;
+            _mouseToItemLocationOffset = new Point( Double.MaxValue, Double.MaxValue );
             this.ReleaseMouseCapture();
         }
 

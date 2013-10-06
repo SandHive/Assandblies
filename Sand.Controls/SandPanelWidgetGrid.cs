@@ -240,11 +240,11 @@ namespace Sand.Controls
             //-- Determine the affected cell
             var gridCell = this.GetGridCell( widget );
 
-            if( gridCell != widget.MovementData.HoveredWidgetGridCell )
+            if( gridCell != widget.HoveredWidgetGridCell )
             {
-                widget.MovementData.HoveredWidgetGridCell.OnWidgetLeave( widget );
+                widget.HoveredWidgetGridCell.OnWidgetLeave( widget );
 
-                widget.MovementData.HoveredWidgetGridCell = gridCell;
+                widget.HoveredWidgetGridCell = gridCell;
                 gridCell.OnWidgetEnter( widget );
             }
         }
@@ -254,17 +254,16 @@ namespace Sand.Controls
             //-- Determine the affected cell
             var gridCell = this.GetGridCell( widget );
                         
-            widget.MovementData.HoveredWidgetGridCell = gridCell;
+            widget.HoveredWidgetGridCell = gridCell;
             gridCell.OnWidgetEnter( widget);
         }
 
         internal void OnWidgetMovingStopped( SandPanelWidget widget )
         {
             //-- Check preconditions
-            if( widget.MovementData == null ) { return; }
-            if( widget.MovementData.HoveredWidgetGridCell == null ) { return; }
+            if( widget.HoveredWidgetGridCell == null ) { return; }
             
-            widget.MovementData.HoveredWidgetGridCell.OnWidgetDropped( widget );
+            widget.HoveredWidgetGridCell.OnWidgetDropped( widget );
         }
 
         #endregion Methods
