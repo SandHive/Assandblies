@@ -134,7 +134,6 @@ namespace Sand.Controls
             #endregion double newY = ...
 
             //-- Apply the new location
-            this.MovementData.Location = new Point( newX, newY );
             SandPanel.SetLeft( this, newX );
             SandPanel.SetTop( this, newY );
         }

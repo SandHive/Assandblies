@@ -43,12 +43,6 @@ namespace Sand.Controls
         public SandPanelWidgetGridCell HoveredWidgetGridCell { get; internal set; }
 
         /// <summary>
-        /// Gets the coordinates of the upper-left corner of the SandPanelItem 
-        /// object.
-        /// </summary>
-        public Point Location { get; internal set; }
-
-        /// <summary>
         /// Gets the offset between the item and mouse location.
         /// </summary>
         public Point MouseToItemLocationOffset { get; internal set; }
