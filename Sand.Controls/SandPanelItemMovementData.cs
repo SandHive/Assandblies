@@ -42,11 +42,6 @@ namespace Sand.Controls
         /// </summary>
         public SandPanelWidgetGridCell HoveredWidgetGridCell { get; internal set; }
 
-        /// <summary>
-        /// Gets the offset between the item and mouse location.
-        /// </summary>
-        public Point MouseToItemLocationOffset { get; internal set; }
-
         #endregion Properties
         //---------------------------------------------------------------------
     }

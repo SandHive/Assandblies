@@ -33,6 +33,8 @@ namespace Sand.Controls
 
         private readonly Guid  _guid = Guid.NewGuid();
 
+        private Point _mouseToItemLocationOffset;
+
         #endregion Fields
         //---------------------------------------------------------------------
         #region Properties
@@ -67,7 +69,7 @@ namespace Sand.Controls
 
             //-- Calculate the offset between the upper left corner and the mouse location
             this.MovementData = new SandPanelItemMovementData();
-            this.MovementData.MouseToItemLocationOffset = new Point(
+            _mouseToItemLocationOffset = new Point(
 
                 mouseLocation.X - SandPanel.GetLeft( this ),
                 mouseLocation.Y - SandPanel.GetTop( this )
@@ -96,9 +98,9 @@ namespace Sand.Controls
             //-- Determine elementary TestItem positions
             var parentSandPanel = (SandPanel) this.Parent;
             Point mouseLocation = e.GetPosition( parentSandPanel );
-            double itemLeft = mouseLocation.X - this.MovementData.MouseToItemLocationOffset.X;
+            double itemLeft = mouseLocation.X - _mouseToItemLocationOffset.X;
             double itemRight = itemLeft + this.ActualWidth;
-            double itemTop = mouseLocation.Y - this.MovementData.MouseToItemLocationOffset.Y;
+            double itemTop = mouseLocation.Y - _mouseToItemLocationOffset.Y;
             double itemBottom = itemTop + this.ActualHeight;
             #region double newX = ...
 
