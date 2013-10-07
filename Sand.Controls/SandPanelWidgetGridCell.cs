@@ -136,11 +136,9 @@ namespace Sand.Controls
 
         internal void OnWidgetDropped( SandPanelWidget widget )
         {
-            //-- Reset the "Widget" property of the grid cell from which the widget was moved
-            //widget.CurrentWidgetGridCell.Widget = null;
-
             this.Widget = widget;
             this.IsWidgetOver = false;
+            widget.HomeWidgetGridCell = this;
 
             #region //-- Place the widget to the cell's center
 
