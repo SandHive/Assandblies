@@ -224,8 +224,27 @@ namespace Sand.Controls
             //-- Calculate the total size of a cell
             Size totalCellSize = this.CalculateTotalCellSize();
 
+            //-- Determine the cell where the upper left corner of the widget is located
             int cellXIndex = (int) ( widgetInGridLocation.X / totalCellSize.Width );
             int cellYIndex = (int) ( widgetInGridLocation.Y / totalCellSize.Height );
+
+            //-- Determine the location of the bottom right corner of the cell in order to ...
+            Point cellBottomRight = new Point(
+
+                ( cellXIndex + 1 ) * totalCellSize.Width,
+                ( cellYIndex + 1 ) * totalCellSize.Height
+            );
+            //-- ... check if the biggest part of the widget lies in a neighboring cell
+            double widgetWidthInCell = cellBottomRight.X - widgetInGridLocation.X;
+            double widgetHeightInCell = cellBottomRight.Y - widgetInGridLocation.Y;
+            if( widgetWidthInCell < ( widget.ActualWidth / 2 ) ) 
+            { 
+                cellXIndex++;
+            }
+            if( widgetHeightInCell < ( widget.ActualHeight / 2 ) )
+            {
+                cellYIndex++;
+            }
 
             return _widgetGridCells[cellXIndex, cellYIndex];
         }
