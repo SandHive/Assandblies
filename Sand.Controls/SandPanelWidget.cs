@@ -31,6 +31,12 @@ namespace Sand.Controls
     public class SandPanelWidget : SandPanelItem
     {
         //---------------------------------------------------------------------
+        #region Fields
+
+        private bool _isMoving;
+
+        #endregion Fields
+        //---------------------------------------------------------------------
         #region Properties
 
         /// <summary>
@@ -43,11 +49,6 @@ namespace Sand.Controls
         /// Gets the current hovered SandPanelWidgetGridCell object.
         /// </summary>
         public SandPanelWidgetGridCell HoveredWidgetGridCell { get; internal set; }
-
-        /// <summary>
-        /// Gets a flag that indicates whether the widget is moving or not.
-        /// </summary>
-        internal bool IsMoving { get; private set; }
 
         public static DependencyProperty MouseDownEffectProperty = DependencyProperty.Register( "MouseDownEffect", typeof( Effect ), typeof( SandPanelWidget ), new PropertyMetadata( new DropShadowEffect { Color = Colors.Black, Direction = 320, ShadowDepth = 4, Opacity = 1 } ) );
         /// <summary>
@@ -81,7 +82,7 @@ namespace Sand.Controls
             this.HoveredWidgetGridCell = gridCell;
             gridCell.OnWidgetEnter( this );
 
-            this.IsMoving = true;
+            _isMoving = true;
         }
 
         protected override void OnMouseMove( MouseEventArgs e )
@@ -109,7 +110,7 @@ namespace Sand.Controls
             //-- The mouse is captured in the SandPanelItem.OnMouseDown method
             //-- which will result in a firing of the MouseMove event although
             //-- the MouseDown event handler is not completely processed
-            if( !this.IsMoving ) { return; }
+            if( !_isMoving ) { return; }
 
             var gridCell = ( (SandPanelWidgetGrid) this.Parent ).GetGridCell( this );
             if( gridCell != this.HoveredWidgetGridCell )
@@ -137,7 +138,7 @@ namespace Sand.Controls
 
             //-- Reset all made settings
             this.Effect = null;
-            this.IsMoving = false;
+            _isMoving = false;
         }
 
         #endregion SandPanelItem Members

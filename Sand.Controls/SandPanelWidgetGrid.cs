@@ -215,6 +215,15 @@ namespace Sand.Controls
             );
         }
 
+        /// <summary>
+        /// Gets the cell where the widget belongs to.
+        /// </summary>
+        /// <param name="widget">
+        /// The widget.
+        /// </param>
+        /// <returns>
+        /// The cell.
+        /// </returns>
         internal SandPanelWidgetGridCell GetGridCell( SandPanelWidget widget )
         {
             //-- Get the location of the cell within the widget grid
