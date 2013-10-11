@@ -215,7 +215,7 @@ namespace Sand.Controls
             );
         }
 
-        private SandPanelWidgetGridCell GetGridCell( SandPanelWidget widget )
+        internal SandPanelWidgetGridCell GetGridCell( SandPanelWidget widget )
         {
             //-- Get the location of the cell within the widget grid
             Point widgetInGridLocation = widget.TranslatePoint( new Point(), this );
@@ -265,15 +265,6 @@ namespace Sand.Controls
                 widget.HoveredWidgetGridCell = gridCell;
                 gridCell.OnWidgetEnter( widget );
             }
-        }
-
-        internal void OnWidgetMovingStarted( SandPanelWidget widget )
-        {
-            //-- Determine the affected cell
-            var gridCell = this.GetGridCell( widget );
-                        
-            widget.HoveredWidgetGridCell = gridCell;
-            gridCell.OnWidgetEnter( widget);
         }
 
         #endregion Methods

@@ -76,8 +76,10 @@ namespace Sand.Controls
             //-- ... and show some nice effect around the affected item
             this.Effect = this.MouseDownEffect;
 
-            //-- Inform the widget grid about the started moving
-            ( (SandPanelWidgetGrid) this.Parent ).OnWidgetMovingStarted( this );
+            //-- Update the hovered grid cell
+            var gridCell = ( (SandPanelWidgetGrid) this.Parent ).GetGridCell( this );
+            this.HoveredWidgetGridCell = gridCell;
+            gridCell.OnWidgetEnter( this );
 
             this.IsMoving = true;
         }
