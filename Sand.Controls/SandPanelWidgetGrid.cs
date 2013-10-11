@@ -156,22 +156,21 @@ namespace Sand.Controls
 
             var widget = (SandPanelWidget) item;
 
+            //-- Determine the target grid cell (move to the next cell when the current one is occupied)
             var targetGridCell = this.GetGridCell( widget );
-
             while( targetGridCell.ContainsWidget )
             {
-                //-- Get next grid
                 if( targetGridCell.yPosInGrid == this.RowCount - 1 )
                 {
+                    //-- Bottom reached. So let's move to the next column's top
                     targetGridCell = _widgetGridCells[targetGridCell.xPosInGrid + 1, 0];
                 }
                 else
                 {
+                    //-- Move just one to the bottom
                     targetGridCell = _widgetGridCells[targetGridCell.xPosInGrid, targetGridCell.yPosInGrid + 1];
                 }
             }
-
-            widget.HomeWidgetGridCell = targetGridCell;
 
             targetGridCell.OnWidgetDropped( widget );
         }

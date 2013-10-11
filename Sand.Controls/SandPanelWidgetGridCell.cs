@@ -138,7 +138,6 @@ namespace Sand.Controls
         {
             this.Widget = widget;
             this.IsWidgetOver = false;
-            widget.HomeWidgetGridCell = this;
 
             #region //-- Place the widget to the cell's center
 
@@ -154,6 +153,15 @@ namespace Sand.Controls
             SandPanelWidgetGrid.SetTop( widget, cellInGridLocation.Y + yOffset );
 
             #endregion //-- Place the widget to the cell's center
+
+            if( widget.HomeWidgetGridCell != null )
+            {
+                //-- Reset the "Widget" property of the old home cell
+                widget.HomeWidgetGridCell.Widget = null;
+            }
+
+            //-- Update the home cell
+            widget.HomeWidgetGridCell = this;
         }
 
         internal void OnWidgetEnter( SandPanelWidget widget )
