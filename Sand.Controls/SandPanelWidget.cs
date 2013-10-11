@@ -106,8 +106,19 @@ namespace Sand.Controls
                 Mouse.OverrideCursor = Cursors.None;
             }
 
-            //-- Inform the widget grid about the movement
-            ( (SandPanelWidgetGrid) this.Parent ).OnWidgetMove( this );
+            //-- The mouse is captured in the SandPanelItem.OnMouseDown method
+            //-- which will result in a firing of the MouseMove event although
+            //-- the MouseDown event handler is not completely processed
+            if( !this.IsMoving ) { return; }
+
+            var gridCell = ( (SandPanelWidgetGrid) this.Parent ).GetGridCell( this );
+            if( gridCell != this.HoveredWidgetGridCell )
+            {
+                //-- Handle the hovered cell change 
+                this.HoveredWidgetGridCell.OnWidgetLeave( this );
+                this.HoveredWidgetGridCell = gridCell;
+                gridCell.OnWidgetEnter( this );
+            }
         }
 
         protected override void OnMouseUp( MouseButtonEventArgs e )

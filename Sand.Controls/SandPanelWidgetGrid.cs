@@ -248,25 +248,6 @@ namespace Sand.Controls
             return _widgetGridCells[cellXIndex, cellYIndex];
         }
 
-        internal void OnWidgetMove( SandPanelWidget widget )
-        {
-            //-- The mouse is captured in the SandPanelItem.OnMouseDown method
-            //-- which will result in a firing of the MouseMove event although
-            //-- the MouseDown event handler is not completely processed
-            if( !widget.IsMoving ) { return; }
-
-            //-- Determine the affected cell
-            var gridCell = this.GetGridCell( widget );
-
-            if( gridCell != widget.HoveredWidgetGridCell )
-            {
-                widget.HoveredWidgetGridCell.OnWidgetLeave( widget );
-
-                widget.HoveredWidgetGridCell = gridCell;
-                gridCell.OnWidgetEnter( widget );
-            }
-        }
-
         #endregion Methods
         //---------------------------------------------------------------------
     }
