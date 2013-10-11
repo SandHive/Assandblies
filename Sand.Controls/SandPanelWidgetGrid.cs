@@ -276,14 +276,6 @@ namespace Sand.Controls
             gridCell.OnWidgetEnter( widget);
         }
 
-        internal void OnWidgetMovingStopped( SandPanelWidget widget )
-        {
-            //-- Check preconditions
-            if( widget.HoveredWidgetGridCell == null ) { return; }
-            
-            widget.HoveredWidgetGridCell.OnWidgetDropped( widget );
-        }
-
         #endregion Methods
         //---------------------------------------------------------------------
     }

@@ -110,9 +110,11 @@ namespace Sand.Controls
 
         protected override void OnMouseUp( MouseButtonEventArgs e )
         {
-            //-- Inform the widget grid about the stopped moving (should be done 
-            //-- first, before all data is reset)
-            ( (SandPanelWidgetGrid) this.Parent ).OnWidgetMovingStopped( this );
+            //-- Do the dropping (should be done first, before all data is reset)
+            if( this.HoveredWidgetGridCell != null )
+            {
+                this.HoveredWidgetGridCell.OnWidgetDropped( this );
+            }
 
             //-- Call the base implementation
             base.OnMouseUp( e );
