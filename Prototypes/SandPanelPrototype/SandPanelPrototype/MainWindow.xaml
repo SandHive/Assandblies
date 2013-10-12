@@ -45,21 +45,21 @@
                     
                 </sc:SandPanel.Resources>
                 
-                <sc:SandPanelWidget Canvas.Left="10">
+                <sc:SandPanelWidget>
                     <DockPanel>
                         <TextBlock DockPanel.Dock="Bottom" HorizontalAlignment="Center" Text="1" />
                         <Image Source="Images/convert_icon256.png" />
                     </DockPanel>
                 </sc:SandPanelWidget>
 
-                <sc:SandPanelWidget Canvas.Left="100">
+                <sc:SandPanelWidget>
                     <DockPanel>
                         <TextBlock DockPanel.Dock="Bottom" HorizontalAlignment="Center" Text="2" />
                         <Image Source="Images/convert_icon256.png" />
                     </DockPanel>
                 </sc:SandPanelWidget>
 
-                <sc:SandPanelWidget Canvas.Left="200">
+                <sc:SandPanelWidget>
                     <DockPanel>
                         <TextBlock DockPanel.Dock="Bottom" HorizontalAlignment="Center" Text="3" />
                         <Image Source="Images/convert_icon256.png" />
