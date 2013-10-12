@@ -60,6 +60,16 @@ namespace Sand.Controls
             set { this.SetValue( SandPanelWidget.MouseDownEffectProperty, value ); }
         }
 
+        public static DependencyProperty TileSizeProperty = DependencyProperty.Register( "TileSize", typeof( Size ), typeof( SandPanelWidget ), new PropertyMetadata( new Size( 1.0, 1.0 ) ) );
+        /// <summary>
+        /// Gets or sets the tile size.
+        /// </summary>
+        public Size TileSize
+        {
+            get { return (Size) this.GetValue( SandPanelWidget.TileSizeProperty ); }
+            set { this.SetValue( SandPanelWidget.TileSizeProperty, value ); }
+        }
+
         #endregion Properties
         //---------------------------------------------------------------------
         #region SandPanelItem Members
