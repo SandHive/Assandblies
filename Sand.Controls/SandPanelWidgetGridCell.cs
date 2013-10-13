@@ -117,13 +117,14 @@ namespace Sand.Controls
         /// <summary>
         /// Initializes a new instance of the SandPanelWidgetGridCell class.
         /// </summary>
-        /// <param name="size">
-        /// The cell size.
+        /// <param name="xPosInGrid">
+        /// The x position within the widget grid.
         /// </param>
-        internal SandPanelWidgetGridCell( Size size, int xPosInGrid, int yPosInGrid )
+        /// <param name="yPosInGrid">
+        /// The y position within the widget grid.
+        /// </param>
+        internal SandPanelWidgetGridCell( int xPosInGrid, int yPosInGrid )
         {
-            base.Width = size.Width;
-            base.Height = size.Height;
             this.xPosInGrid = xPosInGrid;
             this.yPosInGrid = yPosInGrid;
 

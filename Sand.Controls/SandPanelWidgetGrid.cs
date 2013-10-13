@@ -36,7 +36,7 @@ namespace Sand.Controls
         //---------------------------------------------------------------------
         #region Properties
 
-        public static DependencyProperty CellHeightProperty = DependencyProperty.Register( "CellHeight", typeof( double ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( 50.0 ) );
+        public static DependencyProperty CellHeightProperty = DependencyProperty.Register( "CellHeight", typeof( double ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( 100.0 ) );
         /// <summary>
         /// Gets or sets the height of a cell.
         /// </summary>
@@ -46,17 +46,7 @@ namespace Sand.Controls
             set { this.SetValue( SandPanelWidgetGrid.CellHeightProperty, value ); }
         }
 
-        public static DependencyProperty CellPaddingProperty = DependencyProperty.Register( "CellPadding", typeof( Thickness ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( new Thickness( 10 ) ) );
-        /// <summary>
-        /// Gets or sets the cell padding.
-        /// </summary>
-        public Thickness CellPadding
-        {
-            get { return (Thickness) this.GetValue( SandPanelWidgetGrid.CellPaddingProperty ); }
-            set { this.SetValue( SandPanelWidgetGrid.CellPaddingProperty, value ); }
-        }
-
-        public static DependencyProperty CellWidthProperty = DependencyProperty.Register( "CellWidth", typeof( double ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( 50.0 ) );
+        public static DependencyProperty CellWidthProperty = DependencyProperty.Register( "CellWidth", typeof( double ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( 100.0 ) );
         /// <summary>
         /// Gets or sets the width of a cell.
         /// </summary>
@@ -102,16 +92,9 @@ namespace Sand.Controls
 
         protected override void OnInitialized( EventArgs e )
         {
-            //-- Calculate the total size of a cell
-            Size totalCellSize = new Size(
-
-                this.CellWidth + this.CellPadding.Left + this.CellPadding.Right,
-                this.CellHeight + this.CellPadding.Top + this.CellPadding.Bottom
-            );
-
             //-- Adjust the panel height and width
-            base.Height = this.RowCount * totalCellSize.Height;
-            base.Width = this.ColumnCount * totalCellSize.Width;
+            base.Height = this.RowCount * this.CellHeight;
+            base.Width = this.ColumnCount * this.CellWidth;
 
             #region //-- Add all cells
 
@@ -125,7 +108,7 @@ namespace Sand.Controls
 
                 for( int x = 0; x < this.ColumnCount; x++ )
                 {
-                    cell = new SandPanelWidgetGridCell( totalCellSize, x, y );
+                    cell = new SandPanelWidgetGridCell( x, y ) { Height = this.CellHeight, Width = this.CellWidth };
                     
                     if( this.ShowGrid )
                     { 
@@ -138,10 +121,10 @@ namespace Sand.Controls
                     SandPanelWidgetGrid.SetLeft( cell, cellLeft );
                     SandPanelWidgetGrid.SetTop( cell, cellTop );
 
-                    cellLeft += totalCellSize.Width;
+                    cellLeft += this.CellWidth;
                 }
 
-                cellTop += totalCellSize.Height;
+                cellTop += this.CellHeight;
             }
 
             #endregion //-- Add all cells
@@ -172,27 +155,16 @@ namespace Sand.Controls
                 }
             }
 
+            //-- Adjust the widget size
+            widget.Height = this.CellHeight - ( targetGridCell.Padding.Top + targetGridCell.Padding.Bottom );
+            widget.Width = this.CellWidth - ( targetGridCell.Padding.Left + targetGridCell.Padding.Right );
+
             targetGridCell.OnWidgetDropped( widget );
         }
 
         #endregion SandPanel Members
         //---------------------------------------------------------------------
         #region Methods
-
-        /// <summary>
-        /// Calculates the total cell size (including all paddings). 
-        /// </summary>
-        /// <returns>
-        /// The total cell size.
-        /// </returns>
-        private Size CalculateTotalCellSize()
-        {
-            return new Size(
-
-                this.CellWidth + this.CellPadding.Left + this.CellPadding.Right,
-                this.CellHeight + this.CellPadding.Top + this.CellPadding.Bottom
-            );
-        }
 
         /// <summary>
         /// Gets the location of a cell within this grid.
@@ -205,13 +177,10 @@ namespace Sand.Controls
         /// </returns>
         internal Point GetCellLocation( SandPanelWidgetGridCell sandPanelWidgetGridCell )
         {
-            //-- Calculate the total size of a cell
-            Size totalCellSize = this.CalculateTotalCellSize();
-
             return new Point(
 
-                sandPanelWidgetGridCell.xPosInGrid * totalCellSize.Width,
-                sandPanelWidgetGridCell.yPosInGrid * totalCellSize.Height
+                sandPanelWidgetGridCell.xPosInGrid * this.CellWidth,
+                sandPanelWidgetGridCell.yPosInGrid * this.CellHeight
             );
         }
 
@@ -229,18 +198,15 @@ namespace Sand.Controls
             //-- Get the location of the cell within the widget grid
             Point widgetInGridLocation = widget.TranslatePoint( new Point(), this );
 
-            //-- Calculate the total size of a cell
-            Size totalCellSize = this.CalculateTotalCellSize();
-
             //-- Determine the cell where the upper left corner of the widget is located
-            int cellXIndex = (int) ( widgetInGridLocation.X / totalCellSize.Width );
-            int cellYIndex = (int) ( widgetInGridLocation.Y / totalCellSize.Height );
+            int cellXIndex = (int) ( widgetInGridLocation.X / this.CellWidth );
+            int cellYIndex = (int) ( widgetInGridLocation.Y / this.CellHeight );
 
             //-- Determine the location of the bottom right corner of the cell in order to ...
             Point cellBottomRight = new Point(
 
-                ( cellXIndex + 1 ) * totalCellSize.Width,
-                ( cellYIndex + 1 ) * totalCellSize.Height
+                ( cellXIndex + 1 ) * this.CellWidth,
+                ( cellYIndex + 1 ) * this.CellHeight
             );
             //-- ... check if the biggest part of the widget lies in a neighboring cell
             double widgetWidthInCell = cellBottomRight.X - widgetInGridLocation.X;
