@@ -51,7 +51,7 @@ namespace Prototype
                 new SandPanelWidget() 
                 { 
                     Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) }, 
-                    TileSize = new Size( 1.5, 2.3 )
+                    TileSize = new Size( 2, 2 )
                 } 
             );
         }
