@@ -40,15 +40,15 @@ namespace Sand.Controls
         #region Properties
 
         /// <summary>
-        /// Gets the home SandPanelWidgetGridCell object (that's the cell where
+        /// Gets the home ISandPanelWidgetGridCell object (that's the cell where
         /// the widget has started its movement).
         /// </summary>
-        public SandPanelWidgetGridCell HomeWidgetGridCell { get; internal set; }
+        public ISandPanelWidgetGridCell HomeWidgetGridCell { get; internal set; }
 
         /// <summary>
-        /// Gets the current hovered SandPanelWidgetGridCell object.
+        /// Gets the current hovered ISandPanelWidgetGridCell object.
         /// </summary>
-        public SandPanelWidgetGridCell HoveredWidgetGridCell { get; internal set; }
+        public ISandPanelWidgetGridCell HoveredWidgetGridCell { get; internal set; }
 
         public static DependencyProperty MouseDownEffectProperty = DependencyProperty.Register( "MouseDownEffect", typeof( Effect ), typeof( SandPanelWidget ), new PropertyMetadata( new DropShadowEffect { Color = Colors.Black, Direction = 320, ShadowDepth = 4, Opacity = 1 } ) );
         /// <summary>
@@ -88,9 +88,8 @@ namespace Sand.Controls
             this.Effect = this.MouseDownEffect;
 
             //-- Update the hovered grid cell
-            var gridCell = ( (SandPanelWidgetGrid) this.Parent ).GetGridCell( this );
-            this.HoveredWidgetGridCell = gridCell;
-            gridCell.OnWidgetEnter( this );
+            this.HoveredWidgetGridCell = ( (SandPanelWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
+            this.HoveredWidgetGridCell.OnWidgetEnter( this );
 
             _isMoving = true;
         }
@@ -122,8 +121,8 @@ namespace Sand.Controls
             //-- the MouseDown event handler is not completely processed
             if( !_isMoving ) { return; }
 
-            var gridCell = ( (SandPanelWidgetGrid) this.Parent ).GetGridCell( this );
-            if( gridCell != this.HoveredWidgetGridCell )
+            var gridCell = ( (SandPanelWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
+            if( !SandPanelWidgetGridCellUnion.Equals( gridCell, this.HoveredWidgetGridCell ) )
             {
                 //-- Handle the hovered cell change 
                 this.HoveredWidgetGridCell.OnWidgetLeave( this );

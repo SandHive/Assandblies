@@ -20,6 +20,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 //-----------------------------------------------------------------------------
@@ -30,7 +31,7 @@ namespace Sand.Controls
         //---------------------------------------------------------------------
         #region Fields
 
-        private SandPanelWidgetGridCell[,] _widgetGridCells;
+        private ISandPanelWidgetGridCell[,] _widgetGridCells;
 
         #endregion Fields
         //---------------------------------------------------------------------
@@ -130,18 +131,18 @@ namespace Sand.Controls
             var widget = (SandPanelWidget) item;
 
             //-- Determine the target grid cell (move to the next cell when the current one is occupied)
-            var targetGridCell = this.GetGridCell( widget );
+            var targetGridCell = this.GetOccupiedGridCell( widget );
             while( targetGridCell.ContainsWidget )
             {
-                if( targetGridCell.yPosInGrid == this.RowCount - 1 )
+                if( targetGridCell.PositionInGrid.LeftTopY == this.RowCount - 1 )
                 {
                     //-- Bottom reached. So let's move to the next column's top
-                    targetGridCell = _widgetGridCells[targetGridCell.xPosInGrid + 1, 0];
+                    targetGridCell = _widgetGridCells[targetGridCell.PositionInGrid.LeftTopX + 1, 0];
                 }
                 else
                 {
                     //-- Move just one to the bottom
-                    targetGridCell = _widgetGridCells[targetGridCell.xPosInGrid, targetGridCell.yPosInGrid + 1];
+                    targetGridCell = _widgetGridCells[targetGridCell.PositionInGrid.LeftTopX, targetGridCell.PositionInGrid.LeftTopY + 1];
                 }
             }
 
@@ -172,21 +173,21 @@ namespace Sand.Controls
         {
             return new Point(
 
-                sandPanelWidgetGridCell.xPosInGrid * this.CellSize.Width,
-                sandPanelWidgetGridCell.yPosInGrid * this.CellSize.Height
+                sandPanelWidgetGridCell.PositionInGrid.LeftTopX * this.CellSize.Width,
+                sandPanelWidgetGridCell.PositionInGrid.LeftTopY * this.CellSize.Height
             );
         }
 
         /// <summary>
-        /// Gets the cell where the widget belongs to.
+        /// Gets the cells that are occupied by the widget.
         /// </summary>
         /// <param name="widget">
         /// The widget.
         /// </param>
         /// <returns>
-        /// The cell.
+        /// The cells.
         /// </returns>
-        internal SandPanelWidgetGridCell GetGridCell( SandPanelWidget widget )
+        internal ISandPanelWidgetGridCell GetOccupiedGridCell( SandPanelWidget widget )
         {
             //-- Get the location of the cell within the widget grid
             Point widgetInGridLocation = widget.TranslatePoint( new Point(), this );
@@ -213,7 +214,27 @@ namespace Sand.Controls
                 cellYIndex++;
             }
 
-            return _widgetGridCells[cellXIndex, cellYIndex];
+            if( ( widget.TileSize.Height > 1 ) || ( widget.TileSize.Width > 1 ) )
+            {
+                int xOccupiedCellsCount = (int) Math.Ceiling( widget.TileSize.Width );
+                int yOccupiedCellsCount = (int) Math.Ceiling( widget.TileSize.Height );
+
+                SandPanelWidgetGridCellUnion occupiedCells = new SandPanelWidgetGridCellUnion( xOccupiedCellsCount * yOccupiedCellsCount );
+
+                for( int y = 0; y < yOccupiedCellsCount; y++ )
+                {
+                    for( int x = 0; x < xOccupiedCellsCount; x++ )
+                    {
+                        occupiedCells.Add( (SandPanelWidgetGridCell) _widgetGridCells[cellXIndex + x, cellYIndex + y] );
+                    }
+                }
+
+                return occupiedCells;
+            }
+            else
+            {
+                return _widgetGridCells[cellXIndex, cellYIndex];
+            }
         }
 
         #endregion Methods

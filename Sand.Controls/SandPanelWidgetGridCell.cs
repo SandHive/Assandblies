@@ -25,7 +25,7 @@ using System.Windows.Controls;
 //-----------------------------------------------------------------------------
 namespace Sand.Controls
 {
-    public sealed class SandPanelWidgetGridCell : Border
+    public sealed class SandPanelWidgetGridCell : Border, ISandPanelWidgetGridCell
     {
         //---------------------------------------------------------------------
         #region Events
@@ -75,12 +75,6 @@ namespace Sand.Controls
         #region Properties
 
         /// <summary>
-        /// Gets a flag that indicates whether the cell contains currently a 
-        /// widget or not. 
-        /// </summary>
-        public bool ContainsWidget { get { return this.Widget != null; } }
-
-        /// <summary>
         /// Gets a unique identifier for this object.
         /// </summary>
         public Guid Guid { get { return _guid; } }
@@ -92,23 +86,8 @@ namespace Sand.Controls
         public bool IsWidgetOver
         {
             get { return (bool) this.GetValue( SandPanelWidgetGridCell.IsWidgetOverProperty ); }
-            private set { this.SetValue( SandPanelWidgetGridCell.IsWidgetOverProperty, value ); }
+            internal set { this.SetValue( SandPanelWidgetGridCell.IsWidgetOverProperty, value ); }
         }
-
-        /// <summary>
-        /// Gets the widget that is currently in the cell. 
-        /// </summary>
-        public SandPanelWidget Widget { get; internal set; }
-
-        /// <summary>
-        /// Gets the x position of the cell within the parent grid. 
-        /// </summary>
-        public int xPosInGrid { get; private set; }
-
-        /// <summary>
-        /// Gets the y position of the cell within the parent grid. 
-        /// </summary>
-        public int yPosInGrid { get; private set; }
 
         #endregion Properties
         //---------------------------------------------------------------------
@@ -125,17 +104,24 @@ namespace Sand.Controls
         /// </param>
         internal SandPanelWidgetGridCell( int xPosInGrid, int yPosInGrid )
         {
-            this.xPosInGrid = xPosInGrid;
-            this.yPosInGrid = yPosInGrid;
+            this.PositionInGrid = new SandPanelWidgetGridCellPosition()
+            {
+                LeftTopX = xPosInGrid,
+                LeftTopY = yPosInGrid,
+                RightBottomX = xPosInGrid,
+                RightBottomY = yPosInGrid
+            };
 
             SandPanelWidgetGrid.SetZIndex( this, int.MinValue );
         }
 
         #endregion Constructors
         //---------------------------------------------------------------------
-        #region Methods
+        #region ISandPanelWidgetGridCell Members
 
-        internal void OnWidgetDropped( SandPanelWidget widget )
+        public bool ContainsWidget { get { return this.Widget != null; } }
+
+        public void OnWidgetDropped( SandPanelWidget widget )
         {
             this.Widget = widget;
             this.IsWidgetOver = false;
@@ -165,7 +151,7 @@ namespace Sand.Controls
             widget.HomeWidgetGridCell = this;
         }
 
-        internal void OnWidgetEnter( SandPanelWidget widget )
+        public void OnWidgetEnter( SandPanelWidget widget )
         {
             this.IsWidgetOver = true;
             this.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetEnterEvent ) );
@@ -188,7 +174,7 @@ namespace Sand.Controls
             }
         }
 
-        internal void OnWidgetLeave( SandPanelWidget widget )
+        public void OnWidgetLeave( SandPanelWidget widget )
         {
             this.IsWidgetOver = false;
             this.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetLeaveEvent ) );
@@ -202,7 +188,11 @@ namespace Sand.Controls
             }
         }
 
-        #endregion Methods
+        public SandPanelWidgetGridCellPosition PositionInGrid { get; private set; }
+
+        public SandPanelWidget Widget { get; set; }
+
+        #endregion ISandPanelWidgetGridCell Members
         //---------------------------------------------------------------------
     }
 }
