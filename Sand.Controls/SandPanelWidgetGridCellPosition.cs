@@ -19,7 +19,6 @@
  * IN THE SOFTWARE.
  */
 
-using System.Windows;
 //-----------------------------------------------------------------------------
 namespace Sand.Controls
 {
@@ -52,6 +51,15 @@ namespace Sand.Controls
         public int RightBottomY { get; set; }
 
         #endregion Properties
+        //---------------------------------------------------------------------
+        #region Object Members
+
+        public override string ToString()
+        {
+            return string.Concat( "LeftTop {", this.LeftTopX, ",", this.LeftTopY, "}, RightBottom {", this.RightBottomX, ",", this.RightBottomY, "}" );
+        }
+
+        #endregion Object Members
         //---------------------------------------------------------------------
     }
 }
