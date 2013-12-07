@@ -198,12 +198,9 @@ namespace Sand.Controls
                 }
             }
 
-            //-- Determine the real widget size
-            double realWidgetHeight = this.CellSize.Height - ( targetGridCell.Padding.Top + targetGridCell.Padding.Bottom );
-            double realWidgetWidth = this.CellSize.Width - ( targetGridCell.Padding.Left + targetGridCell.Padding.Right );
             //-- Adjust the widget size by regarding the tile size
-            widget.Height = realWidgetHeight * widget.TileSize.Height;
-            widget.Width = realWidgetWidth * widget.TileSize.Width; 
+            widget.Height = ( this.CellSize.Height * widget.TileSize.Height ) - ( targetGridCell.Padding.Top + targetGridCell.Padding.Bottom );
+            widget.Width = ( this.CellSize.Width * widget.TileSize.Width ) - ( targetGridCell.Padding.Left + targetGridCell.Padding.Right ); 
 
             targetGridCell.OnWidgetDropped( widget );
         }
