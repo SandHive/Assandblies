@@ -9,11 +9,54 @@
     SizeToContent="WidthAndHeight"
     WindowStartupLocation="CenterScreen">
     
-    <DockPanel Margin="10">
+    <DockPanel>
+        
+        <StackPanel Background="LightGray" DockPanel.Dock="Right">
+            <GroupBox Header="Moving Widget" Margin="3">
+                <StackPanel>
+                    <StackPanel.Resources>
 
-        <Border BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Top">
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Margin" Value="3,0" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
 
-            <sc:SandPanelWidgetGrid CellSize="75,75" ColumnCount="5" RowCount="5" ShowGrid="True" x:Name="_sandPanelWidgetGrid">
+                        <Style TargetType="TextBox">
+                            <Setter Property="IsReadOnly" Value="True" />
+                            <Setter Property="Margin" Value="2" />
+                            <Setter Property="Width" Value="70" />
+                        </Style>
+
+                    </StackPanel.Resources>
+                    <DockPanel>
+                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding TopLeftWidgetCornerLocation, ElementName=_sandPanelWidgetGrid}" />
+                        <TextBlock DockPanel.Dock="Left" Text="Top Left Corner Location" />
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding CellIndexesOfTopLeftWidgetCorner, ElementName=_sandPanelWidgetGrid}" />
+                        <TextBlock DockPanel.Dock="Left" Text="Cell Indexes of Top Left Corner" />
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding CellIndexesOfBottomRightWidgetCorner, ElementName=_sandPanelWidgetGrid}" />
+                        <TextBlock DockPanel.Dock="Left" Text="Cell Indexes of Bottom Right Corner" />
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding WidgetSizeInTopLeftCell, ElementName=_sandPanelWidgetGrid}" />
+                        <TextBlock DockPanel.Dock="Left" Text="Widget Size in Top Left Cell" />
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding WidgetSizeInBottomRightCell, ElementName=_sandPanelWidgetGrid}" />
+                        <TextBlock DockPanel.Dock="Left" Text="Widget Size in Bottom Right Cell" />
+                    </DockPanel>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+
+        <Button Click="AddWidgetButton_Click" Content="Add Widget" DockPanel.Dock="Bottom" Margin="10,0, 10, 10" Name="AddWidgetButton" />
+
+        <Border BorderBrush="Black" BorderThickness="1"  Margin="10">
+
+            <sc:SandPanelWidgetGrid CellSize="75,75" ColumnCount="10" RowCount="10" ShowGrid="True" x:Name="_sandPanelWidgetGrid">
                                 
                 <sc:SandPanel.Resources>
 
@@ -68,14 +111,6 @@
             </sc:SandPanelWidgetGrid>
             
         </Border>
-
-        <Button Click="AddWidgetButton_Click" Content="Add Widget" DockPanel.Dock="Top" Margin="0,5,0,5" Name="AddWidgetButton" />
-
-        <sc:SandPanel Height="200">
-            <sc:SandPanelItem Canvas.Left="100" Canvas.Top="20">
-                <Image Height="60" Source="Images/convert_icon256.png" Width="60" />
-            </sc:SandPanelItem>
-        </sc:SandPanel>
 
     </DockPanel>
     

@@ -20,7 +20,7 @@
  */
 
 using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media;
 //-----------------------------------------------------------------------------
@@ -76,7 +76,59 @@ namespace Sand.Controls
             get { return (bool) this.GetValue( SandPanelWidgetGrid.ShowGridProperty ); }
             set { this.SetValue( SandPanelWidgetGrid.ShowGridProperty, value ); }
         }
-        
+
+#if PROTOTYPE
+        public static DependencyProperty CellIndexesOfBottomRightWidgetCornerProperty = DependencyProperty.Register( "CellIndexesOfBottomRightWidgetCorner", typeof( Point ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( new Point() ) );
+        /// <summary>
+        /// Gets the cell indexes of the bottom right widget corner.
+        /// </summary>
+        public Point CellIndexesOfBottomRightWidgetCorner
+        {
+            get { return (Point) this.GetValue( SandPanelWidgetGrid.CellIndexesOfBottomRightWidgetCornerProperty ); }
+            private set { this.SetValue( SandPanelWidgetGrid.CellIndexesOfBottomRightWidgetCornerProperty, value ); }
+        }
+
+        public static DependencyProperty CellIndexesOfTopLeftWidgetCornerProperty = DependencyProperty.Register( "CellIndexesOfTopLeftWidgetCorner", typeof( Point ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( new Point() ) );
+        /// <summary>
+        /// Gets the cell indexes of the top left widget corner.
+        /// </summary>
+        public Point CellIndexesOfTopLeftWidgetCorner
+        {
+            get { return (Point) this.GetValue( SandPanelWidgetGrid.CellIndexesOfTopLeftWidgetCornerProperty ); }
+            private set { this.SetValue( SandPanelWidgetGrid.CellIndexesOfTopLeftWidgetCornerProperty, value ); }
+        }
+
+        public static DependencyProperty TopLeftWidgetCornerLocationProperty = DependencyProperty.Register( "TopLeftWidgetCornerLocation", typeof( Point ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( new Point() ) );
+        /// <summary>
+        /// Gets the location of the top left widget corner.
+        /// </summary>
+        public Point TopLeftWidgetCornerLocation
+        {
+            get { return (Point) this.GetValue( SandPanelWidgetGrid.TopLeftWidgetCornerLocationProperty ); }
+            private set { this.SetValue( SandPanelWidgetGrid.TopLeftWidgetCornerLocationProperty, value ); }
+        }
+
+        public static DependencyProperty WidgetSizeInBottomRightCellProperty = DependencyProperty.Register( "WidgetSizeInBottomRightCell", typeof( Size ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( new Size() ) );
+        /// <summary>
+        /// Gets the widget size that is currently in the bottom right cell.
+        /// </summary>
+        public Size WidgetSizeInBottomRightCell
+        {
+            get { return (Size) this.GetValue( SandPanelWidgetGrid.WidgetSizeInBottomRightCellProperty ); }
+            private set { this.SetValue( SandPanelWidgetGrid.WidgetSizeInBottomRightCellProperty, value ); }
+        }
+
+        public static DependencyProperty WidgetSizeInTopLeftCellProperty = DependencyProperty.Register( "WidgetSizeInTopLeftCell", typeof( Size ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( new Size() ) );
+        /// <summary>
+        /// Gets the widget size that is currently in the top left cell.
+        /// </summary>
+        public Size WidgetSizeInTopLeftCell
+        {
+            get { return (Size) this.GetValue( SandPanelWidgetGrid.WidgetSizeInTopLeftCellProperty ); }
+            private set { this.SetValue( SandPanelWidgetGrid.WidgetSizeInTopLeftCellProperty, value ); }
+        }
+#endif
+
         #endregion Properties
         //---------------------------------------------------------------------
         #region SandPanel Members
@@ -190,51 +242,69 @@ namespace Sand.Controls
         internal ISandPanelWidgetGridCell GetOccupiedGridCell( SandPanelWidget widget )
         {
             //-- Get the location of the cell within the widget grid
-            Point widgetInGridLocation = widget.TranslatePoint( new Point(), this );
+            Point topLeftWidgetCornerLocation = widget.TranslatePoint( new Point(), this );
 
-            //-- Determine the cell where the upper left corner of the widget is located
-            int cellXIndex = (int) ( widgetInGridLocation.X / this.CellSize.Width );
-            int cellYIndex = (int) ( widgetInGridLocation.Y / this.CellSize.Height );
+            //-- Determine the cell index where the upper left corner of the widget is located
+            int cellXIndexOfTopLeftWidgetCorner = (int) ( topLeftWidgetCornerLocation.X / this.CellSize.Width );
+            int cellYIndexOfTopLeftWidgetCorner = (int) ( topLeftWidgetCornerLocation.Y / this.CellSize.Height );
 
-            //-- Determine the location of the bottom right corner of the cell in order to ...
-            Point cellBottomRight = new Point(
+            //-- Determine the number of occupied cells
+            int xOccupiedCellsCount = (int) Math.Ceiling( widget.TileSize.Width );
+            int yOccupiedCellsCount = (int) Math.Ceiling( widget.TileSize.Height );
+            
+            //-- Determine the cell index where the lower right corner of the widget is located
+            int cellXIndexOfBottomRightWidgetCorner = (int) ( ( topLeftWidgetCornerLocation.X + widget.Width ) / this.CellSize.Width );
+            int cellYIndexOfBottomRightWidgetCorner = (int) ( ( topLeftWidgetCornerLocation.Y + widget.Height ) / this.CellSize.Height );
 
-                ( cellXIndex + 1 ) * this.CellSize.Width,
-                ( cellYIndex + 1 ) * this.CellSize.Height
-            );
-            //-- ... check if the biggest part of the widget lies in a neighboring cell
-            double widgetWidthInCell = cellBottomRight.X - widgetInGridLocation.X;
-            double widgetHeightInCell = cellBottomRight.Y - widgetInGridLocation.Y;
-            if( widgetWidthInCell < ( widget.ActualWidth / 2 ) ) 
-            { 
-                cellXIndex++;
-            }
-            if( widgetHeightInCell < ( widget.ActualHeight / 2 ) )
+            //-- Determine locations for calculating where the biggest part of the widget is located
+            Point topLeftCellBottomRightLocation = new Point( ( cellXIndexOfTopLeftWidgetCorner + 1 ) * this.CellSize.Width, ( cellYIndexOfTopLeftWidgetCorner + 1 ) * this.CellSize.Height );
+            Point bottomRightCellTopLeftLocation = new Point( ( ( cellXIndexOfBottomRightWidgetCorner ) * this.CellSize.Width ) + 0, ( ( cellYIndexOfBottomRightWidgetCorner ) * this.CellSize.Height ) + 0 );
+
+            //-- Check if the biggest part of the widget lies in a neighboring cell, ...
+            double widgetWidthInTopLeftCell = topLeftCellBottomRightLocation.X - topLeftWidgetCornerLocation.X;
+            double widgetHeightInTopLeftCell = topLeftCellBottomRightLocation.Y - topLeftWidgetCornerLocation.Y;
+            double widgetWidthInBottomRightCell = ( topLeftWidgetCornerLocation.X + widget.Width ) - bottomRightCellTopLeftLocation.X;
+            double widgetHeightInBottomRightCell = ( topLeftWidgetCornerLocation.Y + widget.Height ) - bottomRightCellTopLeftLocation.Y;
+            
+            //-- ... so we have to adjust the indexes
+            if( ( widgetWidthInBottomRightCell > widgetWidthInTopLeftCell ) &&
+                ( cellXIndexOfTopLeftWidgetCorner <= ( cellXIndexOfBottomRightWidgetCorner - xOccupiedCellsCount ) ) )
             {
-                cellYIndex++;
+                cellXIndexOfTopLeftWidgetCorner++;
+            }
+            if( ( widgetHeightInBottomRightCell > widgetHeightInTopLeftCell ) &&
+                ( cellYIndexOfTopLeftWidgetCorner <= ( cellYIndexOfBottomRightWidgetCorner - yOccupiedCellsCount ) ) )
+            {
+                cellYIndexOfTopLeftWidgetCorner++;
             }
 
-            if( ( widget.TileSize.Height > 1 ) || ( widget.TileSize.Width > 1 ) )
+#if PROTOTYPE
+            //-- Assign some values for the prototype UI
+            this.CellIndexesOfBottomRightWidgetCorner = new Point( cellXIndexOfBottomRightWidgetCorner, cellYIndexOfBottomRightWidgetCorner );
+            this.CellIndexesOfTopLeftWidgetCorner = new Point( cellXIndexOfTopLeftWidgetCorner, cellYIndexOfTopLeftWidgetCorner );
+            this.TopLeftWidgetCornerLocation = topLeftWidgetCornerLocation;
+
+            //-- Assign some values for the prototype UI
+            this.WidgetSizeInBottomRightCell = new Size( widgetWidthInBottomRightCell, widgetHeightInBottomRightCell );
+            this.WidgetSizeInTopLeftCell = new Size( widgetWidthInTopLeftCell, widgetHeightInTopLeftCell );
+#endif
+
+            if( ( xOccupiedCellsCount == 1 ) && ( yOccupiedCellsCount == 1 ) )
             {
-                int xOccupiedCellsCount = (int) Math.Ceiling( widget.TileSize.Width );
-                int yOccupiedCellsCount = (int) Math.Ceiling( widget.TileSize.Height );
+                //-- There is only a single cell occupied -> return it
+                return _widgetGridCells[cellXIndexOfTopLeftWidgetCorner, cellYIndexOfTopLeftWidgetCorner];
+            }
 
-                SandPanelWidgetGridCellUnion occupiedCells = new SandPanelWidgetGridCellUnion( xOccupiedCellsCount * yOccupiedCellsCount );
-
-                for( int y = 0; y < yOccupiedCellsCount; y++ )
+            SandPanelWidgetGridCellUnion occupiedCells = new SandPanelWidgetGridCellUnion( xOccupiedCellsCount * yOccupiedCellsCount );
+            for( int y = 0; y < yOccupiedCellsCount; y++ )
+            {
+                for( int x = 0; x < xOccupiedCellsCount; x++ )
                 {
-                    for( int x = 0; x < xOccupiedCellsCount; x++ )
-                    {
-                        occupiedCells.Add( (SandPanelWidgetGridCell) _widgetGridCells[cellXIndex + x, cellYIndex + y] );
-                    }
+                    occupiedCells.Add( (SandPanelWidgetGridCell) _widgetGridCells[cellXIndexOfTopLeftWidgetCorner + x, cellYIndexOfTopLeftWidgetCorner + y] );
                 }
+            }
 
-                return occupiedCells;
-            }
-            else
-            {
-                return _widgetGridCells[cellXIndex, cellYIndex];
-            }
+            return occupiedCells;
         }
 
         #endregion Methods
