@@ -295,7 +295,7 @@ namespace Sand.Controls
                 return _widgetGridCells[cellXIndexOfTopLeftWidgetCorner, cellYIndexOfTopLeftWidgetCorner];
             }
 
-            SandPanelWidgetGridCellUnion occupiedCells = new SandPanelWidgetGridCellUnion( xOccupiedCellsCount * yOccupiedCellsCount );
+            SandPanelWidgetGridCellUnion occupiedCells = new SandPanelWidgetGridCellUnion( this, xOccupiedCellsCount, yOccupiedCellsCount );
             for( int y = 0; y < yOccupiedCellsCount; y++ )
             {
                 for( int x = 0; x < xOccupiedCellsCount; x++ )

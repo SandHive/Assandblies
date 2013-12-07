@@ -31,7 +31,13 @@ namespace Sand.Controls
         //---------------------------------------------------------------------
         #region Fields
 
+        private SandPanelWidgetGrid _grid;
+
         private List<SandPanelWidgetGridCell> _gridCells;
+
+        private int _xOccupiedCellsCount;
+
+        private int _yOccupiedCellsCount;
 
         #endregion Fields
         //---------------------------------------------------------------------
@@ -50,18 +56,36 @@ namespace Sand.Controls
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the SandPanelWidgetGridCellCollection
+        /// Initializes a new instance of the SandPanelWidgetGridCellUnion
         /// class.
         /// </summary>
-        /// <param name="capacity">
-        /// The collection's capacity.
+        /// <param name="grid">
+        /// The parent grid.
         /// </param>
-        public SandPanelWidgetGridCellUnion( int capacity )
+        /// <param name="xOccupiedCellsCount">
+        /// The number of occupied horizontal cells.
+        /// </param>
+        /// <param name="yOccupiedCellsCount">
+        /// The number of occupied vertical cells.
+        /// </param>
+        public SandPanelWidgetGridCellUnion( SandPanelWidgetGrid grid, int xOccupiedCellsCount, int yOccupiedCellsCount )
         {
-            _gridCells = new List<SandPanelWidgetGridCell>( capacity );
+            _grid = grid;
+            _gridCells = new List<SandPanelWidgetGridCell>( xOccupiedCellsCount * yOccupiedCellsCount );
+            _xOccupiedCellsCount = xOccupiedCellsCount;
+            _yOccupiedCellsCount = yOccupiedCellsCount;
         }
 
         #endregion Constructors
+        //---------------------------------------------------------------------
+        #region Indexers & Operators
+
+        public SandPanelWidgetGridCell this[int index]
+        {
+            get { return _gridCells[index]; }
+        }
+
+        #endregion Indexers & Operators
         //---------------------------------------------------------------------
         #region ISandPanelWidgetGridCell Members
 
@@ -91,19 +115,21 @@ namespace Sand.Controls
             
             #region //-- Place the widget to the cell's center
 
-            ////-- Get the location of the cell within the widget grid
-            //Point cellInGridLocation = ( (SandPanelWidgetGrid) this.Parent ).GetCellLocation( this );
+            //-- Get the location of the cell within the widget grid
+            Point cellInGridLocation = _grid.GetCellLocation( _gridCells[0] );
 
-            ////-- Calculate the offset in order to center the widget
-            //double xOffset = ( this.Width - widget.Width ) / 2;
-            //double yOffset = ( this.Height - widget.Height ) / 2;
+            //-- Calculate the offset in order to center the widget
+            double xOffset = ( ( _grid.CellSize.Width * _xOccupiedCellsCount ) - widget.Width ) / 2;
+            double yOffset = ( ( _grid.CellSize.Height * _yOccupiedCellsCount ) - widget.Height ) / 2;
 
-            ////-- Move the widget to the cell's center
-            //SandPanelWidgetGrid.SetLeft( widget, cellInGridLocation.X + xOffset );
-            //SandPanelWidgetGrid.SetTop( widget, cellInGridLocation.Y + yOffset );
+            //-- Move the widget to the cell's center
+            SandPanelWidgetGrid.SetLeft( widget, cellInGridLocation.X + xOffset );
+            SandPanelWidgetGrid.SetTop( widget, cellInGridLocation.Y + yOffset );
 
             #endregion //-- Place the widget to the cell's center
 
+            //-- Update the home cell
+            widget.HomeWidgetGridCell = this;
         }
 
         public void OnWidgetEnter( SandPanelWidget widget )
@@ -148,23 +174,37 @@ namespace Sand.Controls
         //---------------------------------------------------------------------
         #region Methods
 
-        public SandPanelWidgetGridCell this[int index]
-        {
-            get { return _gridCells[index]; }
-        }
-
+        /// <summary>
+        /// Adds a grid cell to this union.
+        /// </summary>
+        /// <param name="cell">
+        /// The SandPanelWidgetGridCell object.
+        /// </param>
         public void Add( SandPanelWidgetGridCell cell )
         {
             _gridCells.Add( cell );
         }
 
-        public static bool Equals( SandPanelWidgetGridCellUnion collectionA, SandPanelWidgetGridCellUnion collectionB )
+        /// <summary>
+        /// Checks if two unions are equal.
+        /// </summary>
+        /// <param name="unionA">
+        /// Union A.
+        /// </param>
+        /// <param name="unionB">
+        /// Union B.
+        /// </param>
+        /// <returns>
+        /// True = equal,
+        /// False = different.
+        /// </returns>
+        public static bool Equals( SandPanelWidgetGridCellUnion unionA, SandPanelWidgetGridCellUnion unionB )
         {
-            if( collectionA.Count != collectionB.Count ) { return false; }
+            if( unionA.Count != unionB.Count ) { return false; }
 
-            for( int i = 0; i < collectionA.Count; i++ )
+            for( int i = 0; i < unionA.Count; i++ )
             {
-                if( !collectionA[i].Guid.Equals( collectionB[i].Guid ) )
+                if( !unionA[i].Guid.Equals( unionB[i].Guid ) )
                 {
                     return false;
                 }
