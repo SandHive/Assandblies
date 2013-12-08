@@ -106,10 +106,10 @@ namespace Sand.Controls
         {
             this.PositionInGrid = new SandPanelWidgetGridCellPosition()
             {
-                LeftTopX = xPosInGrid,
-                LeftTopY = yPosInGrid,
-                RightBottomX = xPosInGrid,
-                RightBottomY = yPosInGrid
+                TopLeftX = xPosInGrid,
+                TopLeftY = yPosInGrid,
+                BottomRightX = xPosInGrid,
+                BottomRightY = yPosInGrid
             };
 
             SandPanelWidgetGrid.SetZIndex( this, int.MinValue );

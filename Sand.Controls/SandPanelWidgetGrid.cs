@@ -186,15 +186,15 @@ namespace Sand.Controls
             var targetGridCell = this.GetOccupiedGridCell( widget );
             while( targetGridCell.ContainsWidget )
             {
-                if( targetGridCell.PositionInGrid.LeftTopY == ( this.RowCount - 1 ) )
+                if( targetGridCell.PositionInGrid.TopLeftY == ( this.RowCount - 1 ) )
                 {
                     //-- Bottom reached. So let's move to the next column's top
-                    targetGridCell = _widgetGridCells[targetGridCell.PositionInGrid.LeftTopX + 1, 0];
+                    targetGridCell = _widgetGridCells[targetGridCell.PositionInGrid.TopLeftX + 1, 0];
                 }
                 else
                 {
                     //-- Move just one to the bottom
-                    targetGridCell = _widgetGridCells[targetGridCell.PositionInGrid.LeftTopX, targetGridCell.PositionInGrid.LeftTopY + 1];
+                    targetGridCell = _widgetGridCells[targetGridCell.PositionInGrid.TopLeftX, targetGridCell.PositionInGrid.TopLeftY + 1];
                 }
             }
 
@@ -222,8 +222,8 @@ namespace Sand.Controls
         {
             return new Point(
 
-                sandPanelWidgetGridCell.PositionInGrid.LeftTopX * this.CellSize.Width,
-                sandPanelWidgetGridCell.PositionInGrid.LeftTopY * this.CellSize.Height
+                sandPanelWidgetGridCell.PositionInGrid.TopLeftX * this.CellSize.Width,
+                sandPanelWidgetGridCell.PositionInGrid.TopLeftY * this.CellSize.Height
             );
         }
 
@@ -297,10 +297,10 @@ namespace Sand.Controls
                 this,
                 new SandPanelWidgetGridCellPosition()
                 {
-                    LeftTopX = cellXIndexOfTopLeftWidgetCorner,
-                    LeftTopY = cellYIndexOfTopLeftWidgetCorner,
-                    RightBottomX = cellXIndexOfBottomRightWidgetCorner,
-                    RightBottomY = cellYIndexOfBottomRightWidgetCorner
+                    TopLeftX = cellXIndexOfTopLeftWidgetCorner,
+                    TopLeftY = cellYIndexOfTopLeftWidgetCorner,
+                    BottomRightX = cellXIndexOfBottomRightWidgetCorner,
+                    BottomRightY = cellYIndexOfBottomRightWidgetCorner
                 }
             );
             for( int y = 0; y < yOccupiedCellsCount; y++ )

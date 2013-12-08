@@ -72,8 +72,8 @@ namespace Sand.Controls
         {
             _parentGrid = grid;
             this.PositionInGrid = position;
-            _xOccupiedCellsCount = position.RightBottomX - position.LeftTopX;
-            _yOccupiedCellsCount = position.RightBottomY - position.LeftTopY;
+            _xOccupiedCellsCount = position.BottomRightX - position.TopLeftX;
+            _yOccupiedCellsCount = position.BottomRightY - position.TopLeftY;
             _gridCells = new List<SandPanelWidgetGridCell>( _xOccupiedCellsCount * _yOccupiedCellsCount );
         }
 
