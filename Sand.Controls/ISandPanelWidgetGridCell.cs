@@ -32,11 +32,6 @@ namespace Sand.Controls
         bool ContainsWidget { get; }
 
         /// <summary>
-        /// Gets the inner distance, in pixels, to the containing widget.
-        /// </summary>
-        Thickness Padding { get; }
-
-        /// <summary>
         /// Handles a dropped widget.
         /// </summary>
         /// <param name="widget">

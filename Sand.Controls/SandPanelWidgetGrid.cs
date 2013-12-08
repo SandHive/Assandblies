@@ -37,6 +37,16 @@ namespace Sand.Controls
         //---------------------------------------------------------------------
         #region Properties
 
+        public static DependencyProperty CellPaddingProperty = DependencyProperty.Register( "CellPadding", typeof( Thickness ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( new Thickness( 3 ) ) );
+        /// <summary>
+        /// Gets or sets a cell's padding.
+        /// </summary>
+        public Thickness CellPadding
+        {
+            get { return (Thickness) this.GetValue( SandPanelWidgetGrid.CellPaddingProperty ); }
+            set { this.SetValue( SandPanelWidgetGrid.CellPaddingProperty, value ); }
+        }
+
         public static DependencyProperty CellSizeProperty = DependencyProperty.Register( "CellSize", typeof( Size ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( new Size( 100.0, 100.0 ) ) );
         /// <summary>
         /// Gets or sets a cell's size.
@@ -182,6 +192,10 @@ namespace Sand.Controls
 
             var widget = (SandPanelWidget) item;
 
+            //-- Adjust the widget size by regarding the tile size
+            widget.Height = ( this.CellSize.Height * widget.TileSize.Height ) - ( this.CellPadding.Top + this.CellPadding.Bottom );
+            widget.Width = ( this.CellSize.Width * widget.TileSize.Width ) - ( this.CellPadding.Left + this.CellPadding.Right ); 
+
             //-- Determine the target grid cell (move to the next cell when the current one is occupied)
             var targetGridCell = this.GetOccupiedGridCell( widget );
             while( targetGridCell.ContainsWidget )
@@ -197,10 +211,6 @@ namespace Sand.Controls
                     targetGridCell = _widgetGridCells[targetGridCell.PositionInGrid.TopLeftX, targetGridCell.PositionInGrid.TopLeftY + 1];
                 }
             }
-
-            //-- Adjust the widget size by regarding the tile size
-            widget.Height = ( this.CellSize.Height * widget.TileSize.Height ) - ( targetGridCell.Padding.Top + targetGridCell.Padding.Bottom );
-            widget.Width = ( this.CellSize.Width * widget.TileSize.Width ) - ( targetGridCell.Padding.Left + targetGridCell.Padding.Right ); 
 
             targetGridCell.OnWidgetDropped( widget );
         }
