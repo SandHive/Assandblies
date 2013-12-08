@@ -26,12 +26,15 @@ using System.Windows.Controls;
 //-----------------------------------------------------------------------------
 namespace Sand.Controls
 {
+    /// <summary>
+    /// A union of several SandPanelWidgetGridCell objects.
+    /// </summary>
     public sealed class SandPanelWidgetGridCellUnion : Border, ISandPanelWidgetGridCell
     {
         //---------------------------------------------------------------------
         #region Fields
 
-        private SandPanelWidgetGrid _grid;
+        private SandPanelWidgetGrid _parentGrid;
 
         private List<SandPanelWidgetGridCell> _gridCells;
 
@@ -62,18 +65,16 @@ namespace Sand.Controls
         /// <param name="grid">
         /// The parent grid.
         /// </param>
-        /// <param name="xOccupiedCellsCount">
-        /// The number of occupied horizontal cells.
+        /// <param name="position">
+        /// The position of the cell union within the parent grid.
         /// </param>
-        /// <param name="yOccupiedCellsCount">
-        /// The number of occupied vertical cells.
-        /// </param>
-        public SandPanelWidgetGridCellUnion( SandPanelWidgetGrid grid, int xOccupiedCellsCount, int yOccupiedCellsCount )
+        public SandPanelWidgetGridCellUnion( SandPanelWidgetGrid grid, SandPanelWidgetGridCellPosition position )
         {
-            _grid = grid;
-            _gridCells = new List<SandPanelWidgetGridCell>( xOccupiedCellsCount * yOccupiedCellsCount );
-            _xOccupiedCellsCount = xOccupiedCellsCount;
-            _yOccupiedCellsCount = yOccupiedCellsCount;
+            _parentGrid = grid;
+            this.PositionInGrid = position;
+            _xOccupiedCellsCount = position.RightBottomX - position.LeftTopX;
+            _yOccupiedCellsCount = position.RightBottomY - position.LeftTopY;
+            _gridCells = new List<SandPanelWidgetGridCell>( _xOccupiedCellsCount * _yOccupiedCellsCount );
         }
 
         #endregion Constructors
@@ -116,11 +117,11 @@ namespace Sand.Controls
             #region //-- Place the widget to the cell's center
 
             //-- Get the location of the cell within the widget grid
-            Point cellInGridLocation = _grid.GetCellLocation( _gridCells[0] );
+            Point cellInGridLocation = _parentGrid.GetCellLocation( _gridCells[0] );
 
             //-- Calculate the offset in order to center the widget
-            double xOffset = ( ( _grid.CellSize.Width * _xOccupiedCellsCount ) - widget.Width ) / 2;
-            double yOffset = ( ( _grid.CellSize.Height * _yOccupiedCellsCount ) - widget.Height ) / 2;
+            double xOffset = ( ( _parentGrid.CellSize.Width * _xOccupiedCellsCount ) - widget.Width ) / 2;
+            double yOffset = ( ( _parentGrid.CellSize.Height * _yOccupiedCellsCount ) - widget.Height ) / 2;
 
             //-- Move the widget to the cell's center
             SandPanelWidgetGrid.SetLeft( widget, cellInGridLocation.X + xOffset );

@@ -186,7 +186,7 @@ namespace Sand.Controls
             var targetGridCell = this.GetOccupiedGridCell( widget );
             while( targetGridCell.ContainsWidget )
             {
-                if( targetGridCell.PositionInGrid.LeftTopY == this.RowCount - 1 )
+                if( targetGridCell.PositionInGrid.LeftTopY == ( this.RowCount - 1 ) )
                 {
                     //-- Bottom reached. So let's move to the next column's top
                     targetGridCell = _widgetGridCells[targetGridCell.PositionInGrid.LeftTopX + 1, 0];
@@ -292,7 +292,17 @@ namespace Sand.Controls
                 return _widgetGridCells[cellXIndexOfTopLeftWidgetCorner, cellYIndexOfTopLeftWidgetCorner];
             }
 
-            SandPanelWidgetGridCellUnion occupiedCells = new SandPanelWidgetGridCellUnion( this, xOccupiedCellsCount, yOccupiedCellsCount );
+            SandPanelWidgetGridCellUnion occupiedCells = new SandPanelWidgetGridCellUnion(
+
+                this,
+                new SandPanelWidgetGridCellPosition()
+                {
+                    LeftTopX = cellXIndexOfTopLeftWidgetCorner,
+                    LeftTopY = cellYIndexOfTopLeftWidgetCorner,
+                    RightBottomX = cellXIndexOfBottomRightWidgetCorner,
+                    RightBottomY = cellYIndexOfBottomRightWidgetCorner
+                }
+            );
             for( int y = 0; y < yOccupiedCellsCount; y++ )
             {
                 for( int x = 0; x < xOccupiedCellsCount; x++ )
