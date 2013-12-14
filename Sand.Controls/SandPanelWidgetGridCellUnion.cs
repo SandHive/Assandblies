@@ -19,8 +19,7 @@
  * IN THE SOFTWARE.
  */
 
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 //-----------------------------------------------------------------------------
@@ -36,8 +35,6 @@ namespace Sand.Controls
 
         private SandPanelWidgetGrid _parentGrid;
 
-        private List<SandPanelWidgetGridCell> _gridCells;
-
         private int _xOccupiedCellsCount;
 
         private int _yOccupiedCellsCount;
@@ -51,7 +48,7 @@ namespace Sand.Controls
         /// </summary>
         public int Count
         {
-            get { return _gridCells.Count; }
+            get { return _xOccupiedCellsCount * _yOccupiedCellsCount; }
         }
 
         #endregion Properties
@@ -74,19 +71,9 @@ namespace Sand.Controls
             this.PositionInGrid = position;
             _xOccupiedCellsCount = position.BottomRightX - position.TopLeftX;
             _yOccupiedCellsCount = position.BottomRightY - position.TopLeftY;
-            _gridCells = new List<SandPanelWidgetGridCell>( _xOccupiedCellsCount * _yOccupiedCellsCount );
         }
 
         #endregion Constructors
-        //---------------------------------------------------------------------
-        #region Indexers & Operators
-
-        public SandPanelWidgetGridCell this[int index]
-        {
-            get { return _gridCells[index]; }
-        }
-
-        #endregion Indexers & Operators
         //---------------------------------------------------------------------
         #region ISandPanelWidgetGridCell Members
 
@@ -94,11 +81,14 @@ namespace Sand.Controls
         { 
             get 
             {
-                foreach( var cell in _gridCells )
+                for( int x = this.PositionInGrid.TopLeftX; x < this.PositionInGrid.BottomRightX; x++ )
                 {
-                    if( cell.ContainsWidget )
+                    for( int y = this.PositionInGrid.TopLeftY; y < this.PositionInGrid.BottomRightY; y++ )
                     {
-                        return true;
+                        if( _parentGrid.WidgetGridCells[x, y].ContainsWidget )
+                        {
+                            return true;
+                        }
                     }
                 }
 
@@ -108,16 +98,19 @@ namespace Sand.Controls
 
         public void OnWidgetDropped( SandPanelWidget widget )
         {
-            foreach( var cell in _gridCells )
-            {
-                cell.Widget = widget;
-                cell.IsWidgetOver = false;
-            }
+            this.ForEachCellDo( 
+
+                ( cell ) =>
+                {
+                    cell.Widget = widget;
+                    cell.IsWidgetOver = false;
+                }
+            );
             
             #region //-- Place the widget to the cell's center
 
             //-- Get the location of the cell within the widget grid
-            Point cellInGridLocation = _parentGrid.GetCellLocation( _gridCells[0] );
+            Point cellInGridLocation = _parentGrid.GetCellLocation( _parentGrid.WidgetGridCells[this.PositionInGrid.TopLeftX, this.PositionInGrid.TopLeftY] );
 
             //-- Calculate the offset in order to center the widget
             double xOffset = ( ( _parentGrid.CellSize.Width * _xOccupiedCellsCount ) - widget.Width ) / 2;
@@ -135,18 +128,12 @@ namespace Sand.Controls
 
         public void OnWidgetEnter( SandPanelWidget widget )
         {
-            foreach( var cell in _gridCells )
-            {
-                cell.OnWidgetEnter( widget );
-            }
+            this.ForEachCellDo( ( cell ) => cell.OnWidgetEnter( widget ) );
         }
 
         public void OnWidgetLeave( SandPanelWidget widget )
         {
-            foreach( var cell in _gridCells )
-            {
-                cell.OnWidgetLeave( widget );
-            }
+            this.ForEachCellDo( ( cell ) => cell.OnWidgetLeave( widget ) );
         }
 
         public SandPanelWidgetGridCellPosition PositionInGrid { get; private set; }
@@ -155,19 +142,11 @@ namespace Sand.Controls
         {
             get
             {
-                if( ( _gridCells != null ) && ( _gridCells.Count > 0 ) )
-                {
-                    return _gridCells[0].Widget;
-                }
-
-                return null;
+                return _parentGrid.WidgetGridCells[this.PositionInGrid.TopLeftX, this.PositionInGrid.TopLeftY].Widget;
             }
             set
             {
-                foreach( var cell in _gridCells )
-                {
-                    cell.Widget = value;
-                }
+                this.ForEachCellDo( ( cell ) => cell.Widget = value );
             }
         }
 
@@ -176,42 +155,20 @@ namespace Sand.Controls
         #region Methods
 
         /// <summary>
-        /// Adds a grid cell to this union.
+        /// Performs an action on each cell of this union.
         /// </summary>
-        /// <param name="cell">
-        /// The SandPanelWidgetGridCell object.
+        /// <param name="action">
+        /// The action that should be performed on each cell.
         /// </param>
-        public void Add( SandPanelWidgetGridCell cell )
+        private void ForEachCellDo( Action<SandPanelWidgetGridCell> action )
         {
-            _gridCells.Add( cell );
-        }
-
-        /// <summary>
-        /// Checks if two unions are equal.
-        /// </summary>
-        /// <param name="unionA">
-        /// Union A.
-        /// </param>
-        /// <param name="unionB">
-        /// Union B.
-        /// </param>
-        /// <returns>
-        /// True = equal,
-        /// False = different.
-        /// </returns>
-        public static bool Equals( SandPanelWidgetGridCellUnion unionA, SandPanelWidgetGridCellUnion unionB )
-        {
-            if( unionA.Count != unionB.Count ) { return false; }
-
-            for( int i = 0; i < unionA.Count; i++ )
+            for( int x = this.PositionInGrid.TopLeftX; x < this.PositionInGrid.BottomRightX; x++ )
             {
-                if( !unionA[i].Guid.Equals( unionB[i].Guid ) )
+                for( int y = this.PositionInGrid.TopLeftY; y < this.PositionInGrid.BottomRightY; y++ )
                 {
-                    return false;
+                    action( _parentGrid.WidgetGridCells[x, y] );
                 }
             }
-
-            return true;
         }
 
         #endregion Methods

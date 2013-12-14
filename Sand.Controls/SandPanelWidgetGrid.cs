@@ -31,7 +31,7 @@ namespace Sand.Controls
         //---------------------------------------------------------------------
         #region Fields
 
-        private ISandPanelWidgetGridCell[,] _widgetGridCells;
+        private SandPanelWidgetGridCell[,] _widgetGridCells;
 
         #endregion Fields
         //---------------------------------------------------------------------
@@ -87,6 +87,11 @@ namespace Sand.Controls
             set { this.SetValue( SandPanelWidgetGrid.ShowGridProperty, value ); }
         }
 
+        /// <summary>
+        /// Gets the collection of widget grid cells.
+        /// </summary>
+        internal SandPanelWidgetGridCell[,] WidgetGridCells { get { return _widgetGridCells; } }
+        
 #if PROTOTYPE
         public static DependencyProperty CellIndexesOfBottomRightWidgetCornerProperty = DependencyProperty.Register( "CellIndexesOfBottomRightWidgetCorner", typeof( Point ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( new Point() ) );
         /// <summary>
@@ -313,13 +318,6 @@ namespace Sand.Controls
                     BottomRightY = cellYIndexOfBottomRightWidgetCorner
                 }
             );
-            for( int y = 0; y < yOccupiedCellsCount; y++ )
-            {
-                for( int x = 0; x < xOccupiedCellsCount; x++ )
-                {
-                    occupiedCells.Add( (SandPanelWidgetGridCell) _widgetGridCells[cellXIndexOfTopLeftWidgetCorner + x, cellYIndexOfTopLeftWidgetCorner + y] );
-                }
-            }
 
             return occupiedCells;
         }
