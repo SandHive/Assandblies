@@ -44,18 +44,114 @@ namespace Prototype
         //---------------------------------------------------------------------
         #region Event Handling
 
-        private void AddWidgetButton_Click( object sender, RoutedEventArgs e )
+        private void Add1x1WidgetButton_Click( object sender, RoutedEventArgs e )
         {
             _sandPanelWidgetGrid.AddItem( 
                 
                 new SandPanelWidget() 
                 { 
                     Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) }, 
-                    TileSize = new Size( 3, 2 )
+                    TileSize = new Size( 1, 1 )
                 } 
             );
         }
-        
+
+        private void Add1x2WidgetButton_Click( object sender, RoutedEventArgs e )
+        {
+            _sandPanelWidgetGrid.AddItem(
+
+                new SandPanelWidget()
+                {
+                    Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) },
+                    TileSize = new Size( 1, 2 )
+                }
+            );
+        }
+
+        private void Add1x3WidgetButton_Click( object sender, RoutedEventArgs e )
+        {
+            _sandPanelWidgetGrid.AddItem(
+
+                new SandPanelWidget()
+                {
+                    Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) },
+                    TileSize = new Size( 1, 3 )
+                }
+            );
+        }
+
+        private void Add2x1WidgetButton_Click( object sender, RoutedEventArgs e )
+        {
+            _sandPanelWidgetGrid.AddItem(
+
+                new SandPanelWidget()
+                {
+                    Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) },
+                    TileSize = new Size( 2, 1 )
+                }
+            );
+        }
+
+        private void Add2x2WidgetButton_Click( object sender, RoutedEventArgs e )
+        {
+            _sandPanelWidgetGrid.AddItem(
+
+                new SandPanelWidget()
+                {
+                    Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) },
+                    TileSize = new Size( 2, 2 )
+                }
+            );
+        }
+
+        private void Add2x3WidgetButton_Click( object sender, RoutedEventArgs e )
+        {
+            _sandPanelWidgetGrid.AddItem(
+
+                new SandPanelWidget()
+                {
+                    Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) },
+                    TileSize = new Size( 2, 3 )
+                }
+            );
+        }
+
+        private void Add3x1WidgetButton_Click( object sender, RoutedEventArgs e )
+        {
+            _sandPanelWidgetGrid.AddItem(
+
+                new SandPanelWidget()
+                {
+                    Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) },
+                    TileSize = new Size( 3, 1 )
+                }
+            );
+        }
+
+        private void Add3x2WidgetButton_Click( object sender, RoutedEventArgs e )
+        {
+            _sandPanelWidgetGrid.AddItem(
+
+                new SandPanelWidget()
+                {
+                    Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) },
+                    TileSize = new Size( 3, 2 )
+                }
+            );
+        }
+
+        private void Add3x3WidgetButton_Click( object sender, RoutedEventArgs e )
+        {
+            _sandPanelWidgetGrid.AddItem(
+
+                new SandPanelWidget()
+                {
+                    Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) },
+                    TileSize = new Size( 3, 3 )
+                }
+            );
+        }
+
         private void Window_Loaded( object sender, RoutedEventArgs e )
         {
             _sandPanelWidgetGrid.AddItem( new SandPanelWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) } } );
