@@ -72,9 +72,9 @@ namespace Sand.Controls
             {
                 int bottomRightX = this.XCellIndex + _xCellsCount;
                 int bottomRightY = this.YCellIndex + _yCellsCount;
-                for( int x = this.XCellIndex; x <= bottomRightX; x++ )
+                for( int x = this.XCellIndex; x < bottomRightX; x++ )
                 {
-                    for( int y = this.YCellIndex; y <= bottomRightY; y++ )
+                    for( int y = this.YCellIndex; y < bottomRightY; y++ )
                     {
                         if( _parentGrid.WidgetGridCells[x, y].ContainsWidget )
                         {

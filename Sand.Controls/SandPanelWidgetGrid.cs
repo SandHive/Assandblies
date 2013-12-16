@@ -206,51 +206,7 @@ namespace Sand.Controls
             int yOccupiedCellsCount = (int) Math.Ceiling( widget.TileSize.Height );
 
             //-- Determine the target grid cell (move to the next cell when the current one is occupied)
-            var targetGridCell = this.GetOccupiedGridCell( widget );
-            while( targetGridCell.ContainsWidget )
-            {
-                if( targetGridCell is SandPanelWidgetGridCell )
-                {
-                    if( ( targetGridCell.YCellIndex + yOccupiedCellsCount ) >= ( this.RowCount - 1 ) )
-                    {
-                        //-- Bottom reached. So let's move to the next column's top
-                        targetGridCell = _widgetGridCells[targetGridCell.XCellIndex + 1, 0];
-                    }
-                    else
-                    {
-                        //-- Move just one to the bottom
-                        targetGridCell = _widgetGridCells[targetGridCell.XCellIndex, targetGridCell.YCellIndex + 1];
-                    }
-                }
-                else if( targetGridCell is SandPanelWidgetGridCellUnion )
-                {
-                    if( ( targetGridCell.YCellIndex + yOccupiedCellsCount ) >= ( this.RowCount - 1 ) )
-                    {
-                        //-- Bottom reached. So let's move to the next column's top
-                        targetGridCell = new SandPanelWidgetGridCellUnion( 
-                            
-                            this,
-                            targetGridCell.XCellIndex + 1,
-                            0,
-                            xOccupiedCellsCount,
-                            yOccupiedCellsCount
-                        );
-                    }
-                    else
-                    {
-                        //-- Move just one to the bottom
-                        targetGridCell = new SandPanelWidgetGridCellUnion(
-
-                            this,
-                            targetGridCell.XCellIndex,
-                            targetGridCell.YCellIndex + 1,
-                            xOccupiedCellsCount,
-                            yOccupiedCellsCount
-                        );
-                    }
-                }
-            }
-
+            var targetGridCell = this.GetNextFreeGridCell( xOccupiedCellsCount, yOccupiedCellsCount );
             targetGridCell.OnWidgetDropped( widget );
         }
 
@@ -274,6 +230,52 @@ namespace Sand.Controls
                 sandPanelWidgetGridCell.XCellIndex * this.CellSize.Width,
                 sandPanelWidgetGridCell.YCellIndex * this.CellSize.Height
             );
+        }
+
+        /// <summary>
+        /// Gets the next free ISandPanelWidgetGridCell object where the widget will fit into.
+        /// </summary>
+        /// <param name="xOccupiedCellsCount">
+        /// The number of x cells that are required by the widget.
+        /// </param>
+        /// <param name="yOccupiedCellsCount">
+        /// The number of y cells that are required by the widget.
+        /// </param>
+        /// <exception cref="Exception">
+        /// No free fitting grid cell available.
+        /// </exception>
+        /// <returns>
+        /// The next free ISandPanelWidgetGridCell object.
+        /// </returns>
+        private ISandPanelWidgetGridCell GetNextFreeGridCell( int xOccupiedCellsCount, int yOccupiedCellsCount )
+        {
+            int xMaxIndex = this.ColumnCount - xOccupiedCellsCount;
+            int yMaxIndex = this.RowCount - yOccupiedCellsCount;
+            ISandPanelWidgetGridCell nextFreeCell;
+            for( int x = 0; x <= xMaxIndex; x++ )
+            {
+                for( int y = 0; y <= yMaxIndex; y++ )
+                {
+                    //-- We are searching a ...
+                    if( ( xOccupiedCellsCount == 1 ) && ( yOccupiedCellsCount == 1 ) )
+                    {
+                        //-- ... single free cell
+                        nextFreeCell = _widgetGridCells[x, y];
+                    }
+                    else
+                    {
+                        //-- ... cell union
+                        nextFreeCell = new SandPanelWidgetGridCellUnion( this, x, y, xOccupiedCellsCount, yOccupiedCellsCount );
+                    }
+ 
+                    if( !nextFreeCell.ContainsWidget )
+                    {
+                        return nextFreeCell;
+                    }
+                }
+            }
+
+            throw new Exception( "No free fitting grid cell available!" );
         }
 
         /// <summary>
