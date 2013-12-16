@@ -40,26 +40,7 @@ namespace Sand.Controls
         /// </summary>
         public int TopLeftY { get; set; }
 
-        /// <summary>
-        /// Gets or sets the bottom right x position of the cell.
-        /// </summary>
-        public int BottomRightX { get; set; }
-
-        /// <summary>
-        /// Gets or sets the bottom right y position of the cell.
-        /// </summary>
-        public int BottomRightY { get; set; }
-
         #endregion Properties
-        //---------------------------------------------------------------------
-        #region Object Members
-
-        public override string ToString()
-        {
-            return string.Concat( "LeftTop {", this.TopLeftX, ",", this.TopLeftY, "}, RightBottom {", this.BottomRightX, ",", this.BottomRightY, "}" );
-        }
-
-        #endregion Object Members
         //---------------------------------------------------------------------
     }
 }

@@ -199,21 +199,61 @@ namespace Sand.Controls
 
             //-- Adjust the widget size by regarding the tile size
             widget.Height = ( this.CellSize.Height * widget.TileSize.Height ) - ( this.CellPadding.Top + this.CellPadding.Bottom );
-            widget.Width = ( this.CellSize.Width * widget.TileSize.Width ) - ( this.CellPadding.Left + this.CellPadding.Right ); 
+            widget.Width = ( this.CellSize.Width * widget.TileSize.Width ) - ( this.CellPadding.Left + this.CellPadding.Right );
+
+            //-- Determine the number of occupied cells
+            int xOccupiedCellsCount = (int) Math.Ceiling( widget.TileSize.Width );
+            int yOccupiedCellsCount = (int) Math.Ceiling( widget.TileSize.Height );
 
             //-- Determine the target grid cell (move to the next cell when the current one is occupied)
             var targetGridCell = this.GetOccupiedGridCell( widget );
             while( targetGridCell.ContainsWidget )
             {
-                if( targetGridCell.PositionInGrid.TopLeftY == ( this.RowCount - 1 ) )
+                if( targetGridCell is SandPanelWidgetGridCell )
                 {
-                    //-- Bottom reached. So let's move to the next column's top
-                    targetGridCell = _widgetGridCells[targetGridCell.PositionInGrid.TopLeftX + 1, 0];
+                    if( ( targetGridCell.PositionInGrid.TopLeftY + yOccupiedCellsCount ) >= ( this.RowCount - 1 ) )
+                    {
+                        //-- Bottom reached. So let's move to the next column's top
+                        targetGridCell = _widgetGridCells[targetGridCell.PositionInGrid.TopLeftX + 1, 0];
+                    }
+                    else
+                    {
+                        //-- Move just one to the bottom
+                        targetGridCell = _widgetGridCells[targetGridCell.PositionInGrid.TopLeftX, targetGridCell.PositionInGrid.TopLeftY + 1];
+                    }
                 }
-                else
+                else if( targetGridCell is SandPanelWidgetGridCellUnion )
                 {
-                    //-- Move just one to the bottom
-                    targetGridCell = _widgetGridCells[targetGridCell.PositionInGrid.TopLeftX, targetGridCell.PositionInGrid.TopLeftY + 1];
+                    if( ( targetGridCell.PositionInGrid.TopLeftY + yOccupiedCellsCount ) >= ( this.RowCount - 1 ) )
+                    {
+                        //-- Bottom reached. So let's move to the next column's top
+                        targetGridCell = new SandPanelWidgetGridCellUnion( 
+                            
+                            this, 
+                            new SandPanelWidgetGridCellPosition() 
+                            {
+                                TopLeftX = targetGridCell.PositionInGrid.TopLeftX + 1,
+                                TopLeftY = 0
+                            },
+                            xOccupiedCellsCount,
+                            yOccupiedCellsCount
+                        );
+                    }
+                    else
+                    {
+                        //-- Move just one to the bottom
+                        targetGridCell = new SandPanelWidgetGridCellUnion(
+
+                            this,
+                            new SandPanelWidgetGridCellPosition()
+                            {
+                                TopLeftX = targetGridCell.PositionInGrid.TopLeftX,
+                                TopLeftY = targetGridCell.PositionInGrid.TopLeftY + 1
+                            },
+                            xOccupiedCellsCount,
+                            yOccupiedCellsCount
+                        );
+                    }
                 }
             }
 
@@ -313,10 +353,10 @@ namespace Sand.Controls
                 new SandPanelWidgetGridCellPosition()
                 {
                     TopLeftX = cellXIndexOfTopLeftWidgetCorner,
-                    TopLeftY = cellYIndexOfTopLeftWidgetCorner,
-                    BottomRightX = cellXIndexOfBottomRightWidgetCorner,
-                    BottomRightY = cellYIndexOfBottomRightWidgetCorner
-                }
+                    TopLeftY = cellYIndexOfTopLeftWidgetCorner
+                },
+                xOccupiedCellsCount,
+                yOccupiedCellsCount
             );
 
             return occupiedCells;

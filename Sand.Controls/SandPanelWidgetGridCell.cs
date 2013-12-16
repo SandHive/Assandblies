@@ -107,9 +107,7 @@ namespace Sand.Controls
             this.PositionInGrid = new SandPanelWidgetGridCellPosition()
             {
                 TopLeftX = xPosInGrid,
-                TopLeftY = yPosInGrid,
-                BottomRightX = xPosInGrid,
-                BottomRightY = yPosInGrid
+                TopLeftY = yPosInGrid
             };
 
             SandPanelWidgetGrid.SetZIndex( this, int.MinValue );
