@@ -211,30 +211,27 @@ namespace Sand.Controls
             {
                 if( targetGridCell is SandPanelWidgetGridCell )
                 {
-                    if( ( targetGridCell.PositionInGrid.TopLeftY + yOccupiedCellsCount ) >= ( this.RowCount - 1 ) )
+                    if( ( targetGridCell.YCellIndex + yOccupiedCellsCount ) >= ( this.RowCount - 1 ) )
                     {
                         //-- Bottom reached. So let's move to the next column's top
-                        targetGridCell = _widgetGridCells[targetGridCell.PositionInGrid.TopLeftX + 1, 0];
+                        targetGridCell = _widgetGridCells[targetGridCell.XCellIndex + 1, 0];
                     }
                     else
                     {
                         //-- Move just one to the bottom
-                        targetGridCell = _widgetGridCells[targetGridCell.PositionInGrid.TopLeftX, targetGridCell.PositionInGrid.TopLeftY + 1];
+                        targetGridCell = _widgetGridCells[targetGridCell.XCellIndex, targetGridCell.YCellIndex + 1];
                     }
                 }
                 else if( targetGridCell is SandPanelWidgetGridCellUnion )
                 {
-                    if( ( targetGridCell.PositionInGrid.TopLeftY + yOccupiedCellsCount ) >= ( this.RowCount - 1 ) )
+                    if( ( targetGridCell.YCellIndex + yOccupiedCellsCount ) >= ( this.RowCount - 1 ) )
                     {
                         //-- Bottom reached. So let's move to the next column's top
                         targetGridCell = new SandPanelWidgetGridCellUnion( 
                             
-                            this, 
-                            new SandPanelWidgetGridCellPosition() 
-                            {
-                                TopLeftX = targetGridCell.PositionInGrid.TopLeftX + 1,
-                                TopLeftY = 0
-                            },
+                            this,
+                            targetGridCell.XCellIndex + 1,
+                            0,
                             xOccupiedCellsCount,
                             yOccupiedCellsCount
                         );
@@ -245,11 +242,8 @@ namespace Sand.Controls
                         targetGridCell = new SandPanelWidgetGridCellUnion(
 
                             this,
-                            new SandPanelWidgetGridCellPosition()
-                            {
-                                TopLeftX = targetGridCell.PositionInGrid.TopLeftX,
-                                TopLeftY = targetGridCell.PositionInGrid.TopLeftY + 1
-                            },
+                            targetGridCell.XCellIndex,
+                            targetGridCell.YCellIndex + 1,
                             xOccupiedCellsCount,
                             yOccupiedCellsCount
                         );
@@ -277,8 +271,8 @@ namespace Sand.Controls
         {
             return new Point(
 
-                sandPanelWidgetGridCell.PositionInGrid.TopLeftX * this.CellSize.Width,
-                sandPanelWidgetGridCell.PositionInGrid.TopLeftY * this.CellSize.Height
+                sandPanelWidgetGridCell.XCellIndex * this.CellSize.Width,
+                sandPanelWidgetGridCell.YCellIndex * this.CellSize.Height
             );
         }
 
@@ -350,11 +344,8 @@ namespace Sand.Controls
             SandPanelWidgetGridCellUnion occupiedCells = new SandPanelWidgetGridCellUnion(
 
                 this,
-                new SandPanelWidgetGridCellPosition()
-                {
-                    TopLeftX = cellXIndexOfTopLeftWidgetCorner,
-                    TopLeftY = cellYIndexOfTopLeftWidgetCorner
-                },
+                cellXIndexOfTopLeftWidgetCorner,
+                cellYIndexOfTopLeftWidgetCorner,
                 xOccupiedCellsCount,
                 yOccupiedCellsCount
             );

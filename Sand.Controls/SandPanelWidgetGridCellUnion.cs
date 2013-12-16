@@ -53,10 +53,11 @@ namespace Sand.Controls
         /// <param name="position">
         /// The position of the cell union within the parent grid.
         /// </param>
-        public SandPanelWidgetGridCellUnion( SandPanelWidgetGrid grid, SandPanelWidgetGridCellPosition position, int xCellsCount, int yCellsCount )
+        public SandPanelWidgetGridCellUnion( SandPanelWidgetGrid grid, int xCellIndex, int yCellIndex, int xCellsCount, int yCellsCount )
         {
             _parentGrid = grid;
-            this.PositionInGrid = position;
+            this.XCellIndex = xCellIndex;
+            this.YCellIndex = yCellIndex;
             _xCellsCount = xCellsCount;
             _yCellsCount = yCellsCount;
         }
@@ -69,11 +70,11 @@ namespace Sand.Controls
         { 
             get 
             {
-                int bottomRightX = this.PositionInGrid.TopLeftX + _xCellsCount;
-                int bottomRightY = this.PositionInGrid.TopLeftY + _yCellsCount;
-                for( int x = this.PositionInGrid.TopLeftX; x <= bottomRightX; x++ )
+                int bottomRightX = this.XCellIndex + _xCellsCount;
+                int bottomRightY = this.YCellIndex + _yCellsCount;
+                for( int x = this.XCellIndex; x <= bottomRightX; x++ )
                 {
-                    for( int y = this.PositionInGrid.TopLeftY; y <= bottomRightY; y++ )
+                    for( int y = this.YCellIndex; y <= bottomRightY; y++ )
                     {
                         if( _parentGrid.WidgetGridCells[x, y].ContainsWidget )
                         {
@@ -100,7 +101,7 @@ namespace Sand.Controls
             #region //-- Place the widget to the cell's center
 
             //-- Get the location of the cell within the widget grid
-            Point cellInGridLocation = _parentGrid.GetCellLocation( _parentGrid.WidgetGridCells[this.PositionInGrid.TopLeftX, this.PositionInGrid.TopLeftY] );
+            Point cellInGridLocation = _parentGrid.GetCellLocation( _parentGrid.WidgetGridCells[this.XCellIndex, this.YCellIndex] );
 
             //-- Calculate the offset in order to center the widget
             double xOffset = ( ( _parentGrid.CellSize.Width * _xCellsCount ) - widget.Width ) / 2;
@@ -126,19 +127,21 @@ namespace Sand.Controls
             this.ForEachCellDo( ( cell ) => cell.OnWidgetLeave( widget ) );
         }
 
-        public SandPanelWidgetGridCellPosition PositionInGrid { get; private set; }
-
         public SandPanelWidget Widget 
         {
             get
             {
-                return _parentGrid.WidgetGridCells[this.PositionInGrid.TopLeftX, this.PositionInGrid.TopLeftY].Widget;
+                return _parentGrid.WidgetGridCells[this.XCellIndex, this.YCellIndex].Widget;
             }
             set
             {
                 this.ForEachCellDo( ( cell ) => cell.Widget = value );
             }
         }
+
+        public int XCellIndex { get; private set; }
+
+        public int YCellIndex { get; private set; }
 
         #endregion ISandPanelWidgetGridCell Members
         //---------------------------------------------------------------------
@@ -152,11 +155,11 @@ namespace Sand.Controls
         /// </param>
         private void ForEachCellDo( Action<SandPanelWidgetGridCell> action )
         {
-            int bottomRightX = this.PositionInGrid.TopLeftX + _xCellsCount;
-            int bottomRightY = this.PositionInGrid.TopLeftY + _yCellsCount;
-            for( int x = this.PositionInGrid.TopLeftX; x < bottomRightX; x++ )
+            int bottomRightX = this.XCellIndex + _xCellsCount;
+            int bottomRightY = this.YCellIndex + _yCellsCount;
+            for( int x = this.XCellIndex; x < bottomRightX; x++ )
             {
-                for( int y = this.PositionInGrid.TopLeftY; y < bottomRightY; y++ )
+                for( int y = this.YCellIndex; y < bottomRightY; y++ )
                 {
                     action( _parentGrid.WidgetGridCells[x, y] );
                 }

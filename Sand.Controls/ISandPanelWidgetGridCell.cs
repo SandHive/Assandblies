@@ -56,14 +56,19 @@ namespace Sand.Controls
         void OnWidgetLeave( SandPanelWidget widget );
 
         /// <summary>
-        /// Gets the position within the SandPanelWidgetGrid.
-        /// </summary>
-        SandPanelWidgetGridCellPosition PositionInGrid { get; }
-
-        /// <summary>
         /// Gets or sets the widget that is currently in the cell. 
         /// </summary>
         SandPanelWidget Widget { get; set; }
+
+        /// <summary>
+        /// Gets the x cell index within the parent grid. 
+        /// </summary>
+        int XCellIndex { get; }
+
+        /// <summary>
+        /// Gets the x cell index within the parent grid. 
+        /// </summary>
+        int YCellIndex { get; }
     }
 }
 //-----------------------------------------------------------------------------

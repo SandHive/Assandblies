@@ -96,19 +96,16 @@ namespace Sand.Controls
         /// <summary>
         /// Initializes a new instance of the SandPanelWidgetGridCell class.
         /// </summary>
-        /// <param name="xPosInGrid">
-        /// The x position within the widget grid.
+        /// <param name="xCellIndex">
+        /// The x cell index within the widget grid.
         /// </param>
-        /// <param name="yPosInGrid">
-        /// The y position within the widget grid.
+        /// <param name="yCellIndex">
+        /// The y cell index within the widget grid.
         /// </param>
-        internal SandPanelWidgetGridCell( int xPosInGrid, int yPosInGrid )
+        internal SandPanelWidgetGridCell( int xCellIndex, int yCellIndex )
         {
-            this.PositionInGrid = new SandPanelWidgetGridCellPosition()
-            {
-                TopLeftX = xPosInGrid,
-                TopLeftY = yPosInGrid
-            };
+            this.XCellIndex = xCellIndex;
+            this.YCellIndex = yCellIndex;
 
             SandPanelWidgetGrid.SetZIndex( this, int.MinValue );
         }
@@ -186,9 +183,11 @@ namespace Sand.Controls
             }
         }
 
-        public SandPanelWidgetGridCellPosition PositionInGrid { get; private set; }
-
         public SandPanelWidget Widget { get; set; }
+
+        public int XCellIndex { get; private set; }
+
+        public int YCellIndex { get; private set; }
 
         #endregion ISandPanelWidgetGridCell Members
         //---------------------------------------------------------------------
