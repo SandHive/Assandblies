@@ -30,7 +30,9 @@ namespace Sand.Controls
     {
         //---------------------------------------------------------------------
         #region Fields
-
+        
+        private int _beginInitCounter = 0;
+        
         private SandPanelWidgetGridCell[,] _widgetGridCells;
 
         #endregion Fields
@@ -147,6 +149,26 @@ namespace Sand.Controls
         #endregion Properties
         //---------------------------------------------------------------------
         #region SandPanel Members
+
+        public override void BeginInit()
+        {
+            //-- Take care that BeginInit and EndInit is called only once
+            if( _beginInitCounter == 0 )
+            {
+                base.BeginInit();
+            }
+            _beginInitCounter++;
+        }
+
+        public override void EndInit()
+        {
+            //-- Take care that BeginInit and EndInit is called only once
+            if( _beginInitCounter == 1 )
+            {
+                base.EndInit();
+            }
+            _beginInitCounter--;
+        }
 
         protected override void OnInitialized( EventArgs e )
         {
