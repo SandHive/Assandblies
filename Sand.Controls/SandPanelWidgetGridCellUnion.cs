@@ -155,6 +155,10 @@ namespace Sand.Controls
         /// </param>
         private void ForEachCellDo( Action<SandPanelWidgetGridCell> action )
         {
+            //-- Call BeginInit / EndInit in oder that the parent grid is updated 
+            //-- only one time (and not in every loop run)
+            _parentGrid.BeginInit();
+
             int bottomRightX = this.XCellIndex + _xCellsCount;
             int bottomRightY = this.YCellIndex + _yCellsCount;
             for( int x = this.XCellIndex; x < bottomRightX; x++ )
@@ -164,6 +168,8 @@ namespace Sand.Controls
                     action( _parentGrid.WidgetGridCells[x, y] );
                 }
             }
+
+            _parentGrid.EndInit();
         }
 
         #endregion Methods
