@@ -88,7 +88,7 @@ namespace Sand.Controls
             this.Effect = this.MouseDownEffect;
 
             //-- Update the hovered grid cell
-            this.HoveredWidgetGridCell = ( (SandPanelWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
+            this.HoveredWidgetGridCell = this.HomeWidgetGridCell;
             this.HoveredWidgetGridCell.OnWidgetEnter( this );
 
             _isMoving = true;
