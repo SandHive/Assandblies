@@ -122,7 +122,7 @@ namespace Sand.Controls
             if( !_isMoving ) { return; }
 
             var gridCell = ( (SandPanelWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
-            if( !SandPanelWidgetGridCellUnion.Equals( gridCell, this.HoveredWidgetGridCell ) )
+            if( !ISandPanelWidgetGridCell.Equals( gridCell, this.HoveredWidgetGridCell ) )
             {
                 //-- Handle the hovered cell change 
                 this.HoveredWidgetGridCell.OnWidgetLeave( this );
