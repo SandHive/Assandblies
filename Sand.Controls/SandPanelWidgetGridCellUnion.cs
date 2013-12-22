@@ -87,6 +87,24 @@ namespace Sand.Controls
             } 
         }
 
+        public bool IsHome
+        {
+            get
+            {
+                return _parentGrid.WidgetGridCells[this.XCellIndex, this.YCellIndex].IsHome;
+            }
+            set
+            {
+                this.ForEachCellDo(
+
+                    ( cell ) =>
+                    {
+                        cell.IsHome = value;
+                    }
+                );
+            }
+        }
+
         public void OnWidgetDropped( SandPanelWidget widget )
         {
             this.ForEachCellDo( 
@@ -114,6 +132,11 @@ namespace Sand.Controls
             #endregion //-- Place the widget to the cell's center
 
             //-- Update the home cell
+            if( widget.HomeWidgetGridCell != null )
+            {
+                widget.HomeWidgetGridCell.IsHome = false;
+                widget.HomeWidgetGridCell.Widget = null;
+            }
             widget.HomeWidgetGridCell = this;
         }
 

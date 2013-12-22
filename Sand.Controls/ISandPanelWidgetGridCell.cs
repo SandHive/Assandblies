@@ -30,6 +30,12 @@ namespace Sand.Controls
         /// widget or not. 
         /// </summary>
         bool ContainsWidget { get; }
+       
+        /// <summary>
+        /// Gets or sets a flag that indicates whether this cell is currently 
+        /// the home of a widget or not.
+        /// </summary>
+        bool IsHome { get; set; }
 
         /// <summary>
         /// Handles a dropped widget.

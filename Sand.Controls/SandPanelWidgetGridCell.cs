@@ -117,6 +117,13 @@ namespace Sand.Controls
 
         public bool ContainsWidget { get { return this.Widget != null; } }
 
+        public static DependencyProperty IsHomeProperty = DependencyProperty.Register( "IsHome", typeof( bool ), typeof( SandPanelWidgetGridCell ), new PropertyMetadata( false ) );
+        public bool IsHome
+        {
+            get { return (bool) this.GetValue( SandPanelWidgetGridCell.IsHomeProperty ); }
+            set { this.SetValue( SandPanelWidgetGridCell.IsHomeProperty, value ); }
+        }
+
         public void OnWidgetDropped( SandPanelWidget widget )
         {
             this.Widget = widget;
@@ -140,10 +147,16 @@ namespace Sand.Controls
             if( widget.HomeWidgetGridCell != null )
             {
                 //-- Reset the "Widget" property of the old home cell
+                widget.HomeWidgetGridCell.IsHome = false;
                 widget.HomeWidgetGridCell.Widget = null;
             }
 
             //-- Update the home cell
+            if( widget.HomeWidgetGridCell != null )
+            {
+                widget.HomeWidgetGridCell.IsHome = false;
+                widget.HomeWidgetGridCell.Widget = null;
+            }
             widget.HomeWidgetGridCell = this;
         }
 

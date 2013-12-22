@@ -112,6 +112,9 @@
                     <!-- <Style TargetType="{x:Type sc:SandPanelWidgetGridCell}"> -->
                     <Style TargetType="{x:Type sc:SandPanelWidgetGridCell}">
                         <Style.Triggers>
+                            <Trigger Property="sc:SandPanelWidgetGridCell.IsHome" Value="True">
+                                <Setter Property="Border.Background" Value="Blue" />
+                            </Trigger>
                             <Trigger Property="sc:SandPanelWidgetGridCell.IsHovered" Value="True">
                                 <Setter Property="Border.Background" Value="Yellow" />
                             </Trigger>

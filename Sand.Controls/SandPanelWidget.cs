@@ -89,6 +89,7 @@ namespace Sand.Controls
 
             //-- Update the hovered grid cell
             this.HoveredWidgetGridCell = this.HomeWidgetGridCell;
+            this.HomeWidgetGridCell.IsHome = true;
             this.HoveredWidgetGridCell.OnWidgetEnter( this );
 
             _isMoving = true;
