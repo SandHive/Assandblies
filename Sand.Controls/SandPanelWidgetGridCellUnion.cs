@@ -94,7 +94,7 @@ namespace Sand.Controls
                 ( cell ) =>
                 {
                     cell.Widget = widget;
-                    cell.IsWidgetOver = false;
+                    cell.IsHovered = false;
                 }
             );
             

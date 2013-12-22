@@ -79,14 +79,15 @@ namespace Sand.Controls
         /// </summary>
         public Guid Guid { get { return _guid; } }
 
-        public static DependencyProperty IsWidgetOverProperty = DependencyProperty.Register( "IsWidgetOver", typeof( bool ), typeof( SandPanelWidgetGridCell ), new PropertyMetadata( false ) );
+        public static DependencyProperty IsHoveredProperty = DependencyProperty.Register( "IsHovered", typeof( bool ), typeof( SandPanelWidgetGridCell ), new PropertyMetadata( false ) );
         /// <summary>
-        /// Gets or sets the height of a cell.
+        /// Gets a flag that indicates whether this cell is currently hoverd by 
+        /// a widget or not.
         /// </summary>
-        public bool IsWidgetOver
+        public bool IsHovered
         {
-            get { return (bool) this.GetValue( SandPanelWidgetGridCell.IsWidgetOverProperty ); }
-            internal set { this.SetValue( SandPanelWidgetGridCell.IsWidgetOverProperty, value ); }
+            get { return (bool) this.GetValue( SandPanelWidgetGridCell.IsHoveredProperty ); }
+            internal set { this.SetValue( SandPanelWidgetGridCell.IsHoveredProperty, value ); }
         }
 
         #endregion Properties
@@ -119,7 +120,7 @@ namespace Sand.Controls
         public void OnWidgetDropped( SandPanelWidget widget )
         {
             this.Widget = widget;
-            this.IsWidgetOver = false;
+            this.IsHovered = false;
 
             #region //-- Place the widget to the cell's center
 
@@ -148,7 +149,7 @@ namespace Sand.Controls
 
         public void OnWidgetEnter( SandPanelWidget widget )
         {
-            this.IsWidgetOver = true;
+            this.IsHovered = true;
             this.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetEnterEvent ) );
 
             //-- Check if there is already a widget in this cell ...
@@ -171,7 +172,7 @@ namespace Sand.Controls
 
         public void OnWidgetLeave( SandPanelWidget widget )
         {
-            this.IsWidgetOver = false;
+            this.IsHovered = false;
             this.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetLeaveEvent ) );
 
             if( _originalWidget != null )
