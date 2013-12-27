@@ -237,6 +237,28 @@ namespace Sand.Controls
         #region Methods
 
         /// <summary>
+        /// Gets a cell relative to a given point.
+        /// </summary>
+        /// <param name="point">
+        /// The point.
+        /// </param>
+        /// <returns>
+        /// The related cell.
+        /// </returns>
+        public SandPanelWidgetGridCell GetCellRelativeToPoint( Point point )
+        {
+            //-- Determine indexes
+            int cellXIndex = (int) ( point.X / this.CellSize.Width );
+            int cellYIndex = (int) ( point.Y / this.CellSize.Height );
+
+            //-- Adjust the borders
+            if( cellXIndex >= this.ColumnCount ) { cellXIndex = this.ColumnCount - 1; }
+            if( cellYIndex >= this.RowCount ) { cellYIndex = this.RowCount - 1; }
+
+            return _widgetGridCells[cellXIndex, cellYIndex];
+        }
+
+        /// <summary>
         /// Gets the location of a cell within this grid.
         /// </summary>
         /// <param name="sandPanelWidgetGridCell">
