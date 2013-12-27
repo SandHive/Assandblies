@@ -49,6 +49,10 @@
                         <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding CellWidgetGuid}" Width="240" />
                         <TextBlock DockPanel.Dock="Left" Text="WidgetGuid" />
                     </DockPanel>
+                    <DockPanel>
+                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding CellWidgetName}" />
+                        <TextBlock DockPanel.Dock="Left" Text="WidgetName" />
+                    </DockPanel>
                 </StackPanel>
             </GroupBox>
             
@@ -147,21 +151,21 @@
 
                 </sc:SandPanelWidgetGrid.Resources>
                 
-                <sc:SandPanelWidget>
+                <sc:SandPanelWidget Name="_1">
                     <DockPanel>
                         <TextBlock DockPanel.Dock="Bottom" HorizontalAlignment="Center" Text="1" />
                         <Image Source="Images/convert_icon256.png" />
                     </DockPanel>
                 </sc:SandPanelWidget>
 
-                <sc:SandPanelWidget>
+                <sc:SandPanelWidget Name="_2">
                     <DockPanel>
                         <TextBlock DockPanel.Dock="Bottom" HorizontalAlignment="Center" Text="2" />
                         <Image Source="Images/convert_icon256.png" />
                     </DockPanel>
                 </sc:SandPanelWidget>
 
-                <sc:SandPanelWidget>
+                <sc:SandPanelWidget Name="_3">
                     <DockPanel>
                         <TextBlock DockPanel.Dock="Bottom" HorizontalAlignment="Center" Text="3" />
                         <Image Source="Images/convert_icon256.png" />

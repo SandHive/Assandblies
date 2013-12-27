@@ -58,12 +58,24 @@ namespace Prototype
 
         public static DependencyProperty CellWidgetGuidProperty = DependencyProperty.Register( "CellWidgetGuid", typeof( Guid ), typeof( MainWindow ), new PropertyMetadata( Guid.Empty ) );
         /// <summary>
-        /// Gets the widget guid of the cell that is currently hovered.
+        /// Gets the guid of the widget that is dropped to the cell that is 
+        /// currently hovered.
         /// </summary>
         public Guid CellWidgetGuid
         {
             get { return (Guid) this.GetValue( MainWindow.CellWidgetGuidProperty ); }
             private set { this.SetValue( MainWindow.CellWidgetGuidProperty, value ); }
+        }
+        
+        public static DependencyProperty CellWidgetNameProperty = DependencyProperty.Register( "CellWidgetName", typeof( String ), typeof( MainWindow ), new PropertyMetadata( String.Empty ) );
+        /// <summary>
+        /// Gets the name of the widget that is dropped to the cell that is 
+        /// currently hovered.
+        /// </summary>
+        public String CellWidgetName
+        {
+            get { return (String) this.GetValue( MainWindow.CellWidgetNameProperty ); }
+            private set { this.SetValue( MainWindow.CellWidgetNameProperty, value ); }
         }
 
         #endregion Properties
@@ -189,9 +201,9 @@ namespace Prototype
 
         private void Window_Loaded( object sender, RoutedEventArgs e )
         {
-            _sandPanelWidgetGrid.AddItem( new SandPanelWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) } } );
-            _sandPanelWidgetGrid.AddItem( new SandPanelWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) } } );
-            _sandPanelWidgetGrid.AddItem( new SandPanelWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) } } );
+            _sandPanelWidgetGrid.AddItem( new SandPanelWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) }, Name = "_4" } );
+            _sandPanelWidgetGrid.AddItem( new SandPanelWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) }, Name = "_5" } );
+            _sandPanelWidgetGrid.AddItem( new SandPanelWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) }, Name = "_6" } );
         }
 
         private void Window_PreviewMouseMove( object sender, MouseEventArgs e )
@@ -199,9 +211,21 @@ namespace Prototype
             var mousePosition = e.GetPosition( _sandPanelWidgetGrid );
             var cell = _sandPanelWidgetGrid.GetCellRelativeToPoint( mousePosition );
 
+            //-- Cell data
             this.CellGuid = cell.Guid;
             this.CellIndexes = new Point( cell.XCellIndex, cell.YCellIndex );
-            this.CellWidgetGuid = cell.ContainsWidget ? cell.Widget.Guid : Guid.Empty;
+
+            //-- Widget data
+            if( cell.ContainsWidget )
+            {
+                this.CellWidgetGuid = cell.Widget.Guid;
+                this.CellWidgetName = cell.Widget.Name;
+            }
+            else
+            {
+                this.CellWidgetGuid = Guid.Empty;
+                this.CellWidgetName = String.Empty;
+            }           
         }
         
         #endregion Event Handling
