@@ -1,42 +1,60 @@
 ﻿
-    <Window 
+<Window 
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:sc="clr-namespace:Sand.Controls;assembly=Sand.Controls"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="Prototype.MainWindow"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
     Loaded="Window_Loaded"
+    PreviewMouseMove="Window_PreviewMouseMove"
     Title="Prototype" 
     SizeToContent="WidthAndHeight"
     WindowStartupLocation="CenterScreen">
     
     <DockPanel>
         
+        <!-- Prototype Sidebar -->
         <StackPanel Background="LightGray" DockPanel.Dock="Right">
             <StackPanel.Resources>
 
                 <Style TargetType="GroupBox">
                     <Setter Property="Margin" Value="3" />
                 </Style>
-                
+
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="3,0" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+
+                <Style TargetType="TextBox">
+                    <Setter Property="IsReadOnly" Value="True" />
+                    <Setter Property="Margin" Value="2" />
+                    <Setter Property="Width" Value="70" />
+                </Style>
+
             </StackPanel.Resources>
-                        
-            <!-- Moving Widget Details -->
-            <GroupBox Header="Moving Widget">
+
+            <!-- Cell Details at Mouse Cursor -->
+            <GroupBox Header="Cell Details at Mouse Cursor">
                 <StackPanel>
-                    <StackPanel.Resources>
-
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Margin" Value="3,0" />
-                            <Setter Property="VerticalAlignment" Value="Center" />
-                        </Style>
-
-                        <Style TargetType="TextBox">
-                            <Setter Property="IsReadOnly" Value="True" />
-                            <Setter Property="Margin" Value="2" />
-                            <Setter Property="Width" Value="70" />
-                        </Style>
-
-                    </StackPanel.Resources>
+                    <DockPanel>
+                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding CellGuid}" Width="240" />
+                        <TextBlock DockPanel.Dock="Left" Text="Guid" />
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding CellIndexes}" />
+                        <TextBlock DockPanel.Dock="Left" Text="Cell Indexes" />
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding CellWidgetGuid}" Width="240" />
+                        <TextBlock DockPanel.Dock="Left" Text="WidgetGuid" />
+                    </DockPanel>
+                </StackPanel>
+            </GroupBox>
+            
+            <!-- Moving Widget Details -->
+            <GroupBox Header="Moving Widget Data">
+                <StackPanel>
                     <DockPanel>
                         <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding TopLeftWidgetCornerLocation, ElementName=_sandPanelWidgetGrid}" />
                         <TextBlock DockPanel.Dock="Left" Text="Top Left Corner Location" />
@@ -90,9 +108,15 @@
 
         <Border BorderBrush="Black" BorderThickness="1"  Margin="10">
 
-            <sc:SandPanelWidgetGrid CellPadding="10" CellSize="75,75" ColumnCount="10" RowCount="10" ShowGrid="True" x:Name="_sandPanelWidgetGrid">
-                                
-                <sc:SandPanel.Resources>
+            <sc:SandPanelWidgetGrid 
+                CellPadding="10" 
+                CellSize="75,75" 
+                ColumnCount="10"
+                RowCount="10" 
+                ShowGrid="True" 
+                x:Name="_sandPanelWidgetGrid">
+
+                <sc:SandPanelWidgetGrid.Resources>
 
                     <!-- <Style TargetType="{x:Type sc:SandPanelWidget}"> -->
                     <Style TargetType="{x:Type sc:SandPanelWidget}">
@@ -120,8 +144,8 @@
                             </Trigger>
                         </Style.Triggers>
                     </Style>
-                    
-                </sc:SandPanel.Resources>
+
+                </sc:SandPanelWidgetGrid.Resources>
                 
                 <sc:SandPanelWidget>
                     <DockPanel>

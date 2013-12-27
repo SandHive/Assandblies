@@ -23,6 +23,7 @@ using Sand.Controls;
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 //-----------------------------------------------------------------------------
 namespace Prototype
@@ -32,6 +33,40 @@ namespace Prototype
     /// </summary>
     public partial class MainWindow : Window
     {
+        //---------------------------------------------------------------------
+        #region Properties
+
+        public static DependencyProperty CellGuidProperty = DependencyProperty.Register( "CellGuid", typeof( Guid ), typeof( MainWindow ), new PropertyMetadata( Guid.Empty ) );
+        /// <summary>
+        /// Gets the guid of the cell that is currently hovered.
+        /// </summary>
+        public Guid CellGuid
+        {
+            get { return (Guid) this.GetValue( MainWindow.CellGuidProperty ); }
+            private set { this.SetValue( MainWindow.CellGuidProperty, value ); }
+        }
+
+        public static DependencyProperty CellIndexesProperty = DependencyProperty.Register( "CellIndexes", typeof( Point ), typeof( MainWindow ), new PropertyMetadata( new Point() ) );
+        /// <summary>
+        /// Gets the indexes of the cell that is currently hovered.
+        /// </summary>
+        public Point CellIndexes
+        {
+            get { return (Point) this.GetValue( MainWindow.CellIndexesProperty ); }
+            private set { this.SetValue( MainWindow.CellIndexesProperty, value ); }
+        }
+
+        public static DependencyProperty CellWidgetGuidProperty = DependencyProperty.Register( "CellWidgetGuid", typeof( Guid ), typeof( MainWindow ), new PropertyMetadata( Guid.Empty ) );
+        /// <summary>
+        /// Gets the widget guid of the cell that is currently hovered.
+        /// </summary>
+        public Guid CellWidgetGuid
+        {
+            get { return (Guid) this.GetValue( MainWindow.CellWidgetGuidProperty ); }
+            private set { this.SetValue( MainWindow.CellWidgetGuidProperty, value ); }
+        }
+
+        #endregion Properties
         //---------------------------------------------------------------------
         #region Constructors
 
@@ -157,6 +192,16 @@ namespace Prototype
             _sandPanelWidgetGrid.AddItem( new SandPanelWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) } } );
             _sandPanelWidgetGrid.AddItem( new SandPanelWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) } } );
             _sandPanelWidgetGrid.AddItem( new SandPanelWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) } } );
+        }
+
+        private void Window_PreviewMouseMove( object sender, MouseEventArgs e )
+        {
+            var mousePosition = e.GetPosition( _sandPanelWidgetGrid );
+            var cell = _sandPanelWidgetGrid.GetCellRelativeToPoint( mousePosition );
+
+            this.CellGuid = cell.Guid;
+            this.CellIndexes = new Point( cell.XCellIndex, cell.YCellIndex );
+            this.CellWidgetGuid = cell.ContainsWidget ? cell.Widget.Guid : Guid.Empty;
         }
         
         #endregion Event Handling
