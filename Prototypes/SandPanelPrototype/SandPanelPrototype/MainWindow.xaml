@@ -45,17 +45,27 @@
                         <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding CellIndexes}" />
                         <TextBlock DockPanel.Dock="Left" Text="Cell Indexes" />
                     </DockPanel>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Cell Details at Mouse Cursor -->
+            <GroupBox Header="Widget Details at Mouse Cursor">
+                <StackPanel>
                     <DockPanel>
-                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding CellWidgetGuid}" Width="240" />
+                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding WidgetGuid}" Width="240" />
                         <TextBlock DockPanel.Dock="Left" Text="WidgetGuid" />
                     </DockPanel>
                     <DockPanel>
-                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding CellWidgetName}" />
+                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding WidgetName}" />
                         <TextBlock DockPanel.Dock="Left" Text="WidgetName" />
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding WidgetHomeCellIndexes}" />
+                        <TextBlock DockPanel.Dock="Left" Text="HomeCell Indexes" />
                     </DockPanel>
                 </StackPanel>
             </GroupBox>
-            
+
             <!-- Moving Widget Details -->
             <GroupBox Header="Moving Widget Data">
                 <StackPanel>

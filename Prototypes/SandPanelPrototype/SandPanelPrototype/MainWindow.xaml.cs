@@ -56,26 +56,37 @@ namespace Prototype
             private set { this.SetValue( MainWindow.CellIndexesProperty, value ); }
         }
 
-        public static DependencyProperty CellWidgetGuidProperty = DependencyProperty.Register( "CellWidgetGuid", typeof( Guid ), typeof( MainWindow ), new PropertyMetadata( Guid.Empty ) );
+        public static DependencyProperty WidgetGuidProperty = DependencyProperty.Register( "WidgetGuid", typeof( Guid ), typeof( MainWindow ), new PropertyMetadata( Guid.Empty ) );
         /// <summary>
         /// Gets the guid of the widget that is dropped to the cell that is 
         /// currently hovered.
         /// </summary>
-        public Guid CellWidgetGuid
+        public Guid WidgetGuid
         {
-            get { return (Guid) this.GetValue( MainWindow.CellWidgetGuidProperty ); }
-            private set { this.SetValue( MainWindow.CellWidgetGuidProperty, value ); }
+            get { return (Guid) this.GetValue( MainWindow.WidgetGuidProperty ); }
+            private set { this.SetValue( MainWindow.WidgetGuidProperty, value ); }
         }
-        
-        public static DependencyProperty CellWidgetNameProperty = DependencyProperty.Register( "CellWidgetName", typeof( String ), typeof( MainWindow ), new PropertyMetadata( String.Empty ) );
+
+        public static DependencyProperty WidgetHomeCellIndexesProperty = DependencyProperty.Register( "WidgetHomeCellIndexes", typeof( Point ), typeof( MainWindow ), new PropertyMetadata( new Point() ) );
+        /// <summary>
+        /// Gets the indexes of the home cell of the widget that is dropped to 
+        /// the cell that is currently hovered.
+        /// </summary>
+        public Point WidgetHomeCellIndexes
+        {
+            get { return (Point) this.GetValue( MainWindow.WidgetHomeCellIndexesProperty ); }
+            private set { this.SetValue( MainWindow.WidgetHomeCellIndexesProperty, value ); }
+        }
+
+        public static DependencyProperty WidgetNameProperty = DependencyProperty.Register( "WidgetName", typeof( String ), typeof( MainWindow ), new PropertyMetadata( String.Empty ) );
         /// <summary>
         /// Gets the name of the widget that is dropped to the cell that is 
         /// currently hovered.
         /// </summary>
-        public String CellWidgetName
+        public String WidgetName
         {
-            get { return (String) this.GetValue( MainWindow.CellWidgetNameProperty ); }
-            private set { this.SetValue( MainWindow.CellWidgetNameProperty, value ); }
+            get { return (String) this.GetValue( MainWindow.WidgetNameProperty ); }
+            private set { this.SetValue( MainWindow.WidgetNameProperty, value ); }
         }
 
         #endregion Properties
@@ -211,20 +222,22 @@ namespace Prototype
             var mousePosition = e.GetPosition( _sandPanelWidgetGrid );
             var cell = _sandPanelWidgetGrid.GetCellRelativeToPoint( mousePosition );
 
-            //-- Cell data
+            //-- Show some cell and widget details
             this.CellGuid = cell.Guid;
             this.CellIndexes = new Point( cell.XCellIndex, cell.YCellIndex );
 
-            //-- Widget data
             if( cell.ContainsWidget )
             {
-                this.CellWidgetGuid = cell.Widget.Guid;
-                this.CellWidgetName = cell.Widget.Name;
+                var widget = cell.Widget;
+                this.WidgetGuid = widget.Guid;
+                this.WidgetHomeCellIndexes = new Point( widget.HomeWidgetGridCell.XCellIndex, widget.HomeWidgetGridCell.XCellIndex );
+                this.WidgetName = widget.Name;
             }
             else
             {
-                this.CellWidgetGuid = Guid.Empty;
-                this.CellWidgetName = String.Empty;
+                this.WidgetGuid = Guid.Empty;
+                this.WidgetHomeCellIndexes = new Point();
+                this.WidgetName = String.Empty;
             }           
         }
         
