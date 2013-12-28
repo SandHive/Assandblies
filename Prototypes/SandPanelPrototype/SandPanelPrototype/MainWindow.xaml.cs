@@ -56,25 +56,25 @@ namespace Prototype
             private set { this.SetValue( MainWindow.CellIndexesProperty, value ); }
         }
 
-        public static DependencyProperty WidgetGuidProperty = DependencyProperty.Register( "WidgetGuid", typeof( Guid ), typeof( MainWindow ), new PropertyMetadata( Guid.Empty ) );
+        public static DependencyProperty WidgetGuidProperty = DependencyProperty.Register( "WidgetGuid", typeof( String ), typeof( MainWindow ), new PropertyMetadata( String.Empty ) );
         /// <summary>
         /// Gets the guid of the widget that is dropped to the cell that is 
         /// currently hovered.
         /// </summary>
-        public Guid WidgetGuid
+        public String WidgetGuid
         {
-            get { return (Guid) this.GetValue( MainWindow.WidgetGuidProperty ); }
+            get { return (String) this.GetValue( MainWindow.WidgetGuidProperty ); }
             private set { this.SetValue( MainWindow.WidgetGuidProperty, value ); }
         }
 
-        public static DependencyProperty WidgetHomeCellIndexesProperty = DependencyProperty.Register( "WidgetHomeCellIndexes", typeof( Point ), typeof( MainWindow ), new PropertyMetadata( new Point() ) );
+        public static DependencyProperty WidgetHomeCellIndexesProperty = DependencyProperty.Register( "WidgetHomeCellIndexes", typeof( String ), typeof( MainWindow ), new PropertyMetadata( String.Empty ) );
         /// <summary>
         /// Gets the indexes of the home cell of the widget that is dropped to 
         /// the cell that is currently hovered.
         /// </summary>
-        public Point WidgetHomeCellIndexes
+        public String WidgetHomeCellIndexes
         {
-            get { return (Point) this.GetValue( MainWindow.WidgetHomeCellIndexesProperty ); }
+            get { return (String) this.GetValue( MainWindow.WidgetHomeCellIndexesProperty ); }
             private set { this.SetValue( MainWindow.WidgetHomeCellIndexesProperty, value ); }
         }
 
@@ -229,14 +229,14 @@ namespace Prototype
             if( cell.ContainsWidget )
             {
                 var widget = cell.Widget;
-                this.WidgetGuid = widget.Guid;
-                this.WidgetHomeCellIndexes = new Point( widget.HomeWidgetGridCell.XCellIndex, widget.HomeWidgetGridCell.XCellIndex );
+                this.WidgetGuid = widget.Guid.ToString();
+                this.WidgetHomeCellIndexes = String.Concat( widget.HomeWidgetGridCell.XCellIndex, ",", widget.HomeWidgetGridCell.XCellIndex );
                 this.WidgetName = widget.Name;
             }
             else
             {
-                this.WidgetGuid = Guid.Empty;
-                this.WidgetHomeCellIndexes = new Point();
+                this.WidgetGuid = String.Empty;
+                this.WidgetHomeCellIndexes = String.Empty;
                 this.WidgetName = String.Empty;
             }           
         }
