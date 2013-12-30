@@ -67,17 +67,6 @@ namespace Prototype
             private set { this.SetValue( MainWindow.WidgetGuidProperty, value ); }
         }
 
-        public static DependencyProperty WidgetHomeCellIndexesProperty = DependencyProperty.Register( "WidgetHomeCellIndexes", typeof( String ), typeof( MainWindow ), new PropertyMetadata( String.Empty ) );
-        /// <summary>
-        /// Gets the indexes of the home cell of the widget that is dropped to 
-        /// the cell that is currently hovered.
-        /// </summary>
-        public String WidgetHomeCellIndexes
-        {
-            get { return (String) this.GetValue( MainWindow.WidgetHomeCellIndexesProperty ); }
-            private set { this.SetValue( MainWindow.WidgetHomeCellIndexesProperty, value ); }
-        }
-
         public static DependencyProperty WidgetNameProperty = DependencyProperty.Register( "WidgetName", typeof( String ), typeof( MainWindow ), new PropertyMetadata( String.Empty ) );
         /// <summary>
         /// Gets the name of the widget that is dropped to the cell that is 
@@ -239,13 +228,11 @@ namespace Prototype
             {
                 var widget = cell.Widget;
                 this.WidgetGuid = widget.Guid.ToString();
-                this.WidgetHomeCellIndexes = String.Concat( widget.HomeWidgetGridCell.XCellIndex, ",", widget.HomeWidgetGridCell.XCellIndex );
                 this.WidgetName = widget.Name;
             }
             else
             {
                 this.WidgetGuid = String.Empty;
-                this.WidgetHomeCellIndexes = String.Empty;
                 this.WidgetName = String.Empty;
             }           
         }

@@ -143,9 +143,6 @@ namespace Sand.Controls
             SandPanelWidgetGrid.SetTop( widget, cellInGridLocation.Y + yOffset );
 
             #endregion //-- Place the widget to the cell's center
-
-            //-- Update the home cell
-            widget.HomeWidgetGridCell = this;
         }
 
         public void OnWidgetEnter( SandPanelWidget widget )

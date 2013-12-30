@@ -81,7 +81,7 @@ namespace Sand.Controls
         /// Gets the home ISandPanelWidgetGridCell object (that's the cell where
         /// the widget has started its movement).
         /// </summary>
-        public ISandPanelWidgetGridCell HomeWidgetGridCell { get; internal set; }
+        public ISandPanelWidgetGridCell HomeWidgetGridCell { get; private set; }
 
         public static DependencyProperty MouseDownEffectProperty = DependencyProperty.Register( "MouseDownEffect", typeof( Effect ), typeof( SandPanelWidget ), new PropertyMetadata( new DropShadowEffect { Color = Colors.Black, Direction = 320, ShadowDepth = 4, Opacity = 1 } ) );
         /// <summary>
@@ -121,6 +121,7 @@ namespace Sand.Controls
             this.Effect = this.MouseDownEffect;
 
             //-- Update the hovered grid cell
+            this.HomeWidgetGridCell = ( (SandPanelWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
             this.HomeWidgetGridCell.IsHome = true;
 
             _movement = new SandPanelWidgetMovement( this );
