@@ -30,10 +30,48 @@ namespace Sand.Controls
 {
     public class SandPanelWidget : SandPanelItem
     {
+        /// <summary>
+        /// Private class for managing the widget movement.
+        /// </summary>
+        private class SandPanelWidgetMovement
+        {
+            //---------------------------------------------------------------------
+            #region Fields
+
+            private SandPanelWidget _movingWidget;
+
+            #endregion Fields
+            //---------------------------------------------------------------------
+            #region Properties
+
+            /// <summary>
+            /// Gets or sets the current hovered ISandPanelWidgetGridCell object.
+            /// </summary>
+            public ISandPanelWidgetGridCell HoveredWidgetGridCell { get; set; }
+
+            #endregion Properties
+            //---------------------------------------------------------------------
+            #region Constructors
+
+            /// <summary>
+            /// Initializes a new instance of the SandPanelWidgetMovement class.
+            /// </summary>
+            /// <param name="widget">
+            /// The widget that is moving.
+            /// </param>
+            public SandPanelWidgetMovement( SandPanelWidget widget )
+            {
+                _movingWidget = widget;
+            }
+
+            #endregion Constructors
+            //---------------------------------------------------------------------
+        }
+
         //---------------------------------------------------------------------
         #region Fields
 
-        private bool _isMoving;
+        private SandPanelWidgetMovement _movement;
 
         #endregion Fields
         //---------------------------------------------------------------------
@@ -44,11 +82,6 @@ namespace Sand.Controls
         /// the widget has started its movement).
         /// </summary>
         public ISandPanelWidgetGridCell HomeWidgetGridCell { get; internal set; }
-
-        /// <summary>
-        /// Gets the current hovered ISandPanelWidgetGridCell object.
-        /// </summary>
-        public ISandPanelWidgetGridCell HoveredWidgetGridCell { get; internal set; }
 
         public static DependencyProperty MouseDownEffectProperty = DependencyProperty.Register( "MouseDownEffect", typeof( Effect ), typeof( SandPanelWidget ), new PropertyMetadata( new DropShadowEffect { Color = Colors.Black, Direction = 320, ShadowDepth = 4, Opacity = 1 } ) );
         /// <summary>
@@ -88,11 +121,11 @@ namespace Sand.Controls
             this.Effect = this.MouseDownEffect;
 
             //-- Update the hovered grid cell
-            this.HoveredWidgetGridCell = this.HomeWidgetGridCell;
             this.HomeWidgetGridCell.IsHome = true;
-            this.HoveredWidgetGridCell.OnWidgetEnter( this );
 
-            _isMoving = true;
+            _movement = new SandPanelWidgetMovement( this );
+            _movement.HoveredWidgetGridCell = this.HomeWidgetGridCell;
+            _movement.HoveredWidgetGridCell.OnWidgetEnter( this );
         }
 
         protected override void OnMouseMove( MouseEventArgs e )
@@ -120,14 +153,14 @@ namespace Sand.Controls
             //-- The mouse is captured in the SandPanelItem.OnMouseDown method
             //-- which will result in a firing of the MouseMove event although
             //-- the MouseDown event handler is not completely processed
-            if( !_isMoving ) { return; }
+            if( _movement == null ) { return; }
 
             var gridCell = ( (SandPanelWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
-            if( !ISandPanelWidgetGridCell.Equals( gridCell, this.HoveredWidgetGridCell ) )
+            if( !ISandPanelWidgetGridCell.Equals( gridCell, _movement.HoveredWidgetGridCell ) )
             {
                 //-- Handle the hovered cell change 
-                this.HoveredWidgetGridCell.OnWidgetLeave( this );
-                this.HoveredWidgetGridCell = gridCell;
+                _movement.HoveredWidgetGridCell.OnWidgetLeave( this );
+                _movement.HoveredWidgetGridCell = gridCell;
                 gridCell.OnWidgetEnter( this );
             }
         }
@@ -140,9 +173,9 @@ namespace Sand.Controls
             }
 
             //-- Do the dropping (should be done first, before all data is reset)
-            if( this.HoveredWidgetGridCell != null )
+            if( _movement.HoveredWidgetGridCell != null )
             {
-                this.HoveredWidgetGridCell.OnWidgetDropped( this );
+                _movement.HoveredWidgetGridCell.OnWidgetDropped( this );
             }
 
             //-- Call the base implementation
@@ -153,7 +186,7 @@ namespace Sand.Controls
 
             //-- Reset all made settings
             this.Effect = null;
-            _isMoving = false;
+            _movement = null;
         }
 
         #endregion SandPanelItem Members
