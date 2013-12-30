@@ -251,9 +251,12 @@ namespace Sand.Controls
             int cellXIndex = (int) ( point.X / this.CellSize.Width );
             int cellYIndex = (int) ( point.Y / this.CellSize.Height );
 
-            //-- Adjust the borders
+            //-- Adjust the x index
             if( cellXIndex >= this.ColumnCount ) { cellXIndex = this.ColumnCount - 1; }
+            else if( cellXIndex < 0 ) { cellXIndex = 0; }
+            //-- Adjust the y index
             if( cellYIndex >= this.RowCount ) { cellYIndex = this.RowCount - 1; }
+            else if( cellYIndex < 0 ) { cellYIndex = 0; }
 
             return _widgetGridCells[cellXIndex, cellYIndex];
         }
