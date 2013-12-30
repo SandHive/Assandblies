@@ -32,7 +32,9 @@ namespace Sand.Controls
         #region Fields
         
         private int _beginInitCounter = 0;
-        
+
+        private readonly Guid _guid = Guid.NewGuid();
+
         private SandPanelWidgetGridCell[,] _widgetGridCells;
 
         #endregion Fields
@@ -68,6 +70,11 @@ namespace Sand.Controls
             get { return (int) this.GetValue( SandPanelWidgetGrid.ColumnCountProperty ); }
             set { this.SetValue( SandPanelWidgetGrid.ColumnCountProperty, value ); }
         }
+
+        /// <summary>
+        /// Gets a unique identifier for this object.
+        /// </summary>
+        public Guid Guid { get { return _guid; } }
 
         public static DependencyProperty RowCountProperty = DependencyProperty.Register( "RowCount", typeof( int ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( 4 ) );
         /// <summary>
