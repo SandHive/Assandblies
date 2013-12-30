@@ -145,11 +145,6 @@ namespace Sand.Controls
             #endregion //-- Place the widget to the cell's center
 
             //-- Update the home cell
-            if( widget.HomeWidgetGridCell != null )
-            {
-                widget.HomeWidgetGridCell.IsHome = false;
-                widget.HomeWidgetGridCell.Widget = null;
-            }
             widget.HomeWidgetGridCell = this;
         }
 

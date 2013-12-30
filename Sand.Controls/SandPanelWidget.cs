@@ -134,6 +134,11 @@ namespace Sand.Controls
 
         protected override void OnMouseUp( MouseButtonEventArgs e )
         {
+            if( this.HomeWidgetGridCell != null )
+            {
+                this.HomeWidgetGridCell.IsHome = false;
+            }
+
             //-- Do the dropping (should be done first, before all data is reset)
             if( this.HoveredWidgetGridCell != null )
             {
