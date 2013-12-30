@@ -155,6 +155,20 @@ namespace Sand.Controls
 
         #endregion Properties
         //---------------------------------------------------------------------
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the SandPanelWidgetGrid class.
+        /// </summary>
+        public SandPanelWidgetGrid()
+        {
+            //-- Register this grid to the widget positioner in order to enable
+            //-- widget movements across different grids
+            SandPanelWidgetPositioner.RegisterGrid( this );
+        }
+
+        #endregion Constructors
+        //---------------------------------------------------------------------
         #region SandPanel Members
 
         public override void BeginInit()
