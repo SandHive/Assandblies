@@ -42,6 +42,7 @@
     <Compile Include="..\AssandbliesInfo.cs">
       <Link>Properties\AssandbliesInfo.cs</Link>
     </Compile>
+    <Compile Include="SandPanelWidgetPositioner.cs" />
     <Compile Include="ISandPanelWidgetGridCell.cs" />
     <Compile Include="SandPanelWidgetGridCellUnion.cs" />
     <Compile Include="SandPanelWidgetGridCell.cs" />
