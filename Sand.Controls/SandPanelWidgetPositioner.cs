@@ -71,18 +71,18 @@ namespace Sand.Controls
         /// The data of the moving widget and all other widgets that have been
         /// moved.
         /// </param>
-        /// <param name="currentHoveredCell">
-        /// The current hovered cell.
+        /// <param name="newHoveredCell">
+        /// The new hovered cell.
         /// </param>
-        public static void ValidateWidgetMovement( SandPanelWidgetMovement widgetMovement, ISandPanelWidgetGridCell currentHoveredCell )
+        public static void ValidateWidgetMovement( SandPanelWidgetMovement widgetMovement, ISandPanelWidgetGridCell newHoveredCell )
         {
             //-- Do nothing when the cell did not changed
-            if( ISandPanelWidgetGridCell.Equals( widgetMovement.HoveredWidgetGridCell, currentHoveredCell ) ) { return; }
+            if( ISandPanelWidgetGridCell.Equals( widgetMovement.HoveredWidgetGridCell, newHoveredCell ) ) { return; }
             
             //-- Handle the hovered cell change 
             widgetMovement.HoveredWidgetGridCell.OnWidgetLeave( widgetMovement.MovingWidget );
-            widgetMovement.HoveredWidgetGridCell = currentHoveredCell;
-            currentHoveredCell.OnWidgetEnter( widgetMovement.MovingWidget );
+            widgetMovement.HoveredWidgetGridCell = newHoveredCell;
+            newHoveredCell.OnWidgetEnter( widgetMovement.MovingWidget );
         }
 
         #endregion Methods
