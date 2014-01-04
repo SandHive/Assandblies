@@ -39,12 +39,6 @@ namespace Sand.Controls
         //---------------------------------------------------------------------
         #region Properties
 
-        /// <summary>
-        /// Gets the home ISandPanelWidgetGridCell object (that's the cell where
-        /// the widget has started its movement).
-        /// </summary>
-        public ISandPanelWidgetGridCell HomeWidgetGridCell { get; private set; }
-
         public static DependencyProperty MouseDownEffectProperty = DependencyProperty.Register( "MouseDownEffect", typeof( Effect ), typeof( SandPanelWidget ), new PropertyMetadata( new DropShadowEffect { Color = Colors.Black, Direction = 320, ShadowDepth = 4, Opacity = 1 } ) );
         /// <summary>
         /// Gets or sets the effect when a mouse button is pressed.
@@ -82,13 +76,9 @@ namespace Sand.Controls
             //-- ... and show some nice effect around the affected item
             this.Effect = this.MouseDownEffect;
 
-            //-- Update the hovered grid cell
-            this.HomeWidgetGridCell = ( (SandPanelWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
-            this.HomeWidgetGridCell.IsHome = true;
-
-            _movement = new SandPanelWidgetMovement( this );
-            _movement.HoveredWidgetGridCell = this.HomeWidgetGridCell;
-            _movement.HoveredWidgetGridCell.OnWidgetEnter( this );
+            //-- Initialize a new widget movement
+            var homeGridCell = ( (SandPanelWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
+            _movement = new SandPanelWidgetMovement( this, homeGridCell );
         }
 
         protected override void OnMouseMove( MouseEventArgs e )
@@ -118,23 +108,16 @@ namespace Sand.Controls
             //-- the MouseDown event handler is not completely processed
             if( _movement == null ) { return; }
 
-            var gridCell = ( (SandPanelWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
-            SandPanelWidgetPositioner.ValidateWidgetMovement( _movement, gridCell );
+            //-- Validate the movement by rearranging the positions of all affected widgets 
+            var hoveredCell = ( (SandPanelWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
+            SandPanelWidgetPositioner.ValidateWidgetMovement( _movement, hoveredCell );
         }
 
         protected override void OnMouseUp( MouseButtonEventArgs e )
         {
-            if( this.HomeWidgetGridCell != null )
-            {
-                this.HomeWidgetGridCell.IsHome = false;
-            }
-
-            //-- Do the dropping (should be done first, before all data is reset)
-            if( _movement.HoveredWidgetGridCell != null )
-            {
-                _movement.HoveredWidgetGridCell.OnWidgetDropped( this );
-            }
-
+            //-- Finish the movement (should be done first, before all data is reset)
+            _movement.FinishMovement();
+            
             //-- Call the base implementation
             base.OnMouseUp( e );
 

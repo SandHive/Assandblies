@@ -83,6 +83,23 @@ namespace Sand.Controls
             widgetMovement.HoveredWidgetGridCell.OnWidgetLeave( widgetMovement.MovingWidget );
             widgetMovement.HoveredWidgetGridCell = newHoveredCell;
             newHoveredCell.OnWidgetEnter( widgetMovement.MovingWidget );
+            
+            //-- Check if there is already a widget in this cell ...
+            if( newHoveredCell.ContainsWidget )
+            {
+                //-- ... that is not identical with the current hovered one (results in bad behaviour otherwise) ...
+                if( newHoveredCell.Widget != widgetMovement.MovingWidget )
+                {
+                    //-- ... and we are not dragging back to our home grid cell ...
+                    if( newHoveredCell != widgetMovement.HomeWidgetGridCell )
+                    {
+                        //-- ... then just switch both widgets
+                        //newHoveredCell.OriginalWidget = newHoveredCell.Widget;
+                        widgetMovement.HomeWidgetGridCell.OnWidgetDropped( newHoveredCell.Widget );
+                        newHoveredCell.Widget = null;
+                    }
+                }
+            }
         }
 
         #endregion Methods

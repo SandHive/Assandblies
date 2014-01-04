@@ -149,23 +149,6 @@ namespace Sand.Controls
         {
             this.IsHovered = true;
             this.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetEnterEvent ) );
-
-            //-- Check if there is already a widget in this cell ...
-            if( this.ContainsWidget )
-            {
-                //-- ... that is not identical with the current hovered one (results in bad behaviour otherwise) ...
-                if( this.Widget != widget )
-                {
-                    //-- ... and we are not dragging back to our home grid cell ...
-                    if( this != widget.HomeWidgetGridCell )
-                    {
-                        //-- ... then just switch both widgets
-                        _originalWidget = this.Widget;
-                        widget.HomeWidgetGridCell.OnWidgetDropped( this.Widget );
-                        this.Widget = null;
-                    }
-                }
-            }
         }
 
         public void OnWidgetLeave( SandPanelWidget widget )
