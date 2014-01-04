@@ -29,18 +29,17 @@ namespace Sand.Controls
     internal sealed class SandPanelWidgetMovement
     {
         //---------------------------------------------------------------------
-        #region Fields
-
-        private SandPanelWidget _movingWidget;
-
-        #endregion Fields
-        //---------------------------------------------------------------------
         #region Properties
 
         /// <summary>
         /// Gets or sets the current hovered ISandPanelWidgetGridCell object.
         /// </summary>
         public ISandPanelWidgetGridCell HoveredWidgetGridCell { get; set; }
+
+        /// <summary>
+        /// Gets the widget to which this movement belongs.
+        /// </summary>
+        public SandPanelWidget MovingWidget { get; private set; }
 
         #endregion Properties
         //---------------------------------------------------------------------
@@ -54,7 +53,7 @@ namespace Sand.Controls
         /// </param>
         public SandPanelWidgetMovement( SandPanelWidget widget )
         {
-            _movingWidget = widget;
+            this.MovingWidget = widget;
         }
 
         #endregion Constructors
