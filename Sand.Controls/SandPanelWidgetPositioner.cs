@@ -39,6 +39,20 @@ namespace Sand.Controls
         #region Methods
 
         /// <summary>
+        /// Deregisters a SandPanelWidgetGrid again.
+        /// </summary>
+        /// <param name="grid">
+        /// The SandPanelWidgetGrid object.
+        /// </param>
+        public static void DeregisterGrid( SandPanelWidgetGrid grid )
+        {
+            if( _widgetGrids.ContainsKey( grid.Guid ) )
+            {
+                _widgetGrids.Remove( grid.Guid );
+            }
+        }
+
+        /// <summary>
         /// Registers a SandPanelWidgetGrid to this manager.
         /// </summary>
         /// <param name="grid">
