@@ -27,7 +27,7 @@ namespace Sand.Controls
     /// <summary>
     /// Manages the positioning of widgets inside one or several widget grids. 
     /// </summary>
-    public static class SandPanelWidgetPositioner
+    internal static class SandPanelWidgetPositioner
     {
         //---------------------------------------------------------------------
         #region Fields
@@ -61,6 +61,28 @@ namespace Sand.Controls
         public static void RegisterGrid( SandPanelWidgetGrid grid )
         {
             _widgetGrids.Add( grid.Guid, grid );
+        }
+
+        /// <summary>
+        /// Validates a widget movement by checking and correcting all widget 
+        /// positions.
+        /// </summary>
+        /// <param name="widgetMovement">
+        /// The data of the moving widget and all other widgets that have been
+        /// moved.
+        /// </param>
+        /// <param name="currentHoveredCell">
+        /// The current hovered cell.
+        /// </param>
+        public static void ValidateWidgetMovement( SandPanelWidgetMovement widgetMovement, ISandPanelWidgetGridCell currentHoveredCell )
+        {
+            //-- Do nothing when the cell did not changed
+            if( ISandPanelWidgetGridCell.Equals( widgetMovement.HoveredWidgetGridCell, currentHoveredCell ) ) { return; }
+            
+            //-- Handle the hovered cell change 
+            widgetMovement.HoveredWidgetGridCell.OnWidgetLeave( widgetMovement.MovingWidget );
+            widgetMovement.HoveredWidgetGridCell = currentHoveredCell;
+            currentHoveredCell.OnWidgetEnter( widgetMovement.MovingWidget );
         }
 
         #endregion Methods

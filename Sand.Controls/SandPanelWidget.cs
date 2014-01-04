@@ -119,13 +119,7 @@ namespace Sand.Controls
             if( _movement == null ) { return; }
 
             var gridCell = ( (SandPanelWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
-            if( !ISandPanelWidgetGridCell.Equals( gridCell, _movement.HoveredWidgetGridCell ) )
-            {
-                //-- Handle the hovered cell change 
-                _movement.HoveredWidgetGridCell.OnWidgetLeave( this );
-                _movement.HoveredWidgetGridCell = gridCell;
-                gridCell.OnWidgetEnter( this );
-            }
+            SandPanelWidgetPositioner.ValidateWidgetMovement( _movement, gridCell );
         }
 
         protected override void OnMouseUp( MouseButtonEventArgs e )
