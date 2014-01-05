@@ -78,6 +78,9 @@ namespace Sand.Controls
 
             //-- Initialize a new widget movement
             var homeGridCell = ( (SandPanelWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
+            homeGridCell.IsHome = true;
+            homeGridCell.OnWidgetEnter( this );
+            
             _movement = new SandPanelWidgetMovement( this, homeGridCell );
         }
 
@@ -116,7 +119,8 @@ namespace Sand.Controls
         protected override void OnMouseUp( MouseButtonEventArgs e )
         {
             //-- Finish the movement (should be done first, before all data is reset)
-            _movement.FinishMovement();
+            _movement.HomeWidgetGridCell.IsHome = false;
+            _movement.HoveredWidgetGridCell.OnWidgetDropped( this );
             
             //-- Call the base implementation
             base.OnMouseUp( e );

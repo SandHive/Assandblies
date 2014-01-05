@@ -19,6 +19,7 @@
  * IN THE SOFTWARE.
  */
 
+using System.Collections.Generic;
 //-----------------------------------------------------------------------------
 namespace Sand.Controls
 {
@@ -65,26 +66,9 @@ namespace Sand.Controls
             this.MovingWidget = widget;
             this.HomeWidgetGridCell = homeGridCell;
             this.HoveredWidgetGridCell = homeGridCell;
-            
-            homeGridCell.IsHome = true;
-            homeGridCell.OnWidgetEnter( widget );
         }
 
         #endregion Constructors
-        //---------------------------------------------------------------------
-        #region Methods
-
-        /// <summary>
-        /// Finishes the movement.
-        /// </summary>
-        public void FinishMovement()
-        {
-            this.HomeWidgetGridCell.IsHome = false;
-            
-            this.HoveredWidgetGridCell.OnWidgetDropped( this.MovingWidget );
-        }
-
-        #endregion Methods
         //---------------------------------------------------------------------
     }
 }
