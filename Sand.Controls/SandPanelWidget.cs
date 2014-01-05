@@ -119,8 +119,8 @@ namespace Sand.Controls
         protected override void OnMouseUp( MouseButtonEventArgs e )
         {
             //-- Finish the movement (should be done first, before all data is reset)
-            _movement.HomeWidgetGridCell.IsHome = false;
-            _movement.HoveredWidgetGridCell.OnWidgetDropped( this );
+            _movement.HomeCell.IsHome = false;
+            _movement.CurrentCell.OnWidgetDropped( this );
             
             //-- Call the base implementation
             base.OnMouseUp( e );

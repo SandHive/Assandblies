@@ -77,28 +77,19 @@ namespace Sand.Controls
         public static void ValidateWidgetMovement( SandPanelWidgetMovement widgetMovement, ISandPanelWidgetGridCell newHoveredCell )
         {
             //-- Do nothing when the cell did not changed
-            if( ISandPanelWidgetGridCell.Equals( widgetMovement.HoveredWidgetGridCell, newHoveredCell ) ) { return; }
+            if( ISandPanelWidgetGridCell.Equals( widgetMovement.CurrentCell, newHoveredCell ) ) { return; }
             
             //-- Handle the hovered cell change 
-            widgetMovement.HoveredWidgetGridCell.OnWidgetLeave( widgetMovement.MovingWidget );
-            widgetMovement.HoveredWidgetGridCell = newHoveredCell;
-            newHoveredCell.OnWidgetEnter( widgetMovement.MovingWidget );
+            widgetMovement.CurrentCell.OnWidgetLeave( widgetMovement.Widget );
+            widgetMovement.CurrentCell = newHoveredCell;
+            newHoveredCell.OnWidgetEnter( widgetMovement.Widget );
             
             //-- Check if there is already a widget in this cell ...
             if( newHoveredCell.ContainsWidget )
             {
-                //-- ... that is not identical with the current hovered one (results in bad behaviour otherwise) ...
-                if( newHoveredCell.Widget != widgetMovement.MovingWidget )
-                {
-                    //-- ... and we are not dragging back to our home grid cell ...
-                    if( newHoveredCell != widgetMovement.HomeWidgetGridCell )
-                    {
-                        //-- ... then just switch both widgets
-                        //newHoveredCell.OriginalWidget = newHoveredCell.Widget;
-                        widgetMovement.HomeWidgetGridCell.OnWidgetDropped( newHoveredCell.Widget );
-                        newHoveredCell.Widget = null;
-                    }
-                }
+                //newHoveredCell.OriginalWidget = newHoveredCell.Widget;
+                widgetMovement.HomeCell.OnWidgetDropped( newHoveredCell.Widget );
+                newHoveredCell.Widget = null;
             }
         }
 

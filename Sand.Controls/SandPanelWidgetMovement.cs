@@ -33,20 +33,20 @@ namespace Sand.Controls
         #region Properties
 
         /// <summary>
+        /// Gets or sets the current ISandPanelWidgetGridCell object.
+        /// </summary>
+        public ISandPanelWidgetGridCell CurrentCell { get; set; }
+
+        /// <summary>
         /// Gets the home ISandPanelWidgetGridCell object (that's the cell where
         /// the widget has started its movement).
         /// </summary>
-        public ISandPanelWidgetGridCell HomeWidgetGridCell { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the current hovered ISandPanelWidgetGridCell object.
-        /// </summary>
-        public ISandPanelWidgetGridCell HoveredWidgetGridCell { get; set; }
+        public ISandPanelWidgetGridCell HomeCell { get; private set; }
 
         /// <summary>
         /// Gets the widget to which this movement belongs.
         /// </summary>
-        public SandPanelWidget MovingWidget { get; private set; }
+        public SandPanelWidget Widget { get; private set; }
 
         #endregion Properties
         //---------------------------------------------------------------------
@@ -58,14 +58,14 @@ namespace Sand.Controls
         /// <param name="widget">
         /// The widget that is moving.
         /// </param>
-        /// <param name="homeGridCell">
+        /// <param name="homeCell">
         /// The home cell of the moving widget.
         /// </param>
-        public SandPanelWidgetMovement( SandPanelWidget widget, ISandPanelWidgetGridCell homeGridCell )
+        public SandPanelWidgetMovement( SandPanelWidget widget, ISandPanelWidgetGridCell homeCell )
         {
-            this.MovingWidget = widget;
-            this.HomeWidgetGridCell = homeGridCell;
-            this.HoveredWidgetGridCell = homeGridCell;
+            this.Widget = widget;
+            this.HomeCell = homeCell;
+            this.CurrentCell = homeCell;
         }
 
         #endregion Constructors
