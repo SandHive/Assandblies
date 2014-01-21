@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Prototype
+namespace SandPanelPrototype
 {
     /// <summary>
     /// Interaction logic for App.xaml

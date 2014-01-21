@@ -21,18 +21,62 @@
 
 using Sand.Controls;
 using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 //-----------------------------------------------------------------------------
-namespace Prototype
+namespace SandPanelPrototype
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// A simple trace listener for writing debug messages into a TextBox.
+        /// </summary>
+        private class TextBoxTraceListener : TraceListener
+        {
+            //---------------------------------------------------------------------
+            #region Fields
+
+            private TextBox _debugOutputTextBox;
+
+            #endregion Fields
+            //---------------------------------------------------------------------
+            #region Constructors
+
+            /// <summary>
+            /// Initializes a new instance of the TextBoxTraceListener class.
+            /// </summary>
+            /// <param name="debugOutputTextBox">
+            /// The TextBox into which the debug messages should be written.
+            /// </param>
+            public TextBoxTraceListener( TextBox debugOutputTextBox )
+            {
+                _debugOutputTextBox = debugOutputTextBox;
+            }
+
+            #endregion Constructors
+            //---------------------------------------------------------------------
+            #region TraceListener Members
+
+            public override void Write( string message )
+            {
+                _debugOutputTextBox.Text += message;
+            }
+
+            public override void WriteLine( string message )
+            {
+                _debugOutputTextBox.Text += message + Environment.NewLine;
+            }
+
+            #endregion TraceListener Members
+            //---------------------------------------------------------------------
+        }
+
         //---------------------------------------------------------------------
         #region Properties
 
@@ -210,6 +254,8 @@ namespace Prototype
 
         private void Window_Loaded( object sender, RoutedEventArgs e )
         {
+            Debug.Listeners.Add( new TextBoxTraceListener( _DebugOutputTextBox ) );
+
             _sandPanelWidgetGrid.AddItem( new SandPanelWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) }, Name = "_4" } );
             _sandPanelWidgetGrid.AddItem( new SandPanelWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) }, Name = "_5" } );
             _sandPanelWidgetGrid.AddItem( new SandPanelWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) }, Name = "_6" } );
