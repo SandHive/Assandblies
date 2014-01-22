@@ -186,6 +186,18 @@ namespace Sand.Controls
 
             _parentGrid.EndInit();
         }
+        
+        public override string ToString()
+        {
+            if( ( _xCellsCount == 1 ) && ( _yCellsCount == 1 ) )
+            {
+                return String.Format( "({0},{1})", this.XCellIndex, this.YCellIndex );
+            }
+            else
+            {
+                return String.Format( "({0},{1}) ({2},{3})", this.XCellIndex, this.YCellIndex, this.XCellIndex + _xCellsCount - 1, this.YCellIndex + _yCellsCount - 1 );
+            }
+        }
 
         #endregion Methods
         //---------------------------------------------------------------------
