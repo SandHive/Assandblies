@@ -14,15 +14,11 @@
     <DockPanel>
 
         <!-- Debug output -->
-        <TextBox 
+        <ListBox 
             DockPanel.Dock="Bottom" 
-            Height="100" 
-            IsReadOnly="True" 
+            Height="200" 
             Margin="3" 
-            Name="_DebugOutputTextBox" 
-            ScrollViewer.HorizontalScrollBarVisibility="Auto"
-            ScrollViewer.VerticalScrollBarVisibility="Auto" 
-            TextWrapping="Wrap" />
+            Name="_DebugOutputListBox" />
 
         <!-- Prototype Sidebar -->
         <StackPanel Background="LightGray" DockPanel.Dock="Right">
@@ -133,7 +129,7 @@
                 CellPadding="10" 
                 CellSize="75,75" 
                 ColumnCount="10"
-                RowCount="10" 
+                RowCount="7" 
                 ShowGrid="True" 
                 x:Name="_sandPanelWidgetGrid">
 

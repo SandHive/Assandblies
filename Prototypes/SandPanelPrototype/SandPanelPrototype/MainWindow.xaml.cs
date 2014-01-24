@@ -37,26 +37,26 @@ namespace SandPanelPrototype
         /// <summary>
         /// A simple trace listener for writing debug messages into a TextBox.
         /// </summary>
-        private class TextBoxTraceListener : TraceListener
+        private class ListBoxTraceListener : TraceListener
         {
             //---------------------------------------------------------------------
             #region Fields
 
-            private TextBox _debugOutputTextBox;
+            private ListBox _debugOutputListBox;
 
             #endregion Fields
             //---------------------------------------------------------------------
             #region Constructors
 
             /// <summary>
-            /// Initializes a new instance of the TextBoxTraceListener class.
+            /// Initializes a new instance of the ListBoxTraceListener class.
             /// </summary>
-            /// <param name="debugOutputTextBox">
-            /// The TextBox into which the debug messages should be written.
+            /// <param name="debugOutputListBox">
+            /// The ListBox to which the debug messages should be added.
             /// </param>
-            public TextBoxTraceListener( TextBox debugOutputTextBox )
+            public ListBoxTraceListener( ListBox debugOutputListBox )
             {
-                _debugOutputTextBox = debugOutputTextBox;
+                _debugOutputListBox = debugOutputListBox;
             }
 
             #endregion Constructors
@@ -65,12 +65,17 @@ namespace SandPanelPrototype
 
             public override void Write( string message )
             {
-                _debugOutputTextBox.Text += message;
+                this.WriteLine( message );
             }
 
             public override void WriteLine( string message )
             {
-                _debugOutputTextBox.Text += message + Environment.NewLine;
+                if( message.Contains( "Widget moving started" ) )
+                {
+                    _debugOutputListBox.Items.Clear();
+                }
+
+                _debugOutputListBox.Items.Add( new TextBlock() { Text = message } );
             }
 
             #endregion TraceListener Members
@@ -254,7 +259,7 @@ namespace SandPanelPrototype
 
         private void Window_Loaded( object sender, RoutedEventArgs e )
         {
-            Debug.Listeners.Add( new TextBoxTraceListener( _DebugOutputTextBox ) );
+            Debug.Listeners.Add( new ListBoxTraceListener( _DebugOutputListBox ) );
 
             _sandPanelWidgetGrid.AddItem( new SandPanelWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) }, Name = "_4" } );
             _sandPanelWidgetGrid.AddItem( new SandPanelWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) }, Name = "_5" } );
