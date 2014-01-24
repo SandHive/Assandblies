@@ -39,13 +39,13 @@ namespace SandPanelPrototype
         /// </summary>
         private class ListBoxTraceListener : TraceListener
         {
-            //---------------------------------------------------------------------
+            //-----------------------------------------------------------------
             #region Fields
 
             private ListBox _debugOutputListBox;
 
             #endregion Fields
-            //---------------------------------------------------------------------
+            //-----------------------------------------------------------------
             #region Constructors
 
             /// <summary>
@@ -60,7 +60,7 @@ namespace SandPanelPrototype
             }
 
             #endregion Constructors
-            //---------------------------------------------------------------------
+            //-----------------------------------------------------------------
             #region TraceListener Members
 
             public override void Write( string message )
@@ -75,11 +75,21 @@ namespace SandPanelPrototype
                     _debugOutputListBox.Items.Clear();
                 }
 
-                _debugOutputListBox.Items.Add( new TextBlock() { Text = message } );
+                //-- Take care that only one-row items are added. So let's check 
+                //-- if a message consists of several lines and add these lines 
+                //-- separately
+                var messageRows = message.Split( new String[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries );
+                TextBlock messageTextBlock;
+                foreach( var messageRow in messageRows )
+                {
+                    messageTextBlock = new TextBlock() { Text = messageRow };
+                    _debugOutputListBox.Items.Add( messageTextBlock );
+                    _debugOutputListBox.ScrollIntoView( messageTextBlock );
+                }
             }
 
             #endregion TraceListener Members
-            //---------------------------------------------------------------------
+            //-----------------------------------------------------------------
         }
 
         //---------------------------------------------------------------------
