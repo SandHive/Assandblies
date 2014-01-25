@@ -21,20 +21,24 @@
 
 using NUnit.Framework;
 using System;
+using System.Windows.Threading;
 //-----------------------------------------------------------------------------
 namespace Sand.Controls.Tests
 {
-    [TestFixture]
-    public class SandPanelWidgetPositionerTests
+    [TestFixture, RequiresSTA]
+    public class SandPanelWidgetGridTests
     {
         //---------------------------------------------------------------------
         #region Tests
 
         [Test]
-        [ExpectedException( typeof(ArgumentNullException) )]
-        public void ValidateWidgetMovement_ArgumentsNullTest()
+        public void SandPanelWidgetGrid_ValidConstructorTest()
         {
-            SandPanelWidgetPositioner.ValidateWidgetMovement( null, null );
+            SandPanelWidgetGrid _sandPanelWidgetGrid = new SandPanelWidgetGrid() 
+            {
+                ColumnCount = 10,
+                RowCount = 10
+            };
         }
 
         #endregion Tests
