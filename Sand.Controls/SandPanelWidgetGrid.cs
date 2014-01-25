@@ -236,6 +236,11 @@ namespace Sand.Controls
 
         protected override void OnItemAdded( SandPanelItem item )
         {
+            if( !( item is SandPanelWidget ) )
+            {
+                throw new ArgumentException( "Only items of type \"SandPanelWidget\" can be added!" );
+            }
+
             base.OnItemAdded( item );
 
             var widget = (SandPanelWidget) item;

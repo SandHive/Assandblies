@@ -32,13 +32,22 @@ namespace Sand.Controls.Tests
         #region Tests
 
         [Test]
-        public void SandPanelWidgetGrid_ValidConstructorTest()
+        [ExpectedException( typeof( ArgumentException ), ExpectedMessage = "Only items of type \"SandPanelWidget\" can be added!" )]
+        public void AddItem_AddingNonWidgetTest()
         {
-            SandPanelWidgetGrid _sandPanelWidgetGrid = new SandPanelWidgetGrid() 
+            SandPanelWidgetGrid _sandPanelWidgetGrid = new SandPanelWidgetGrid()
             {
                 ColumnCount = 10,
                 RowCount = 10
             };
+
+            _sandPanelWidgetGrid.AddItem( new SandPanelItem() { Content = "Test", Name = "_1" } );
+        }
+
+        [Test]
+        public void SandPanelWidgetGrid_ValidConstructorTest()
+        {
+            SandPanelWidgetGrid _sandPanelWidgetGrid = new SandPanelWidgetGrid();
         }
 
         #endregion Tests
