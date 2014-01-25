@@ -20,14 +20,13 @@
  */
 
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 //-----------------------------------------------------------------------------
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle( "Sand.Controls" )]
+[assembly: AssemblyTitle( "Sand.Controls.Tests" )]
 [assembly: AssemblyDescription( "" )]
 [assembly: AssemblyConfiguration( "" )]
 
@@ -37,9 +36,6 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible( false )]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid( "7dd4d4f4-3fbb-4684-916f-0da3e1e9e1d4" )]
-
-//-- Make all internal stuff visible for the corresponding testing assembly 
-[assembly: InternalsVisibleTo( "Sand.Controls.Tests" )]
+[assembly: Guid( "d2ad0fd7-83da-4665-b747-656d24f6073c" )]
 
 //-----------------------------------------------------------------------------

@@ -68,8 +68,6 @@ namespace Sand.Controls
 
         private readonly Guid _guid = Guid.NewGuid();
 
-        private SandPanelWidget _originalWidget;
-
         #endregion Fields
         //---------------------------------------------------------------------
         #region Properties
@@ -155,14 +153,6 @@ namespace Sand.Controls
         {
             this.IsHovered = false;
             this.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetLeaveEvent ) );
-
-            if( _originalWidget != null )
-            {
-                //-- Restore the original widget that was moved when the 
-                //-- _hoverWidget had entered this cell
-                this.OnWidgetDropped( _originalWidget );
-                _originalWidget = null;
-            }
         }
 
         public SandPanelWidget Widget { get; set; }
@@ -172,6 +162,15 @@ namespace Sand.Controls
         public int YCellIndex { get; private set; }
 
         #endregion ISandPanelWidgetGridCell Members
+        //---------------------------------------------------------------------
+        #region Methods
+
+        public override string ToString()
+        {
+            return String.Format( "({0},{1})", this.XCellIndex, this.YCellIndex );
+        }
+
+        #endregion Methods
         //---------------------------------------------------------------------
     }
 }

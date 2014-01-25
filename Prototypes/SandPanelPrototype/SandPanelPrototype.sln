@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SandPanelPrototype", "SandP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sand.Controls", "..\..\Sand.Controls\Sand.Controls.csproj", "{B469078D-E865-4F5C-9CD1-5D7A7BB3B86D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sand.Controls.Tests", "..\..\Sand.Controls.Tests\Sand.Controls.Tests.csproj", "{9FAF5E67-A8CB-475D-ACD1-54D0A117E589}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,16 @@ Global
 		{B469078D-E865-4F5C-9CD1-5D7A7BB3B86D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B469078D-E865-4F5C-9CD1-5D7A7BB3B86D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B469078D-E865-4F5C-9CD1-5D7A7BB3B86D}.Release|x86.ActiveCfg = Release|Any CPU
+		{9FAF5E67-A8CB-475D-ACD1-54D0A117E589}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FAF5E67-A8CB-475D-ACD1-54D0A117E589}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FAF5E67-A8CB-475D-ACD1-54D0A117E589}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9FAF5E67-A8CB-475D-ACD1-54D0A117E589}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9FAF5E67-A8CB-475D-ACD1-54D0A117E589}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9FAF5E67-A8CB-475D-ACD1-54D0A117E589}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FAF5E67-A8CB-475D-ACD1-54D0A117E589}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FAF5E67-A8CB-475D-ACD1-54D0A117E589}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9FAF5E67-A8CB-475D-ACD1-54D0A117E589}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9FAF5E67-A8CB-475D-ACD1-54D0A117E589}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

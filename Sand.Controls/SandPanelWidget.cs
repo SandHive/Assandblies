@@ -19,9 +19,8 @@
  * IN THE SOFTWARE.
  */
 
-using System;
+using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
@@ -80,8 +79,10 @@ namespace Sand.Controls
             var homeGridCell = ( (SandPanelWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
             homeGridCell.IsHome = true;
             homeGridCell.OnWidgetEnter( this );
-            
+
             _movement = new SandPanelWidgetMovement( this, homeGridCell );
+
+            Debug.WriteLine( string.Format( "Widget moving started (Name: {0}; Cell: {1})", this.Name, homeGridCell ) );
         }
 
         protected override void OnMouseMove( MouseEventArgs e )
@@ -118,6 +119,8 @@ namespace Sand.Controls
 
         protected override void OnMouseUp( MouseButtonEventArgs e )
         {
+            Debug.WriteLine( string.Format( "Widget moving stopped (Name: {0}; Cell: {1})", this.Name, _movement.CurrentCell ) );
+            
             //-- Finish the movement (should be done first, before all data is reset)
             _movement.HomeCell.IsHome = false;
             _movement.CurrentCell.OnWidgetDropped( this );

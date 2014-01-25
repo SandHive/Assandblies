@@ -21,6 +21,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 //-----------------------------------------------------------------------------
 namespace Sand.Controls
 {
@@ -74,23 +75,80 @@ namespace Sand.Controls
         /// <param name="newHoveredCell">
         /// The new hovered cell.
         /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// The widget movement or new hovered cell may not be null.
+        /// </exception>
         public static void ValidateWidgetMovement( SandPanelWidgetMovement widgetMovement, ISandPanelWidgetGridCell newHoveredCell )
         {
+            if( ( widgetMovement == null ) || ( newHoveredCell == null ) )
+            {
+                throw new ArgumentNullException( "The widget movement or new hovered cell may not be null!" );
+            }
+
             //-- Do nothing when the cell did not changed
             if( ISandPanelWidgetGridCell.Equals( widgetMovement.CurrentCell, newHoveredCell ) ) { return; }
-            
+
+            Debug.WriteLine( String.Format( "Validating Widget Movement \r\n\tSTART DATA\r\n\t{0}", widgetMovement ) );
+
+            if( newHoveredCell.XCellIndex == 0 && newHoveredCell.YCellIndex == 0 )
+            {
+
+            }
+
             //-- Handle the hovered cell change 
             widgetMovement.CurrentCell.OnWidgetLeave( widgetMovement.Widget );
+            widgetMovement.CurrentCell.Widget = null;
             widgetMovement.CurrentCell = newHoveredCell;
             newHoveredCell.OnWidgetEnter( widgetMovement.Widget );
             
             //-- Check if there is already a widget in this cell ...
+            SandPanelWidgetMovement subWidgetMovement = null;
             if( newHoveredCell.ContainsWidget )
             {
-                //newHoveredCell.OriginalWidget = newHoveredCell.Widget;
-                widgetMovement.HomeCell.OnWidgetDropped( newHoveredCell.Widget );
-                newHoveredCell.Widget = null;
+                if( widgetMovement.SubMovements != null )
+                {
+                    if( !widgetMovement.SubMovements.ContainsKey( newHoveredCell.Widget.Guid ) )
+                    {
+                        
+                    }
+                }
+
+                subWidgetMovement = new SandPanelWidgetMovement( newHoveredCell.Widget, newHoveredCell );
+                subWidgetMovement.CurrentCell = widgetMovement.HomeCell;
+                subWidgetMovement.CurrentCell.OnWidgetDropped( newHoveredCell.Widget );
+
+                newHoveredCell.Widget = widgetMovement.Widget;
             }
+
+            if( widgetMovement.SubMovements != null )
+            {
+                var subMovements = widgetMovement.SubMovements.Values;
+                for( int i = 0; i < subMovements.Count; i++ )
+                {
+                    if( subWidgetMovement == subMovements[i] ) { continue; }
+
+                    if( !subMovements[i].HomeCell.ContainsWidget )
+                    {
+                        if( subWidgetMovement != null && subWidgetMovement.Widget == subMovements[i].Widget )
+                        {
+                            subWidgetMovement = null;
+                        }
+
+                        //-- Move the moved widget back to its home cell when it is free again 
+                        subMovements[i].CurrentCell.Widget = null;
+                        subMovements[i].HomeCell.OnWidgetDropped( subMovements[i].Widget );
+                        widgetMovement.SubMovements.Remove( subMovements[i].Widget.Guid );
+                        i--;
+                    }
+                }
+            }
+
+            if( subWidgetMovement != null )
+            {
+                widgetMovement.AddSubMovement( subWidgetMovement );
+            }
+
+            Debug.WriteLine( String.Format( "\r\n\tRESULT\r\n\t{0}", widgetMovement ) );
         }
 
         #endregion Methods

@@ -19,7 +19,9 @@
  * IN THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 //-----------------------------------------------------------------------------
 namespace Sand.Controls
 {
@@ -42,6 +44,8 @@ namespace Sand.Controls
         /// the widget has started its movement).
         /// </summary>
         public ISandPanelWidgetGridCell HomeCell { get; private set; }
+
+        public SortedList<Guid, SandPanelWidgetMovement> SubMovements { get; private set; }
 
         /// <summary>
         /// Gets the widget to which this movement belongs.
@@ -69,6 +73,61 @@ namespace Sand.Controls
         }
 
         #endregion Constructors
+        //---------------------------------------------------------------------
+        #region Methods
+
+        internal void AddSubMovement( SandPanelWidgetMovement subMovement )
+        {
+            if( this.SubMovements == null )
+            {
+                this.SubMovements = new SortedList<Guid, SandPanelWidgetMovement>();
+            }
+
+            try
+            {
+                //-- Do not test if the sub movement is in the dictionary, because 
+                //-- we would throw an exeption anyway
+                this.SubMovements.Add( subMovement.Widget.Guid, subMovement );
+            }
+            catch
+            {
+                Debug.WriteLine( String.Format( "Exception when adding sub movement {0} to movement {1}", subMovement, this ), "EXCEPTION" );
+            }
+        }
+
+        internal void RemoveSubMovement( SandPanelWidgetMovement subMovement )
+        {
+            if( this.SubMovements == null )
+            {
+                //-- Do not test if the sub movement is in the dictionary, because 
+                //-- we would throw an exeption anyway
+                this.SubMovements.Remove( subMovement.Widget.Guid );
+            }
+        }
+
+        public override string ToString()
+        {
+            //-- Assemble the main movement data
+            string result = String.Format( "( Widget Name: {0}, Home Cell: {1}, Current Cell: {2} )", this.Widget.Name, this.HomeCell, this.CurrentCell );
+
+            #region //-- Assemble the sub movement data
+
+            if( ( this.SubMovements != null ) && ( this.SubMovements.Count > 0 ) )
+            {
+                result += String.Format( "\r\n\t=== Sub Movements ({0}) ===", this.SubMovements.Count );
+
+                foreach( var subMovement in this.SubMovements )
+                {
+                    result += String.Format( "\r\n\t- {0}", subMovement );
+                }
+            }
+
+            #endregion //-- Assemble the sub movement data
+
+            return result;
+        }
+
+        #endregion Methods
         //---------------------------------------------------------------------
     }
 }
