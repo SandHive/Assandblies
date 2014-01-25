@@ -27,35 +27,35 @@ using System.Windows.Media.Effects;
 //-----------------------------------------------------------------------------
 namespace Sand.Controls
 {
-    public class SandPanelWidget : SandPanelItem
+    public class SandWidget : SandPanelItem
     {
         //---------------------------------------------------------------------
         #region Fields
 
-        private SandPanelWidgetMovement _movement;
+        private SandWidgetMovement _movement;
 
         #endregion Fields
         //---------------------------------------------------------------------
         #region Properties
 
-        public static DependencyProperty MouseDownEffectProperty = DependencyProperty.Register( "MouseDownEffect", typeof( Effect ), typeof( SandPanelWidget ), new PropertyMetadata( new DropShadowEffect { Color = Colors.Black, Direction = 320, ShadowDepth = 4, Opacity = 1 } ) );
+        public static DependencyProperty MouseDownEffectProperty = DependencyProperty.Register( "MouseDownEffect", typeof( Effect ), typeof( SandWidget ), new PropertyMetadata( new DropShadowEffect { Color = Colors.Black, Direction = 320, ShadowDepth = 4, Opacity = 1 } ) );
         /// <summary>
         /// Gets or sets the effect when a mouse button is pressed.
         /// </summary>
         public Effect MouseDownEffect
         {
-            get { return (Effect) this.GetValue( SandPanelWidget.MouseDownEffectProperty ); }
-            set { this.SetValue( SandPanelWidget.MouseDownEffectProperty, value ); }
+            get { return (Effect) this.GetValue( SandWidget.MouseDownEffectProperty ); }
+            set { this.SetValue( SandWidget.MouseDownEffectProperty, value ); }
         }
 
-        public static DependencyProperty TileSizeProperty = DependencyProperty.Register( "TileSize", typeof( Size ), typeof( SandPanelWidget ), new PropertyMetadata( new Size( 1.0, 1.0 ) ) );
+        public static DependencyProperty TileSizeProperty = DependencyProperty.Register( "TileSize", typeof( Size ), typeof( SandWidget ), new PropertyMetadata( new Size( 1.0, 1.0 ) ) );
         /// <summary>
         /// Gets or sets the tile size.
         /// </summary>
         public Size TileSize
         {
-            get { return (Size) this.GetValue( SandPanelWidget.TileSizeProperty ); }
-            set { this.SetValue( SandPanelWidget.TileSizeProperty, value ); }
+            get { return (Size) this.GetValue( SandWidget.TileSizeProperty ); }
+            set { this.SetValue( SandWidget.TileSizeProperty, value ); }
         }
 
         #endregion Properties
@@ -76,11 +76,11 @@ namespace Sand.Controls
             this.Effect = this.MouseDownEffect;
 
             //-- Initialize a new widget movement
-            var homeGridCell = ( (SandPanelWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
+            var homeGridCell = ( (SandWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
             homeGridCell.IsHome = true;
             homeGridCell.OnWidgetEnter( this );
 
-            _movement = new SandPanelWidgetMovement( this, homeGridCell );
+            _movement = new SandWidgetMovement( this, homeGridCell );
 
             Debug.WriteLine( string.Format( "Widget moving started (Name: {0}; Cell: {1})", this.Name, homeGridCell ) );
         }
@@ -113,8 +113,8 @@ namespace Sand.Controls
             if( _movement == null ) { return; }
 
             //-- Validate the movement by rearranging the positions of all affected widgets 
-            var hoveredCell = ( (SandPanelWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
-            SandPanelWidgetPositioner.ValidateWidgetMovement( _movement, hoveredCell );
+            var hoveredCell = ( (SandWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
+            SandWidgetPositioner.ValidateWidgetMovement( _movement, hoveredCell );
         }
 
         protected override void OnMouseUp( MouseButtonEventArgs e )

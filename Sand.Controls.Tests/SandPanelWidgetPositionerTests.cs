@@ -34,7 +34,7 @@ namespace Sand.Controls.Tests
         [ExpectedException( typeof(ArgumentNullException) )]
         public void ValidateWidgetMovement_ArgumentsNullTest()
         {
-            SandPanelWidgetPositioner.ValidateWidgetMovement( null, null );
+            SandWidgetPositioner.ValidateWidgetMovement( null, null );
         }
 
         #endregion Tests

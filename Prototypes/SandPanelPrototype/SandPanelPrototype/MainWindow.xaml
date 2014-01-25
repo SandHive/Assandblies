@@ -125,7 +125,7 @@
 
         <Border BorderBrush="Black" BorderThickness="1"  Margin="10">
 
-            <sc:SandPanelWidgetGrid 
+            <sc:SandWidgetGrid 
                 CellPadding="10" 
                 CellSize="75,75" 
                 ColumnCount="10"
@@ -133,10 +133,10 @@
                 ShowGrid="True" 
                 x:Name="_sandPanelWidgetGrid">
 
-                <sc:SandPanelWidgetGrid.Resources>
+                <sc:SandWidgetGrid.Resources>
 
                     <!-- <Style TargetType="{x:Type sc:SandPanelWidget}"> -->
-                    <Style TargetType="{x:Type sc:SandPanelWidget}">
+                    <Style TargetType="{x:Type sc:SandWidget}">
                         
                         <Setter Property="Template">
                             <Setter.Value>
@@ -151,41 +151,41 @@
                     </Style>
 
                     <!-- <Style TargetType="{x:Type sc:SandPanelWidgetGridCell}"> -->
-                    <Style TargetType="{x:Type sc:SandPanelWidgetGridCell}">
+                    <Style TargetType="{x:Type sc:SandWidgetGridCell}">
                         <Style.Triggers>
-                            <Trigger Property="sc:SandPanelWidgetGridCell.IsHome" Value="True">
+                            <Trigger Property="sc:SandWidgetGridCell.IsHome" Value="True">
                                 <Setter Property="Border.Background" Value="Blue" />
                             </Trigger>
-                            <Trigger Property="sc:SandPanelWidgetGridCell.IsHovered" Value="True">
+                            <Trigger Property="sc:SandWidgetGridCell.IsHovered" Value="True">
                                 <Setter Property="Border.Background" Value="Yellow" />
                             </Trigger>
                         </Style.Triggers>
                     </Style>
 
-                </sc:SandPanelWidgetGrid.Resources>
-                
-                <sc:SandPanelWidget Name="_1">
+                </sc:SandWidgetGrid.Resources>
+
+                <sc:SandWidget Name="_1">
                     <DockPanel>
                         <TextBlock DockPanel.Dock="Bottom" HorizontalAlignment="Center" Text="1" />
                         <Image Source="Images/convert_icon256.png" />
                     </DockPanel>
-                </sc:SandPanelWidget>
+                </sc:SandWidget>
 
-                <sc:SandPanelWidget Name="_2">
+                <sc:SandWidget Name="_2">
                     <DockPanel>
                         <TextBlock DockPanel.Dock="Bottom" HorizontalAlignment="Center" Text="2" />
                         <Image Source="Images/convert_icon256.png" />
                     </DockPanel>
-                </sc:SandPanelWidget>
+                </sc:SandWidget>
 
-                <sc:SandPanelWidget Name="_3">
+                <sc:SandWidget Name="_3">
                     <DockPanel>
                         <TextBlock DockPanel.Dock="Bottom" HorizontalAlignment="Center" Text="3" />
                         <Image Source="Images/convert_icon256.png" />
                     </DockPanel>
-                </sc:SandPanelWidget>
+                </sc:SandWidget>
 
-            </sc:SandPanelWidgetGrid>
+            </sc:SandWidgetGrid>
             
         </Border>
 

@@ -25,12 +25,12 @@ using System.Windows.Controls;
 //-----------------------------------------------------------------------------
 namespace Sand.Controls
 {
-    public sealed class SandPanelWidgetGridCell : Border, ISandPanelWidgetGridCell
+    public sealed class SandWidgetGridCell : Border, ISandWidgetGridCell
     {
         //---------------------------------------------------------------------
         #region Events
 
-        public static readonly RoutedEvent WidgetEnterEvent = EventManager.RegisterRoutedEvent( "WidgetEnter", RoutingStrategy.Bubble, typeof( RoutedEventHandler ), typeof( SandPanelWidgetGridCell ) );
+        public static readonly RoutedEvent WidgetEnterEvent = EventManager.RegisterRoutedEvent( "WidgetEnter", RoutingStrategy.Bubble, typeof( RoutedEventHandler ), typeof( SandWidgetGridCell ) );
         /// <summary>
         /// Occurs when a widget enters the cell.
         /// </summary>
@@ -38,15 +38,15 @@ namespace Sand.Controls
         {
             add 
             { 
-                this.AddHandler( SandPanelWidgetGridCell.WidgetEnterEvent, value ); 
+                this.AddHandler( SandWidgetGridCell.WidgetEnterEvent, value ); 
             }
             remove 
             { 
-                this.RemoveHandler( SandPanelWidgetGridCell.WidgetEnterEvent, value ); 
+                this.RemoveHandler( SandWidgetGridCell.WidgetEnterEvent, value ); 
             }
         }
 
-        public static readonly RoutedEvent WidgetLeaveEvent = EventManager.RegisterRoutedEvent( "WidgetLeave", RoutingStrategy.Bubble, typeof( RoutedEventHandler ), typeof( SandPanelWidgetGridCell ) );
+        public static readonly RoutedEvent WidgetLeaveEvent = EventManager.RegisterRoutedEvent( "WidgetLeave", RoutingStrategy.Bubble, typeof( RoutedEventHandler ), typeof( SandWidgetGridCell ) );
         /// <summary>
         /// Occurs when a widget leaves the cell.
         /// </summary>
@@ -54,11 +54,11 @@ namespace Sand.Controls
         {
             add
             {
-                this.AddHandler( SandPanelWidgetGridCell.WidgetLeaveEvent, value );
+                this.AddHandler( SandWidgetGridCell.WidgetLeaveEvent, value );
             }
             remove
             {
-                this.RemoveHandler( SandPanelWidgetGridCell.WidgetLeaveEvent, value );
+                this.RemoveHandler( SandWidgetGridCell.WidgetLeaveEvent, value );
             }
         }
 
@@ -77,15 +77,15 @@ namespace Sand.Controls
         /// </summary>
         public Guid Guid { get { return _guid; } }
 
-        public static DependencyProperty IsHoveredProperty = DependencyProperty.Register( "IsHovered", typeof( bool ), typeof( SandPanelWidgetGridCell ), new PropertyMetadata( false ) );
+        public static DependencyProperty IsHoveredProperty = DependencyProperty.Register( "IsHovered", typeof( bool ), typeof( SandWidgetGridCell ), new PropertyMetadata( false ) );
         /// <summary>
         /// Gets a flag that indicates whether this cell is currently hoverd by 
         /// a widget or not.
         /// </summary>
         public bool IsHovered
         {
-            get { return (bool) this.GetValue( SandPanelWidgetGridCell.IsHoveredProperty ); }
-            internal set { this.SetValue( SandPanelWidgetGridCell.IsHoveredProperty, value ); }
+            get { return (bool) this.GetValue( SandWidgetGridCell.IsHoveredProperty ); }
+            internal set { this.SetValue( SandWidgetGridCell.IsHoveredProperty, value ); }
         }
 
         #endregion Properties
@@ -93,7 +93,7 @@ namespace Sand.Controls
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the SandPanelWidgetGridCell class.
+        /// Initializes a new instance of the SandWidgetGridCell class.
         /// </summary>
         /// <param name="xCellIndex">
         /// The x cell index within the widget grid.
@@ -101,28 +101,28 @@ namespace Sand.Controls
         /// <param name="yCellIndex">
         /// The y cell index within the widget grid.
         /// </param>
-        internal SandPanelWidgetGridCell( int xCellIndex, int yCellIndex )
+        internal SandWidgetGridCell( int xCellIndex, int yCellIndex )
         {
             this.XCellIndex = xCellIndex;
             this.YCellIndex = yCellIndex;
 
-            SandPanelWidgetGrid.SetZIndex( this, int.MinValue );
+            SandWidgetGrid.SetZIndex( this, int.MinValue );
         }
 
         #endregion Constructors
         //---------------------------------------------------------------------
-        #region ISandPanelWidgetGridCell Members
+        #region ISandWidgetGridCell Members
 
         public bool ContainsWidget { get { return this.Widget != null; } }
 
-        public static DependencyProperty IsHomeProperty = DependencyProperty.Register( "IsHome", typeof( bool ), typeof( SandPanelWidgetGridCell ), new PropertyMetadata( false ) );
+        public static DependencyProperty IsHomeProperty = DependencyProperty.Register( "IsHome", typeof( bool ), typeof( SandWidgetGridCell ), new PropertyMetadata( false ) );
         public bool IsHome
         {
-            get { return (bool) this.GetValue( SandPanelWidgetGridCell.IsHomeProperty ); }
-            set { this.SetValue( SandPanelWidgetGridCell.IsHomeProperty, value ); }
+            get { return (bool) this.GetValue( SandWidgetGridCell.IsHomeProperty ); }
+            set { this.SetValue( SandWidgetGridCell.IsHomeProperty, value ); }
         }
 
-        public void OnWidgetDropped( SandPanelWidget widget )
+        public void OnWidgetDropped( SandWidget widget )
         {
             this.Widget = widget;
             this.IsHovered = false;
@@ -130,38 +130,38 @@ namespace Sand.Controls
             #region //-- Place the widget to the cell's center
 
             //-- Get the location of the cell within the widget grid
-            Point cellInGridLocation = ( (SandPanelWidgetGrid) this.Parent ).GetCellLocation( this );
+            Point cellInGridLocation = ( (SandWidgetGrid) this.Parent ).GetCellLocation( this );
 
             //-- Calculate the offset in order to center the widget
             double xOffset = ( this.Width - widget.Width ) / 2;
             double yOffset = ( this.Height - widget.Height ) / 2;
 
             //-- Move the widget to the cell's center
-            SandPanelWidgetGrid.SetLeft( widget, cellInGridLocation.X + xOffset );
-            SandPanelWidgetGrid.SetTop( widget, cellInGridLocation.Y + yOffset );
+            SandWidgetGrid.SetLeft( widget, cellInGridLocation.X + xOffset );
+            SandWidgetGrid.SetTop( widget, cellInGridLocation.Y + yOffset );
 
             #endregion //-- Place the widget to the cell's center
         }
 
-        public void OnWidgetEnter( SandPanelWidget widget )
+        public void OnWidgetEnter( SandWidget widget )
         {
             this.IsHovered = true;
-            this.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetEnterEvent ) );
+            this.RaiseEvent( new RoutedEventArgs( SandWidgetGridCell.WidgetEnterEvent ) );
         }
 
-        public void OnWidgetLeave( SandPanelWidget widget )
+        public void OnWidgetLeave( SandWidget widget )
         {
             this.IsHovered = false;
-            this.RaiseEvent( new RoutedEventArgs( SandPanelWidgetGridCell.WidgetLeaveEvent ) );
+            this.RaiseEvent( new RoutedEventArgs( SandWidgetGridCell.WidgetLeaveEvent ) );
         }
 
-        public SandPanelWidget Widget { get; set; }
+        public SandWidget Widget { get; set; }
 
         public int XCellIndex { get; private set; }
 
         public int YCellIndex { get; private set; }
 
-        #endregion ISandPanelWidgetGridCell Members
+        #endregion ISandWidgetGridCell Members
         //---------------------------------------------------------------------
         #region Methods
 

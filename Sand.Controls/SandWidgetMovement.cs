@@ -29,35 +29,35 @@ namespace Sand.Controls
     /// Contains all data about a moving widget (e.g. from where it starts,
     /// which other widgets had to be moved, and so on ...).
     /// </summary>
-    internal sealed class SandPanelWidgetMovement
+    internal sealed class SandWidgetMovement
     {
         //---------------------------------------------------------------------
         #region Properties
 
         /// <summary>
-        /// Gets or sets the current ISandPanelWidgetGridCell object.
+        /// Gets or sets the current ISandWidgetGridCell object.
         /// </summary>
-        public ISandPanelWidgetGridCell CurrentCell { get; set; }
+        public ISandWidgetGridCell CurrentCell { get; set; }
 
         /// <summary>
-        /// Gets the home ISandPanelWidgetGridCell object (that's the cell where
+        /// Gets the home ISandWidgetGridCell object (that's the cell where
         /// the widget has started its movement).
         /// </summary>
-        public ISandPanelWidgetGridCell HomeCell { get; private set; }
+        public ISandWidgetGridCell HomeCell { get; private set; }
 
-        public SortedList<Guid, SandPanelWidgetMovement> SubMovements { get; private set; }
+        public SortedList<Guid, SandWidgetMovement> SubMovements { get; private set; }
 
         /// <summary>
         /// Gets the widget to which this movement belongs.
         /// </summary>
-        public SandPanelWidget Widget { get; private set; }
+        public SandWidget Widget { get; private set; }
 
         #endregion Properties
         //---------------------------------------------------------------------
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the SandPanelWidgetMovement class.
+        /// Initializes a new instance of the SandWidgetMovement class.
         /// </summary>
         /// <param name="widget">
         /// The widget that is moving.
@@ -65,7 +65,7 @@ namespace Sand.Controls
         /// <param name="homeCell">
         /// The home cell of the moving widget.
         /// </param>
-        public SandPanelWidgetMovement( SandPanelWidget widget, ISandPanelWidgetGridCell homeCell )
+        public SandWidgetMovement( SandWidget widget, ISandWidgetGridCell homeCell )
         {
             this.Widget = widget;
             this.HomeCell = homeCell;
@@ -76,11 +76,11 @@ namespace Sand.Controls
         //---------------------------------------------------------------------
         #region Methods
 
-        internal void AddSubMovement( SandPanelWidgetMovement subMovement )
+        internal void AddSubMovement( SandWidgetMovement subMovement )
         {
             if( this.SubMovements == null )
             {
-                this.SubMovements = new SortedList<Guid, SandPanelWidgetMovement>();
+                this.SubMovements = new SortedList<Guid, SandWidgetMovement>();
             }
 
             try
@@ -95,7 +95,7 @@ namespace Sand.Controls
             }
         }
 
-        internal void RemoveSubMovement( SandPanelWidgetMovement subMovement )
+        internal void RemoveSubMovement( SandWidgetMovement subMovement )
         {
             if( this.SubMovements == null )
             {

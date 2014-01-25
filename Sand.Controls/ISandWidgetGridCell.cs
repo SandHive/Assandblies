@@ -23,7 +23,7 @@ using System.Windows;
 //-----------------------------------------------------------------------------
 namespace Sand.Controls
 {
-    public interface ISandPanelWidgetGridCell
+    public interface ISandWidgetGridCell
     {
         /// <summary>
         /// Gets a flag that indicates whether the cell currently contains a 
@@ -41,30 +41,30 @@ namespace Sand.Controls
         /// Handles a dropped widget.
         /// </summary>
         /// <param name="widget">
-        /// The dropped SandPanelWidget object.
+        /// The dropped SandWidget object.
         /// </param>
-        void OnWidgetDropped( SandPanelWidget widget );
+        void OnWidgetDropped( SandWidget widget );
 
         /// <summary>
         /// Handles a widget that enters the cell..
         /// </summary>
         /// <param name="widget">
-        /// The entering SandPanelWidget object.
+        /// The entering SandWidget object.
         /// </param>
-        void OnWidgetEnter( SandPanelWidget widget );
+        void OnWidgetEnter( SandWidget widget );
 
         /// <summary>
         /// Handles a widget that leaves the cell..
         /// </summary>
         /// <param name="widget">
-        /// The leaving SandPanelWidget object.
+        /// The leaving SandWidget object.
         /// </param>
-        void OnWidgetLeave( SandPanelWidget widget );
+        void OnWidgetLeave( SandWidget widget );
 
         /// <summary>
         /// Gets or sets the widget that is currently in the cell. 
         /// </summary>
-        SandPanelWidget Widget { get; set; }
+        SandWidget Widget { get; set; }
 
         /// <summary>
         /// Gets the x cell index within the parent grid. 

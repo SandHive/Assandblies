@@ -28,24 +28,24 @@ namespace Sand.Controls
     /// <summary>
     /// Manages the positioning of widgets inside one or several widget grids. 
     /// </summary>
-    internal static class SandPanelWidgetPositioner
+    internal static class SandWidgetPositioner
     {
         //---------------------------------------------------------------------
         #region Fields
 
-        private static Dictionary<Guid, SandPanelWidgetGrid> _widgetGrids = new Dictionary<Guid, SandPanelWidgetGrid>();
+        private static Dictionary<Guid, SandWidgetGrid> _widgetGrids = new Dictionary<Guid, SandWidgetGrid>();
 
         #endregion Fields
         //---------------------------------------------------------------------
         #region Methods
 
         /// <summary>
-        /// Deregisters a SandPanelWidgetGrid again.
+        /// Deregisters a SandWidgetGrid again.
         /// </summary>
         /// <param name="grid">
-        /// The SandPanelWidgetGrid object.
+        /// The SandWidgetGrid object.
         /// </param>
-        public static void DeregisterGrid( SandPanelWidgetGrid grid )
+        public static void DeregisterGrid( SandWidgetGrid grid )
         {
             if( _widgetGrids.ContainsKey( grid.Guid ) )
             {
@@ -54,12 +54,12 @@ namespace Sand.Controls
         }
 
         /// <summary>
-        /// Registers a SandPanelWidgetGrid to this manager.
+        /// Registers a SandWidgetGrid to this manager.
         /// </summary>
         /// <param name="grid">
-        /// The SandPanelWidgetGrid object.
+        /// The SandWidgetGrid object.
         /// </param>
-        public static void RegisterGrid( SandPanelWidgetGrid grid )
+        public static void RegisterGrid( SandWidgetGrid grid )
         {
             _widgetGrids.Add( grid.Guid, grid );
         }
@@ -78,7 +78,7 @@ namespace Sand.Controls
         /// <exception cref="ArgumentNullException">
         /// The widget movement or new hovered cell may not be null.
         /// </exception>
-        public static void ValidateWidgetMovement( SandPanelWidgetMovement widgetMovement, ISandPanelWidgetGridCell newHoveredCell )
+        public static void ValidateWidgetMovement( SandWidgetMovement widgetMovement, ISandWidgetGridCell newHoveredCell )
         {
             if( ( widgetMovement == null ) || ( newHoveredCell == null ) )
             {
@@ -86,7 +86,7 @@ namespace Sand.Controls
             }
 
             //-- Do nothing when the cell did not changed
-            if( ISandPanelWidgetGridCell.Equals( widgetMovement.CurrentCell, newHoveredCell ) ) { return; }
+            if( ISandWidgetGridCell.Equals( widgetMovement.CurrentCell, newHoveredCell ) ) { return; }
 
             Debug.WriteLine( String.Format( "Validating Widget Movement \r\n\tSTART DATA\r\n\t{0}", widgetMovement ) );
 
@@ -102,7 +102,7 @@ namespace Sand.Controls
             newHoveredCell.OnWidgetEnter( widgetMovement.Widget );
             
             //-- Check if there is already a widget in this cell ...
-            SandPanelWidgetMovement subWidgetMovement = null;
+            SandWidgetMovement subWidgetMovement = null;
             if( newHoveredCell.ContainsWidget )
             {
                 if( widgetMovement.SubMovements != null )
@@ -113,7 +113,7 @@ namespace Sand.Controls
                     }
                 }
 
-                subWidgetMovement = new SandPanelWidgetMovement( newHoveredCell.Widget, newHoveredCell );
+                subWidgetMovement = new SandWidgetMovement( newHoveredCell.Widget, newHoveredCell );
                 subWidgetMovement.CurrentCell = widgetMovement.HomeCell;
                 subWidgetMovement.CurrentCell.OnWidgetDropped( newHoveredCell.Widget );
 

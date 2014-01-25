@@ -26,7 +26,7 @@ using System.Windows.Media;
 //-----------------------------------------------------------------------------
 namespace Sand.Controls
 {
-    public class SandPanelWidgetGrid : SandPanel
+    public class SandWidgetGrid : SandPanel
     {
         //---------------------------------------------------------------------
         #region Fields
@@ -35,40 +35,40 @@ namespace Sand.Controls
 
         private readonly Guid _guid = Guid.NewGuid();
 
-        private SandPanelWidgetGridCell[,] _widgetGridCells;
+        private SandWidgetGridCell[,] _widgetGridCells;
 
         #endregion Fields
         //---------------------------------------------------------------------
         #region Properties
 
-        public static DependencyProperty CellPaddingProperty = DependencyProperty.Register( "CellPadding", typeof( Thickness ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( new Thickness( 3 ) ) );
+        public static DependencyProperty CellPaddingProperty = DependencyProperty.Register( "CellPadding", typeof( Thickness ), typeof( SandWidgetGrid ), new PropertyMetadata( new Thickness( 3 ) ) );
         /// <summary>
         /// Gets or sets a cell's padding.
         /// </summary>
         public Thickness CellPadding
         {
-            get { return (Thickness) this.GetValue( SandPanelWidgetGrid.CellPaddingProperty ); }
-            set { this.SetValue( SandPanelWidgetGrid.CellPaddingProperty, value ); }
+            get { return (Thickness) this.GetValue( SandWidgetGrid.CellPaddingProperty ); }
+            set { this.SetValue( SandWidgetGrid.CellPaddingProperty, value ); }
         }
 
-        public static DependencyProperty CellSizeProperty = DependencyProperty.Register( "CellSize", typeof( Size ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( new Size( 100.0, 100.0 ) ) );
+        public static DependencyProperty CellSizeProperty = DependencyProperty.Register( "CellSize", typeof( Size ), typeof( SandWidgetGrid ), new PropertyMetadata( new Size( 100.0, 100.0 ) ) );
         /// <summary>
         /// Gets or sets a cell's size.
         /// </summary>
         public Size CellSize
         {
-            get { return (Size) this.GetValue( SandPanelWidgetGrid.CellSizeProperty ); }
-            set { this.SetValue( SandPanelWidgetGrid.CellSizeProperty, value ); }
+            get { return (Size) this.GetValue( SandWidgetGrid.CellSizeProperty ); }
+            set { this.SetValue( SandWidgetGrid.CellSizeProperty, value ); }
         }
 
-        public static DependencyProperty ColumnCountProperty = DependencyProperty.Register( "ColumnCount", typeof( int ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( 4 ) );
+        public static DependencyProperty ColumnCountProperty = DependencyProperty.Register( "ColumnCount", typeof( int ), typeof( SandWidgetGrid ), new PropertyMetadata( 4 ) );
         /// <summary>
         /// Gets or sets the number of columns.
         /// </summary>
         public int ColumnCount
         {
-            get { return (int) this.GetValue( SandPanelWidgetGrid.ColumnCountProperty ); }
-            set { this.SetValue( SandPanelWidgetGrid.ColumnCountProperty, value ); }
+            get { return (int) this.GetValue( SandWidgetGrid.ColumnCountProperty ); }
+            set { this.SetValue( SandWidgetGrid.ColumnCountProperty, value ); }
         }
 
         /// <summary>
@@ -76,80 +76,80 @@ namespace Sand.Controls
         /// </summary>
         public Guid Guid { get { return _guid; } }
 
-        public static DependencyProperty RowCountProperty = DependencyProperty.Register( "RowCount", typeof( int ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( 4 ) );
+        public static DependencyProperty RowCountProperty = DependencyProperty.Register( "RowCount", typeof( int ), typeof( SandWidgetGrid ), new PropertyMetadata( 4 ) );
         /// <summary>
         /// Gets or sets the number of rows.
         /// </summary>
         public int RowCount
         {
-            get { return (int) this.GetValue( SandPanelWidgetGrid.RowCountProperty ); }
-            set { this.SetValue( SandPanelWidgetGrid.RowCountProperty, value ); }
+            get { return (int) this.GetValue( SandWidgetGrid.RowCountProperty ); }
+            set { this.SetValue( SandWidgetGrid.RowCountProperty, value ); }
         }
 
-        public static DependencyProperty ShowGridProperty = DependencyProperty.Register( "ShowGrid", typeof( bool ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( false ) );
+        public static DependencyProperty ShowGridProperty = DependencyProperty.Register( "ShowGrid", typeof( bool ), typeof( SandWidgetGrid ), new PropertyMetadata( false ) );
         /// <summary>
         /// Gets or sets a flag whether the grid should be shown or not.
         /// </summary>
         public bool ShowGrid
         {
-            get { return (bool) this.GetValue( SandPanelWidgetGrid.ShowGridProperty ); }
-            set { this.SetValue( SandPanelWidgetGrid.ShowGridProperty, value ); }
+            get { return (bool) this.GetValue( SandWidgetGrid.ShowGridProperty ); }
+            set { this.SetValue( SandWidgetGrid.ShowGridProperty, value ); }
         }
 
         /// <summary>
         /// Gets the collection of widget grid cells.
         /// </summary>
-        internal SandPanelWidgetGridCell[,] WidgetGridCells { get { return _widgetGridCells; } }
+        internal SandWidgetGridCell[,] WidgetGridCells { get { return _widgetGridCells; } }
         
 #if PROTOTYPE
-        public static DependencyProperty CellIndexesOfBottomRightWidgetCornerProperty = DependencyProperty.Register( "CellIndexesOfBottomRightWidgetCorner", typeof( Point ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( new Point() ) );
+        public static DependencyProperty CellIndexesOfBottomRightWidgetCornerProperty = DependencyProperty.Register( "CellIndexesOfBottomRightWidgetCorner", typeof( Point ), typeof( SandWidgetGrid ), new PropertyMetadata( new Point() ) );
         /// <summary>
         /// Gets the cell indexes of the bottom right widget corner.
         /// </summary>
         public Point CellIndexesOfBottomRightWidgetCorner
         {
-            get { return (Point) this.GetValue( SandPanelWidgetGrid.CellIndexesOfBottomRightWidgetCornerProperty ); }
-            private set { this.SetValue( SandPanelWidgetGrid.CellIndexesOfBottomRightWidgetCornerProperty, value ); }
+            get { return (Point) this.GetValue( SandWidgetGrid.CellIndexesOfBottomRightWidgetCornerProperty ); }
+            private set { this.SetValue( SandWidgetGrid.CellIndexesOfBottomRightWidgetCornerProperty, value ); }
         }
 
-        public static DependencyProperty CellIndexesOfTopLeftWidgetCornerProperty = DependencyProperty.Register( "CellIndexesOfTopLeftWidgetCorner", typeof( Point ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( new Point() ) );
+        public static DependencyProperty CellIndexesOfTopLeftWidgetCornerProperty = DependencyProperty.Register( "CellIndexesOfTopLeftWidgetCorner", typeof( Point ), typeof( SandWidgetGrid ), new PropertyMetadata( new Point() ) );
         /// <summary>
         /// Gets the cell indexes of the top left widget corner.
         /// </summary>
         public Point CellIndexesOfTopLeftWidgetCorner
         {
-            get { return (Point) this.GetValue( SandPanelWidgetGrid.CellIndexesOfTopLeftWidgetCornerProperty ); }
-            private set { this.SetValue( SandPanelWidgetGrid.CellIndexesOfTopLeftWidgetCornerProperty, value ); }
+            get { return (Point) this.GetValue( SandWidgetGrid.CellIndexesOfTopLeftWidgetCornerProperty ); }
+            private set { this.SetValue( SandWidgetGrid.CellIndexesOfTopLeftWidgetCornerProperty, value ); }
         }
 
-        public static DependencyProperty TopLeftWidgetCornerLocationProperty = DependencyProperty.Register( "TopLeftWidgetCornerLocation", typeof( Point ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( new Point() ) );
+        public static DependencyProperty TopLeftWidgetCornerLocationProperty = DependencyProperty.Register( "TopLeftWidgetCornerLocation", typeof( Point ), typeof( SandWidgetGrid ), new PropertyMetadata( new Point() ) );
         /// <summary>
         /// Gets the location of the top left widget corner.
         /// </summary>
         public Point TopLeftWidgetCornerLocation
         {
-            get { return (Point) this.GetValue( SandPanelWidgetGrid.TopLeftWidgetCornerLocationProperty ); }
-            private set { this.SetValue( SandPanelWidgetGrid.TopLeftWidgetCornerLocationProperty, value ); }
+            get { return (Point) this.GetValue( SandWidgetGrid.TopLeftWidgetCornerLocationProperty ); }
+            private set { this.SetValue( SandWidgetGrid.TopLeftWidgetCornerLocationProperty, value ); }
         }
 
-        public static DependencyProperty WidgetSizeInBottomRightCellProperty = DependencyProperty.Register( "WidgetSizeInBottomRightCell", typeof( Size ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( new Size() ) );
+        public static DependencyProperty WidgetSizeInBottomRightCellProperty = DependencyProperty.Register( "WidgetSizeInBottomRightCell", typeof( Size ), typeof( SandWidgetGrid ), new PropertyMetadata( new Size() ) );
         /// <summary>
         /// Gets the widget size that is currently in the bottom right cell.
         /// </summary>
         public Size WidgetSizeInBottomRightCell
         {
-            get { return (Size) this.GetValue( SandPanelWidgetGrid.WidgetSizeInBottomRightCellProperty ); }
-            private set { this.SetValue( SandPanelWidgetGrid.WidgetSizeInBottomRightCellProperty, value ); }
+            get { return (Size) this.GetValue( SandWidgetGrid.WidgetSizeInBottomRightCellProperty ); }
+            private set { this.SetValue( SandWidgetGrid.WidgetSizeInBottomRightCellProperty, value ); }
         }
 
-        public static DependencyProperty WidgetSizeInTopLeftCellProperty = DependencyProperty.Register( "WidgetSizeInTopLeftCell", typeof( Size ), typeof( SandPanelWidgetGrid ), new PropertyMetadata( new Size() ) );
+        public static DependencyProperty WidgetSizeInTopLeftCellProperty = DependencyProperty.Register( "WidgetSizeInTopLeftCell", typeof( Size ), typeof( SandWidgetGrid ), new PropertyMetadata( new Size() ) );
         /// <summary>
         /// Gets the widget size that is currently in the top left cell.
         /// </summary>
         public Size WidgetSizeInTopLeftCell
         {
-            get { return (Size) this.GetValue( SandPanelWidgetGrid.WidgetSizeInTopLeftCellProperty ); }
-            private set { this.SetValue( SandPanelWidgetGrid.WidgetSizeInTopLeftCellProperty, value ); }
+            get { return (Size) this.GetValue( SandWidgetGrid.WidgetSizeInTopLeftCellProperty ); }
+            private set { this.SetValue( SandWidgetGrid.WidgetSizeInTopLeftCellProperty, value ); }
         }
 #endif
 
@@ -158,13 +158,13 @@ namespace Sand.Controls
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the SandPanelWidgetGrid class.
+        /// Initializes a new instance of the SandWidgetGrid class.
         /// </summary>
-        public SandPanelWidgetGrid()
+        public SandWidgetGrid()
         {
             //-- Register this grid to the widget positioner in order to enable
             //-- widget movements across different grids
-            SandPanelWidgetPositioner.RegisterGrid( this );
+            SandWidgetPositioner.RegisterGrid( this );
         }
 
         #endregion Constructors
@@ -199,17 +199,17 @@ namespace Sand.Controls
 
             #region //-- Add all cells
 
-            SandPanelWidgetGridCell cell;
+            SandWidgetGridCell cell;
             double cellLeft = 0;
             double cellTop = 0;
-            _widgetGridCells = new SandPanelWidgetGridCell[this.ColumnCount,this.RowCount];
+            _widgetGridCells = new SandWidgetGridCell[this.ColumnCount,this.RowCount];
             for( int y = 0; y < this.RowCount; y++ )
             {
                 cellLeft = 0;
 
                 for( int x = 0; x < this.ColumnCount; x++ )
                 {
-                    cell = new SandPanelWidgetGridCell( x, y ) { Height = this.CellSize.Height, Width = this.CellSize.Width };
+                    cell = new SandWidgetGridCell( x, y ) { Height = this.CellSize.Height, Width = this.CellSize.Width };
                     
                     if( this.ShowGrid )
                     { 
@@ -219,8 +219,8 @@ namespace Sand.Controls
 
                     _widgetGridCells[x,y] = cell;
                     base.Children.Add( cell );
-                    SandPanelWidgetGrid.SetLeft( cell, cellLeft );
-                    SandPanelWidgetGrid.SetTop( cell, cellTop );
+                    SandWidgetGrid.SetLeft( cell, cellLeft );
+                    SandWidgetGrid.SetTop( cell, cellTop );
 
                     cellLeft += this.CellSize.Width;
                 }
@@ -236,14 +236,14 @@ namespace Sand.Controls
 
         protected override void OnItemAdded( SandPanelItem item )
         {
-            if( !( item is SandPanelWidget ) )
+            if( !( item is SandWidget ) )
             {
-                throw new ArgumentException( "Only items of type \"SandPanelWidget\" can be added!" );
+                throw new ArgumentException( "Only items of type \"SandWidget\" can be added!" );
             }
 
             base.OnItemAdded( item );
 
-            var widget = (SandPanelWidget) item;
+            var widget = (SandWidget) item;
 
             //-- Adjust the widget size by regarding the tile size
             widget.Height = ( this.CellSize.Height * widget.TileSize.Height ) - ( this.CellPadding.Top + this.CellPadding.Bottom );
@@ -271,7 +271,7 @@ namespace Sand.Controls
         /// <returns>
         /// The related cell.
         /// </returns>
-        public SandPanelWidgetGridCell GetCellRelativeToPoint( Point point )
+        public SandWidgetGridCell GetCellRelativeToPoint( Point point )
         {
             //-- Determine indexes
             int cellXIndex = (int) ( point.X / this.CellSize.Width );
@@ -296,7 +296,7 @@ namespace Sand.Controls
         /// <returns>
         /// The cell's position within the grid.
         /// </returns>
-        internal Point GetCellLocation( SandPanelWidgetGridCell sandPanelWidgetGridCell )
+        internal Point GetCellLocation( SandWidgetGridCell sandPanelWidgetGridCell )
         {
             return new Point(
 
@@ -306,7 +306,7 @@ namespace Sand.Controls
         }
 
         /// <summary>
-        /// Gets the next free ISandPanelWidgetGridCell object where the widget will fit into.
+        /// Gets the next free ISandWidgetGridCell object where the widget will fit into.
         /// </summary>
         /// <param name="xOccupiedCellsCount">
         /// The number of x cells that are required by the widget.
@@ -318,13 +318,13 @@ namespace Sand.Controls
         /// No free fitting grid cell available.
         /// </exception>
         /// <returns>
-        /// The next free ISandPanelWidgetGridCell object.
+        /// The next free ISandWidgetGridCell object.
         /// </returns>
-        private ISandPanelWidgetGridCell GetNextFreeGridCell( int xOccupiedCellsCount, int yOccupiedCellsCount )
+        private ISandWidgetGridCell GetNextFreeGridCell( int xOccupiedCellsCount, int yOccupiedCellsCount )
         {
             int xMaxIndex = this.ColumnCount - xOccupiedCellsCount;
             int yMaxIndex = this.RowCount - yOccupiedCellsCount;
-            ISandPanelWidgetGridCell nextFreeCell;
+            ISandWidgetGridCell nextFreeCell;
             for( int x = 0; x <= xMaxIndex; x++ )
             {
                 for( int y = 0; y <= yMaxIndex; y++ )
@@ -338,7 +338,7 @@ namespace Sand.Controls
                     else
                     {
                         //-- ... cell union
-                        nextFreeCell = new SandPanelWidgetGridCellUnion( this, x, y, xOccupiedCellsCount, yOccupiedCellsCount );
+                        nextFreeCell = new SandWidgetGridCellUnion( this, x, y, xOccupiedCellsCount, yOccupiedCellsCount );
                     }
  
                     if( !nextFreeCell.ContainsWidget )
@@ -360,7 +360,7 @@ namespace Sand.Controls
         /// <returns>
         /// The cells.
         /// </returns>
-        internal ISandPanelWidgetGridCell GetOccupiedGridCell( SandPanelWidget widget )
+        internal ISandWidgetGridCell GetOccupiedGridCell( SandWidget widget )
         {
             //-- Get the location of the cell within the widget grid
             Point topLeftWidgetCornerLocation = widget.TranslatePoint( new Point(), this );
@@ -416,7 +416,7 @@ namespace Sand.Controls
                 return _widgetGridCells[cellXIndexOfTopLeftWidgetCorner, cellYIndexOfTopLeftWidgetCorner];
             }
 
-            SandPanelWidgetGridCellUnion occupiedCells = new SandPanelWidgetGridCellUnion(
+            SandWidgetGridCellUnion occupiedCells = new SandWidgetGridCellUnion(
 
                 this,
                 cellXIndexOfTopLeftWidgetCorner,

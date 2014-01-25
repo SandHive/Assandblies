@@ -26,14 +26,14 @@ using System.Windows.Controls;
 namespace Sand.Controls
 {
     /// <summary>
-    /// A union of several SandPanelWidgetGridCell objects.
+    /// A union of several SandWidgetGridCell objects.
     /// </summary>
-    public sealed class SandPanelWidgetGridCellUnion : Border, ISandPanelWidgetGridCell
+    public sealed class SandWidgetGridCellUnion : Border, ISandWidgetGridCell
     {
         //---------------------------------------------------------------------
         #region Fields
 
-        private SandPanelWidgetGrid _parentGrid;
+        private SandWidgetGrid _parentGrid;
 
         private int _xCellsCount;
 
@@ -44,7 +44,7 @@ namespace Sand.Controls
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the SandPanelWidgetGridCellUnion
+        /// Initializes a new instance of the SandWidgetGridCellUnion
         /// class.
         /// </summary>
         /// <param name="grid">
@@ -53,7 +53,7 @@ namespace Sand.Controls
         /// <param name="position">
         /// The position of the cell union within the parent grid.
         /// </param>
-        public SandPanelWidgetGridCellUnion( SandPanelWidgetGrid grid, int xCellIndex, int yCellIndex, int xCellsCount, int yCellsCount )
+        public SandWidgetGridCellUnion( SandWidgetGrid grid, int xCellIndex, int yCellIndex, int xCellsCount, int yCellsCount )
         {
             _parentGrid = grid;
             this.XCellIndex = xCellIndex;
@@ -64,7 +64,7 @@ namespace Sand.Controls
 
         #endregion Constructors
         //---------------------------------------------------------------------
-        #region ISandPanelWidgetGridCell Members
+        #region ISandWidgetGridCell Members
 
         public bool ContainsWidget 
         { 
@@ -105,7 +105,7 @@ namespace Sand.Controls
             }
         }
 
-        public void OnWidgetDropped( SandPanelWidget widget )
+        public void OnWidgetDropped( SandWidget widget )
         {
             this.ForEachCellDo( 
 
@@ -126,23 +126,23 @@ namespace Sand.Controls
             double yOffset = ( ( _parentGrid.CellSize.Height * _yCellsCount ) - widget.Height ) / 2;
 
             //-- Move the widget to the cell's center
-            SandPanelWidgetGrid.SetLeft( widget, cellInGridLocation.X + xOffset );
-            SandPanelWidgetGrid.SetTop( widget, cellInGridLocation.Y + yOffset );
+            SandWidgetGrid.SetLeft( widget, cellInGridLocation.X + xOffset );
+            SandWidgetGrid.SetTop( widget, cellInGridLocation.Y + yOffset );
 
             #endregion //-- Place the widget to the cell's center
         }
 
-        public void OnWidgetEnter( SandPanelWidget widget )
+        public void OnWidgetEnter( SandWidget widget )
         {
             this.ForEachCellDo( ( cell ) => cell.OnWidgetEnter( widget ) );
         }
 
-        public void OnWidgetLeave( SandPanelWidget widget )
+        public void OnWidgetLeave( SandWidget widget )
         {
             this.ForEachCellDo( ( cell ) => cell.OnWidgetLeave( widget ) );
         }
 
-        public SandPanelWidget Widget 
+        public SandWidget Widget 
         {
             get
             {
@@ -158,7 +158,7 @@ namespace Sand.Controls
 
         public int YCellIndex { get; private set; }
 
-        #endregion ISandPanelWidgetGridCell Members
+        #endregion ISandWidgetGridCell Members
         //---------------------------------------------------------------------
         #region Methods
 
@@ -168,7 +168,7 @@ namespace Sand.Controls
         /// <param name="action">
         /// The action that should be performed on each cell.
         /// </param>
-        private void ForEachCellDo( Action<SandPanelWidgetGridCell> action )
+        private void ForEachCellDo( Action<SandWidgetGridCell> action )
         {
             //-- Call BeginInit / EndInit in oder that the parent grid is updated 
             //-- only one time (and not in every loop run)
