@@ -21,20 +21,33 @@
 
 using NUnit.Framework;
 using System;
+using System.Windows.Threading;
 //-----------------------------------------------------------------------------
 namespace Sand.Controls.Tests
 {
-    [TestFixture]
-    public class SandPanelWidgetPositionerTests
+    [TestFixture, RequiresSTA]
+    public class SandWidgetGridTests
     {
         //---------------------------------------------------------------------
         #region Tests
 
         [Test]
-        [ExpectedException( typeof(ArgumentNullException) )]
-        public void ValidateWidgetMovement_ArgumentsNullTest()
+        [ExpectedException( typeof( ArgumentException ), ExpectedMessage = "Only items of type \"SandWidget\" can be added!" )]
+        public void AddItem_AddingNonWidgetTest()
         {
-            SandWidgetPositioner.ValidateWidgetMovement( null, null );
+            SandWidgetGrid _sandPanelWidgetGrid = new SandWidgetGrid()
+            {
+                ColumnCount = 10,
+                RowCount = 10
+            };
+
+            _sandPanelWidgetGrid.AddItem( new SandPanelItem() { Content = "Test", Name = "_1" } );
+        }
+
+        [Test]
+        public void SandPanelWidgetGrid_ValidConstructorTest()
+        {
+            SandWidgetGrid _sandPanelWidgetGrid = new SandWidgetGrid();
         }
 
         #endregion Tests
