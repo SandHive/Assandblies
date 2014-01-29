@@ -24,17 +24,24 @@ using System;
 //-----------------------------------------------------------------------------
 namespace Sand.Controls.Tests
 {
-    [TestFixture]
+    [TestFixture, RequiresSTA]
     public class SandWidgetPositionerTests
     {
         //---------------------------------------------------------------------
         #region Tests
 
         [Test]
-        [ExpectedException( typeof(ArgumentNullException) )]
-        public void ValidateWidgetMovement_ArgumentsNullTest()
+        [ExpectedException( typeof( ArgumentNullException ), ExpectedMessage = "The new hovered cell may not be null!", MatchType = MessageMatch.StartsWith )]
+        public void ValidateWidgetMovement_NewHoveredCellArgumentNullTest()
         {
-            SandWidgetPositioner.ValidateWidgetMovement( null, null );
+            SandWidgetPositioner.ValidateWidgetMovement( new SandWidgetMovement( null, null ), null );
+        }
+
+        [Test]
+        [ExpectedException( typeof( ArgumentNullException ), ExpectedMessage = "The widget movement may not be null!", MatchType = MessageMatch.StartsWith )]
+        public void ValidateWidgetMovement_WidgetMovementArgumentNullTest()
+        {
+            SandWidgetPositioner.ValidateWidgetMovement( null, new SandWidgetGridCell( 0, 0 ) );
         }
 
         #endregion Tests

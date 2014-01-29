@@ -76,15 +76,15 @@ namespace Sand.Controls
         /// The new hovered cell.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        /// The widget movement or new hovered cell may not be null.
+        /// The widget movement may not be null.
+        /// - or -
+        /// The new hovered cell may not be null.
         /// </exception>
         public static void ValidateWidgetMovement( SandWidgetMovement widgetMovement, ISandWidgetGridCell newHoveredCell )
         {
-            if( ( widgetMovement == null ) || ( newHoveredCell == null ) )
-            {
-                throw new ArgumentNullException( "The widget movement or new hovered cell may not be null!" );
-            }
-
+            if( widgetMovement == null ) { throw new ArgumentNullException( "widgetMovement", "The widget movement may not be null!" ); }
+            if( newHoveredCell == null ) { throw new ArgumentNullException( "newHoveredCell", "The new hovered cell may not be null!" ); }
+            
             //-- Do nothing when the cell did not changed
             if( ISandWidgetGridCell.Equals( widgetMovement.CurrentCell, newHoveredCell ) ) { return; }
 
@@ -95,7 +95,7 @@ namespace Sand.Controls
 
             }
 
-            //-- Handle the hovered cell change 
+            //-- Handle the hovered cell change 1
             widgetMovement.CurrentCell.OnWidgetLeave( widgetMovement.Widget );
             widgetMovement.CurrentCell.Widget = null;
             widgetMovement.CurrentCell = newHoveredCell;
