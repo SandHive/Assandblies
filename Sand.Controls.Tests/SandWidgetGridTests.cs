@@ -44,9 +44,9 @@ namespace Sand.Controls.Tests
         }
 
         [Test]
-        public void SandPanelWidgetGrid_ValidConstructorTest()
+        public void SandWidgetGrid_ValidConstructorTest()
         {
-            SandWidgetGrid _sandPanelWidgetGrid = new SandWidgetGrid();
+            SandWidgetGrid _sandWidgetGrid = new SandWidgetGrid();
         }
 
         #endregion Tests

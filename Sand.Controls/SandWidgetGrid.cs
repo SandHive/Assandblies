@@ -340,18 +340,18 @@ namespace Sand.Controls
         /// <summary>
         /// Gets the location of a cell within this grid.
         /// </summary>
-        /// <param name="sandPanelWidgetGridCell">
+        /// <param name="sandWidgetGridCell">
         /// The grid cell whose position should be returned.
         /// </param>
         /// <returns>
         /// The cell's position within the grid.
         /// </returns>
-        internal Point GetCellLocation( SandWidgetGridCell sandPanelWidgetGridCell )
+        internal Point GetCellLocation( SandWidgetGridCell sandWidgetGridCell )
         {
             return new Point(
 
-                sandPanelWidgetGridCell.XCellIndex * this.CellSize.Width,
-                sandPanelWidgetGridCell.YCellIndex * this.CellSize.Height
+                sandWidgetGridCell.XCellIndex * this.CellSize.Width,
+                sandWidgetGridCell.YCellIndex * this.CellSize.Height
             );
         }
 

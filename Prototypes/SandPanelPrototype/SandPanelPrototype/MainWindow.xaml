@@ -73,23 +73,23 @@
             <GroupBox Header="Moving Widget Data">
                 <StackPanel>
                     <DockPanel>
-                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding TopLeftWidgetCornerLocation, ElementName=_sandPanelWidgetGrid}" />
+                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding TopLeftWidgetCornerLocation, ElementName=_sandWidgetGrid}" />
                         <TextBlock DockPanel.Dock="Left" Text="Top Left Corner Location" />
                     </DockPanel>
                     <DockPanel>
-                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding CellIndexesOfTopLeftWidgetCorner, ElementName=_sandPanelWidgetGrid}" />
+                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding CellIndexesOfTopLeftWidgetCorner, ElementName=_sandWidgetGrid}" />
                         <TextBlock DockPanel.Dock="Left" Text="Cell Indexes of Top Left Corner" />
                     </DockPanel>
                     <DockPanel>
-                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding CellIndexesOfBottomRightWidgetCorner, ElementName=_sandPanelWidgetGrid}" />
+                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding CellIndexesOfBottomRightWidgetCorner, ElementName=_sandWidgetGrid}" />
                         <TextBlock DockPanel.Dock="Left" Text="Cell Indexes of Bottom Right Corner" />
                     </DockPanel>
                     <DockPanel>
-                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding WidgetSizeInTopLeftCell, ElementName=_sandPanelWidgetGrid}" />
+                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding WidgetSizeInTopLeftCell, ElementName=_sandWidgetGrid}" />
                         <TextBlock DockPanel.Dock="Left" Text="Widget Size in Top Left Cell" />
                     </DockPanel>
                     <DockPanel>
-                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding WidgetSizeInBottomRightCell, ElementName=_sandPanelWidgetGrid}" />
+                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding WidgetSizeInBottomRightCell, ElementName=_sandWidgetGrid}" />
                         <TextBlock DockPanel.Dock="Left" Text="Widget Size in Bottom Right Cell" />
                     </DockPanel>
                 </StackPanel>
@@ -131,11 +131,11 @@
                 ColumnCount="10"
                 RowCount="7" 
                 ShowGrid="True" 
-                x:Name="_sandPanelWidgetGrid">
+                x:Name="_sandWidgetGrid">
 
                 <sc:SandWidgetGrid.Resources>
 
-                    <!-- <Style TargetType="{x:Type sc:SandPanelWidget}"> -->
+                    <!-- <Style TargetType="{x:Type sc:SandWidget}"> -->
                     <Style TargetType="{x:Type sc:SandWidget}">
                         
                         <Setter Property="Template">
@@ -150,7 +150,7 @@
 
                     </Style>
 
-                    <!-- <Style TargetType="{x:Type sc:SandPanelWidgetGridCell}"> -->
+                    <!-- <Style TargetType="{x:Type sc:SandWidgetGridCell}"> -->
                     <Style TargetType="{x:Type sc:SandWidgetGridCell}">
                         <Style.Triggers>
                             <Trigger Property="sc:SandWidgetGridCell.IsHome" Value="True">
