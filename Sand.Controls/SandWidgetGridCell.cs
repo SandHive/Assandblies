@@ -124,6 +124,11 @@ namespace Sand.Controls
 
         public void OnWidgetDropped( SandWidget widget )
         {
+            if( this.Widget != null )
+            {
+                throw new InvalidOperationException( "The cell is already occupied!" );
+            }
+
             this.Widget = widget;
             this.IsHovered = false;
 

@@ -25,14 +25,14 @@ using System;
 namespace Sand.Controls.Tests
 {
     [TestFixture, RequiresSTA]
-    public class SandWidgetGridTests
+    public class SandWidgetGridCellTests
     {
         //---------------------------------------------------------------------
         #region Tests
 
         [Test]
-        [ExpectedException( typeof( NotSupportedException ), ExpectedMessage = "Only \"SandWidget\" objects can be added! Use \"AddWidget\" methods instead." )]
-        public void AddItem_AddingNonWidgetTest()
+        [ExpectedException( typeof( InvalidOperationException ), ExpectedMessage = "The cell is already occupied!" )]
+        public void OnWidgetDropped_DroppingIntoOccupiedCellTest()
         {
             SandWidgetGrid _sandWidgetGrid = new SandWidgetGrid()
             {
@@ -40,13 +40,8 @@ namespace Sand.Controls.Tests
                 RowCount = 10
             };
 
-            _sandWidgetGrid.AddItem( new SandPanelItem() { Content = "Test", Name = "_1" } );
-        }
-
-        [Test]
-        public void SandPanelWidgetGrid_ValidConstructorTest()
-        {
-            SandWidgetGrid _sandPanelWidgetGrid = new SandWidgetGrid();
+            _sandWidgetGrid.AddWidget( new SandWidget() { Content = "Test", Name = "_1" }, 0, 0 );
+            _sandWidgetGrid.AddWidget( new SandWidget() { Content = "Test", Name = "_2" }, 0, 0 );
         }
 
         #endregion Tests
