@@ -271,9 +271,10 @@ namespace SandPanelPrototype
         {
             Debug.Listeners.Add( new ListBoxTraceListener( _DebugOutputListBox ) );
 
-            _sandPanelWidgetGrid.AddItem( new SandWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) }, Name = "_4" } );
-            _sandPanelWidgetGrid.AddItem( new SandWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) }, Name = "_5" } );
-            _sandPanelWidgetGrid.AddItem( new SandWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) }, Name = "_6" } );
+            _sandPanelWidgetGrid.AddWidget( new SandWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) }, Name = "_4" } );
+            _sandPanelWidgetGrid.AddWidget( new SandWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) }, Name = "_5" } );
+            _sandPanelWidgetGrid.AddWidget( new SandWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) }, Name = "_6" } );
+            _sandPanelWidgetGrid.AddWidget( new SandWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) }, Name = "_7" }, 3, 3 );
         }
 
         private void Window_PreviewMouseMove( object sender, MouseEventArgs e )

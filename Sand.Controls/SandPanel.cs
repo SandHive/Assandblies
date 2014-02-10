@@ -81,7 +81,7 @@ namespace Sand.Controls
         /// <param name="item">
         /// The SandPanelItem object.
         /// </param>
-        public void AddItem( SandPanelItem item )
+        public virtual void AddItem( SandPanelItem item )
         {
             //-- Add the item to the children collection
             this.Children.Add( item );

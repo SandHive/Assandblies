@@ -171,6 +171,11 @@ namespace Sand.Controls
         //---------------------------------------------------------------------
         #region SandPanel Members
 
+        public override void AddItem( SandPanelItem item )
+        {
+            throw new NotSupportedException( "Only \"SandWidget\" objects can be added! Use \"AddWidget\" methods instead." );
+        }
+
         public override void BeginInit()
         {
             //-- Take care that BeginInit and EndInit is called only once
@@ -236,6 +241,8 @@ namespace Sand.Controls
 
         protected override void OnItemAdded( SandPanelItem item )
         {
+            //-- This method is called when a widget was added via xaml
+
             if( !( item is SandWidget ) )
             {
                 throw new ArgumentException( "Only items of type \"SandWidget\" can be added!" );
@@ -244,23 +251,66 @@ namespace Sand.Controls
             base.OnItemAdded( item );
 
             var widget = (SandWidget) item;
-
-            //-- Adjust the widget size by regarding the tile size
-            widget.Height = ( this.CellSize.Height * widget.TileSize.Height ) - ( this.CellPadding.Top + this.CellPadding.Bottom );
-            widget.Width = ( this.CellSize.Width * widget.TileSize.Width ) - ( this.CellPadding.Left + this.CellPadding.Right );
-
-            //-- Determine the number of occupied cells
-            int xOccupiedCellsCount = (int) Math.Ceiling( widget.TileSize.Width );
-            int yOccupiedCellsCount = (int) Math.Ceiling( widget.TileSize.Height );
-
-            //-- Determine the target grid cell (move to the next cell when the current one is occupied)
-            var targetGridCell = this.GetNextFreeGridCell( xOccupiedCellsCount, yOccupiedCellsCount );
+            this.CalculateWidgetWidthAndHeight( widget );
+            var targetGridCell = this.GetNextFreeGridCell( widget );
             targetGridCell.OnWidgetDropped( widget );
         }
 
         #endregion SandPanel Members
         //---------------------------------------------------------------------
         #region Methods
+
+        /// <summary>
+        /// Adds a widget into the next free cell of the widget grid.
+        /// </summary>
+        /// <param name="widget">
+        /// The widget that should be added.
+        /// </param>
+        public void AddWidget( SandWidget widget )
+        {
+            base.Children.Add( widget );
+            base.OnItemAdded( widget );
+
+            this.CalculateWidgetWidthAndHeight( widget );
+            var targetGridCell = this.GetNextFreeGridCell( widget );
+            targetGridCell.OnWidgetDropped( widget );
+        }
+
+        /// <summary>
+        /// Adds a widget into a desired cell of the widget grid.
+        /// </summary>
+        /// <param name="widget">
+        /// The widget that should be added.
+        /// </param>
+        /// <param name="xCellIndex">
+        /// The x index of the cell into which the widget should be added.
+        /// </param>
+        /// <param name="yCellIndex">
+        /// The x index of the cell into which the widget should be added.
+        /// </param>
+        public void AddWidget( SandWidget widget, int xCellIndex, int yCellIndex )
+        {
+            base.Children.Add( widget );
+            base.OnItemAdded( widget );
+
+            this.CalculateWidgetWidthAndHeight( widget );
+            var targetGridCell = _widgetGridCells[xCellIndex, yCellIndex];
+            targetGridCell.OnWidgetDropped( widget );
+        }
+
+        /// <summary>
+        /// Calculates the widget width and height by considering the widget's 
+        /// tile size and the cell padding.
+        /// </summary>
+        /// <param name="widget">
+        /// The SandWidget object whose width and height should be calculated.
+        /// </param>
+        private void CalculateWidgetWidthAndHeight( SandWidget widget )
+        {
+            //-- Adjust the widget size by regarding the tile size
+            widget.Height = ( this.CellSize.Height * widget.TileSize.Height ) - ( this.CellPadding.Top + this.CellPadding.Bottom );
+            widget.Width = ( this.CellSize.Width * widget.TileSize.Width ) - ( this.CellPadding.Left + this.CellPadding.Right );
+        }
 
         /// <summary>
         /// Gets a cell relative to a given point.
@@ -320,8 +370,12 @@ namespace Sand.Controls
         /// <returns>
         /// The next free ISandWidgetGridCell object.
         /// </returns>
-        private ISandWidgetGridCell GetNextFreeGridCell( int xOccupiedCellsCount, int yOccupiedCellsCount )
+        private ISandWidgetGridCell GetNextFreeGridCell( SandWidget widget )
         {
+            //-- Determine the number of occupied cells
+            int xOccupiedCellsCount = (int) Math.Ceiling( widget.TileSize.Width );
+            int yOccupiedCellsCount = (int) Math.Ceiling( widget.TileSize.Height );
+
             int xMaxIndex = this.ColumnCount - xOccupiedCellsCount;
             int yMaxIndex = this.RowCount - yOccupiedCellsCount;
             ISandWidgetGridCell nextFreeCell;
