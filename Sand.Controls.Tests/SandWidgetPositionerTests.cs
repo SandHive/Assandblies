@@ -31,6 +31,24 @@ namespace Sand.Controls.Tests
         #region Tests
 
         [Test]
+        public void ValidateWidgetMovement_CurrentCellEqualsNewHoveredCellTest()
+        {
+            var grid = new SandWidgetGrid();
+            var widget = new SandWidget() { Content = "Test", Name = "_1" };
+            grid.AddWidget( widget );
+            var cell = grid.WidgetGridCells[0, 0];
+            var movement = new SandWidgetMovement( widget, cell );
+
+            //-- Check the cell's widget before calling the validation method ...
+            Assert.AreEqual( widget, cell.Widget );
+
+            SandWidgetPositioner.ValidateWidgetMovement( movement, cell );
+
+            //-- ... and afterwards
+            Assert.AreEqual( widget, cell.Widget );
+        }
+        
+        [Test]
         [ExpectedException( typeof( ArgumentNullException ), ExpectedMessage = "The new hovered cell may not be null!", MatchType = MessageMatch.StartsWith )]
         public void ValidateWidgetMovement_NewHoveredCellArgumentNullTest()
         {
