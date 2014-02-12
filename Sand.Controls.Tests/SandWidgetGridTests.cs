@@ -44,6 +44,17 @@ namespace Sand.Controls.Tests
         }
 
         [Test]
+        public void AddWidget_AddingWidgetToSpecificCellTest()
+        {
+            //-- Create necessary objects
+            var grid = new SandWidgetGrid() { ColumnCount = 10, RowCount = 10 };
+            var widget = new SandWidget() { Content = "Test", Name = "_1" };
+
+            grid.AddWidget( widget, 2, 3 );
+            Assert.AreEqual( widget, grid.WidgetGridCells[2, 3].Widget ); 
+        }
+
+        [Test]
         public void SandWidgetGrid_ValidConstructorTest()
         {
             SandWidgetGrid _sandWidgetGrid = new SandWidgetGrid();
