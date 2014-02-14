@@ -44,6 +44,21 @@ namespace Sand.Controls.Tests
         }
 
         [Test]
+        [ExpectedException( typeof( InvalidOperationException ), ExpectedMessage = "The cell is already occupied!" )]
+        public void AddWidget_AddingWidgetToOccupiedSpecificCellTest()
+        {
+            //-- Create necessary objects
+            var grid = new SandWidgetGrid() { ColumnCount = 10, RowCount = 10 };
+            
+            var widget1 = new SandWidget() { Content = "Test", Name = "_1" };
+            grid.AddWidget( widget1, 2, 3 );
+            Assert.AreEqual( widget1, grid.WidgetGridCells[2, 3].Widget );
+
+            var widget2 = new SandWidget() { Content = "Test", Name = "_2" };
+            grid.AddWidget( widget2, 2, 3 );
+        }
+
+        [Test]
         public void AddWidget_AddingWidgetToSpecificCellTest()
         {
             //-- Create necessary objects
