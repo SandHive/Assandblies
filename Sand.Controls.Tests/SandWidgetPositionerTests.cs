@@ -33,9 +33,9 @@ namespace Sand.Controls.Tests
         [Test]
         public void ValidateWidgetMovement_CurrentCellEqualsNewHoveredCellTest()
         {
+            //-- Create necessary objects
             var grid = new SandWidgetGrid();
-            var widget = new SandWidget() { Content = "Test", Name = "_1" };
-            grid.AddWidget( widget );
+            var widget = new SandWidget() { Content = "Test", Name = "_1" }; grid.AddWidget( widget );
             var cell = grid.WidgetGridCells[0, 0];
             var movement = new SandWidgetMovement( widget, cell );
 
@@ -46,6 +46,27 @@ namespace Sand.Controls.Tests
 
             //-- ... and afterwards
             Assert.AreEqual( widget, cell.Widget );
+        }
+
+        [Test]
+        public void ValidateWidgetMovement_MoveWidgetToNeighborCellTest()
+        {
+            //-- Create necessary objects
+            var grid = new SandWidgetGrid();
+            var widget = new SandWidget() { Content = "Test", Name = "_1" }; grid.AddWidget( widget, 0, 0 );
+            var cell = grid.WidgetGridCells[0, 0];
+            var neighborCell = grid.WidgetGridCells[0, 1];
+            var movement = new SandWidgetMovement( widget, cell );
+            
+            //-- Check the cell's widget before calling the validation method ...
+            Assert.AreEqual( widget, cell.Widget );
+            Assert.AreEqual( null, neighborCell.Widget );
+            
+            SandWidgetPositioner.ValidateWidgetMovement( movement, neighborCell );
+
+            //-- ... and afterwards
+            Assert.AreEqual( null, cell.Widget );
+            Assert.AreEqual( widget, neighborCell.Widget );
         }
         
         [Test]
