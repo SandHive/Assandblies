@@ -119,6 +119,10 @@ namespace Sand.Controls
 
         protected override void OnMouseUp( MouseButtonEventArgs e )
         {
+            //-- The movement may be null when the mouse is pressed on an empty cell
+            //-- and will be released on another cell's widget
+            if( _movement == null ) { return; }
+
             Debug.WriteLine( string.Format( "Widget moving stopped (Name: {0}; Cell: {1})", this.Name, _movement.CurrentCell ) );
             
             //-- Finish the movement (should be done first, before all data is reset)
