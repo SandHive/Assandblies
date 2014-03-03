@@ -93,10 +93,10 @@ namespace Sand.Controls
             if( e.Handled ) { return; }
 
             //-- Get the location of the current mouse movement
-            var parentSandPanel = (SandPanel) this.Parent;
-            Point mouseLocation = e.GetPosition( parentSandPanel );
+            var grid = (SandWidgetGrid) this.Parent;
+            Point mouseLocation = e.GetPosition( grid );
 
-            if( ( mouseLocation.X < 0 ) || ( mouseLocation.X > parentSandPanel.ActualWidth ) || ( mouseLocation.Y < 0 ) || ( mouseLocation.Y > parentSandPanel.ActualHeight ) )
+            if( ( mouseLocation.X < 0 ) || ( mouseLocation.X > grid.ActualWidth ) || ( mouseLocation.Y < 0 ) || ( mouseLocation.Y > grid.ActualHeight ) )
             {
                 //-- Make the mouse cursor visible when it leaves the canvas
                 Mouse.OverrideCursor = null;
@@ -112,7 +112,7 @@ namespace Sand.Controls
             if( this.Movement == null ) { return; }
 
             //-- Validate the movement by rearranging the positions of all affected widgets 
-            var hoveredCell = ( (SandWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
+            var hoveredCell = grid.GetOccupiedGridCell( this );
             SandWidgetPositioner.ValidateWidgetMovement( this.Movement, hoveredCell );
         }
 
