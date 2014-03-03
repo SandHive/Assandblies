@@ -30,12 +30,6 @@ namespace Sand.Controls
     public class SandWidget : SandPanelItem
     {
         //---------------------------------------------------------------------
-        #region Fields
-
-        private SandWidgetMovement _movement;
-
-        #endregion Fields
-        //---------------------------------------------------------------------
         #region Properties
 
         public static DependencyProperty MouseDownEffectProperty = DependencyProperty.Register( "MouseDownEffect", typeof( Effect ), typeof( SandWidget ), new PropertyMetadata( new DropShadowEffect { Color = Colors.Black, Direction = 320, ShadowDepth = 4, Opacity = 1 } ) );
@@ -47,6 +41,11 @@ namespace Sand.Controls
             get { return (Effect) this.GetValue( SandWidget.MouseDownEffectProperty ); }
             set { this.SetValue( SandWidget.MouseDownEffectProperty, value ); }
         }
+
+        /// <summary>
+        /// Gets or sets the widget movement object.
+        /// </summary>
+        internal SandWidgetMovement Movement { get; set; }
 
         public static DependencyProperty TileSizeProperty = DependencyProperty.Register( "TileSize", typeof( Size ), typeof( SandWidget ), new PropertyMetadata( new Size( 1.0, 1.0 ) ) );
         /// <summary>
@@ -80,7 +79,7 @@ namespace Sand.Controls
             homeGridCell.IsHome = true;
             homeGridCell.OnWidgetEnter( this );
 
-            _movement = new SandWidgetMovement( this, homeGridCell );
+            this.Movement = new SandWidgetMovement( this, homeGridCell );
 
             Debug.WriteLine( string.Format( "Widget moving started (Name: {0}; Cell: {1})", this.Name, homeGridCell ) );
         }
@@ -110,24 +109,24 @@ namespace Sand.Controls
             //-- The mouse is captured in the SandPanelItem.OnMouseDown method
             //-- which will result in a firing of the MouseMove event although
             //-- the MouseDown event handler is not completely processed
-            if( _movement == null ) { return; }
+            if( this.Movement == null ) { return; }
 
             //-- Validate the movement by rearranging the positions of all affected widgets 
             var hoveredCell = ( (SandWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
-            SandWidgetPositioner.ValidateWidgetMovement( _movement, hoveredCell );
+            SandWidgetPositioner.ValidateWidgetMovement( this.Movement, hoveredCell );
         }
 
         protected override void OnMouseUp( MouseButtonEventArgs e )
         {
             //-- The movement may be null when the mouse is pressed on an empty cell
             //-- and will be released on another cell's widget
-            if( _movement == null ) { return; }
+            if( this.Movement == null ) { return; }
 
-            Debug.WriteLine( string.Format( "Widget moving stopped (Name: {0}; Cell: {1})", this.Name, _movement.CurrentCell ) );
+            Debug.WriteLine( string.Format( "Widget moving stopped (Name: {0}; Cell: {1})", this.Name, this.Movement.CurrentCell ) );
             
             //-- Finish the movement (should be done first, before all data is reset)
-            _movement.HomeCell.IsHome = false;
-            _movement.CurrentCell.OnWidgetDropped( this );
+            this.Movement.HomeCell.IsHome = false;
+            this.Movement.CurrentCell.OnWidgetDropped( this );
             
             //-- Call the base implementation
             base.OnMouseUp( e );
@@ -137,7 +136,7 @@ namespace Sand.Controls
 
             //-- Reset all made settings
             this.Effect = null;
-            _movement = null;
+            this.Movement = null;
         }
 
         #endregion SandPanelItem Members
