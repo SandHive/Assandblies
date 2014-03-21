@@ -49,7 +49,6 @@
     <Compile Include="SandWidgetGridCellTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SandWidgetGridTests.cs" />
-    <Compile Include="SandWidgetPositionerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sand.Controls\Sand.Controls.csproj">

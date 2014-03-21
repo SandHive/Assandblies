@@ -32,27 +32,17 @@ namespace Sand.Controls
     internal sealed class SandWidgetMovement
     {
         //---------------------------------------------------------------------
-        #region Properties
+        #region Fields
 
-        /// <summary>
-        /// Gets or sets the current ISandWidgetGridCell object.
-        /// </summary>
-        public ISandWidgetGridCell CurrentCell { get; set; }
+        private ISandWidgetGridCell _currentCell;
 
-        /// <summary>
-        /// Gets the home ISandWidgetGridCell object (that's the cell where
-        /// the widget has started its movement).
-        /// </summary>
-        public ISandWidgetGridCell HomeCell { get; private set; }
+        private ISandWidgetGridCell _homeCell;
 
-        public SortedList<Guid, SandWidgetMovement> SubMovements { get; private set; }
+        private Dictionary<Guid, SandWidgetMovement>  _subMovements;
 
-        /// <summary>
-        /// Gets the widget to which this movement belongs.
-        /// </summary>
-        public SandWidget Widget { get; private set; }
+        private SandWidget _widget;
 
-        #endregion Properties
+        #endregion Fields
         //---------------------------------------------------------------------
         #region Constructors
 
@@ -65,70 +55,122 @@ namespace Sand.Controls
         /// <param name="homeCell">
         /// The home cell of the moving widget.
         /// </param>
-        public SandWidgetMovement( SandWidget widget, ISandWidgetGridCell homeCell )
+        private SandWidgetMovement( SandWidget widget, ISandWidgetGridCell homeCell )
         {
-            this.Widget = widget;
-            this.HomeCell = homeCell;
-            this.CurrentCell = homeCell;
+            _widget = widget;
+            _homeCell = homeCell;
+            _currentCell = homeCell;
         }
 
         #endregion Constructors
         //---------------------------------------------------------------------
         #region Methods
 
-        internal void AddSubMovement( SandWidgetMovement subMovement )
+        internal void MoveWidgetTo( ISandWidgetGridCell newCurrentCell )
         {
-            if( this.SubMovements == null )
+            if( newCurrentCell == null )
             {
-                this.SubMovements = new SortedList<Guid, SandWidgetMovement>();
+                throw new ArgumentNullException( "The new target cell may not be null!" );
             }
+            if( newCurrentCell == _currentCell ) { return; }
 
-            try
+            var grid = (SandWidgetGrid) _widget.Parent;
+
+            grid.BeginInit();
+
+            //-- Remove the widget from the current cell
+            _currentCell.OnWidgetLeave( _widget );
+
+            //-- Check if the new current cell contains a widget that has to be moved to the old current cell
+            if( newCurrentCell.ContainsWidget )
             {
-                //-- Do not test if the sub movement is in the dictionary, because 
-                //-- we would throw an exeption anyway
-                this.SubMovements.Add( subMovement.Widget.Guid, subMovement );
+                //-- Keep the widget that should be swapped in mind
+                var swapWidget = newCurrentCell.Widget;
+
+                //-- Remove the swap widget from the new current cell
+                newCurrentCell.Widget = null;
+
+                //-- Add the swap widget to the old current cell
+                _currentCell.OnWidgetDropped( swapWidget );
+
+                if( _subMovements == null )
+                {
+                    _subMovements = new Dictionary<Guid, SandWidgetMovement>();
+                }
+
+                foreach( var subMovement in _subMovements.Values )
+                {
+                    this.ValidateSubMovement( subMovement );
+                }
+
+                if( !_subMovements.ContainsKey( swapWidget.Guid ) )
+                {
+                    _subMovements.Add( swapWidget.Guid, new SandWidgetMovement( swapWidget, newCurrentCell ) );
+
+                    Debug.WriteLine( string.Format( "# sub movements: {0}", _subMovements.Count ) );
+                }
             }
-            catch
-            {
-                Debug.WriteLine( String.Format( "Exception when adding sub movement {0} to movement {1}", subMovement, this ), "EXCEPTION" );
-            }
+            
+            //-- Add the moving widget to the new current cell ...
+            _currentCell = newCurrentCell;
+            //-- ... (but do not use the "OnWidgetDropped" method to avoid a 
+            //-- flickering when the widget is centered within the cell)
+            _currentCell.Widget = _widget;
+            _currentCell.OnWidgetEnter( _widget );
+
+            grid.EndInit();
         }
 
-        internal void RemoveSubMovement( SandWidgetMovement subMovement )
+        internal static SandWidgetMovement Start( SandWidget widget, ISandWidgetGridCell homeCell )
         {
-            if( this.SubMovements == null )
-            {
-                //-- Do not test if the sub movement is in the dictionary, because 
-                //-- we would throw an exeption anyway
-                this.SubMovements.Remove( subMovement.Widget.Guid );
-            }
+            homeCell.IsHome = true;
+            homeCell.OnWidgetEnter( widget );
+
+            return new SandWidgetMovement( widget, homeCell );
+        }
+
+        internal void Stop()
+        {
+            Debug.WriteLine( string.Format( "Widget moving stopped (Name: {0}; Cell: {1})", _widget.Name, _currentCell ) );
+
+            //-- 
+            _homeCell.IsHome = false;
+            _currentCell.OnWidgetDropped( _widget );
         }
 
         public override string ToString()
         {
             //-- Assemble the main movement data
-            string result = String.Format( "( Widget Name: {0}, Home Cell: {1}, Current Cell: {2} )", this.Widget.Name, this.HomeCell, this.CurrentCell );
+            string result = String.Format( "( Widget Name: {0}, Home Cell: {1}, Current Cell: {2} )", _widget.Name, _homeCell, _currentCell );
 
             #region //-- Assemble the sub movement data
 
-            if( ( this.SubMovements != null ) && ( this.SubMovements.Count > 0 ) )
-            {
-                result += String.Format( "\r\n\t=== Sub Movements ({0}) ===", this.SubMovements.Count );
+            //if( ( this.SubMovements != null ) && ( this.SubMovements.Count > 0 ) )
+            //{
+            //    result += String.Format( "\r\n\t=== Sub Movements ({0}) ===", this.SubMovements.Count );
 
-                foreach( var subMovement in this.SubMovements )
-                {
-                    result += String.Format( "\r\n\t- {0}", subMovement );
-                }
-            }
+            //    foreach( var subMovement in this.SubMovements )
+            //    {
+            //        result += String.Format( "\r\n\t- {0}", subMovement );
+            //    }
+            //}
 
             #endregion //-- Assemble the sub movement data
 
             return result;
         }
 
+        private void ValidateSubMovement( SandWidgetMovement subMovement )
+        {
+            if( subMovement._homeCell == _currentCell ) { return; }
+
+            //--
+
+        }
+
         #endregion Methods
         //---------------------------------------------------------------------
+
     }
 }
 //-----------------------------------------------------------------------------

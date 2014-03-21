@@ -76,10 +76,7 @@ namespace Sand.Controls
 
             //-- Initialize a new widget movement
             var homeGridCell = ( (SandWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
-            homeGridCell.IsHome = true;
-            homeGridCell.OnWidgetEnter( this );
-
-            this.Movement = new SandWidgetMovement( this, homeGridCell );
+            this.Movement = SandWidgetMovement.Start( this, homeGridCell );
 
             Debug.WriteLine( string.Format( "Widget moving started (Name: {0}; Cell: {1})", this.Name, homeGridCell ) );
         }
@@ -113,7 +110,7 @@ namespace Sand.Controls
 
             //-- Validate the movement by rearranging the positions of all affected widgets 
             var hoveredCell = grid.GetOccupiedGridCell( this );
-            SandWidgetPositioner.ValidateWidgetMovement( this.Movement, hoveredCell );
+            this.Movement.MoveWidgetTo( hoveredCell );
         }
 
         protected override void OnMouseUp( MouseButtonEventArgs e )
@@ -122,11 +119,7 @@ namespace Sand.Controls
             //-- and will be released on another cell's widget
             if( this.Movement == null ) { return; }
 
-            Debug.WriteLine( string.Format( "Widget moving stopped (Name: {0}; Cell: {1})", this.Name, this.Movement.CurrentCell ) );
-            
-            //-- Finish the movement (should be done first, before all data is reset)
-            this.Movement.HomeCell.IsHome = false;
-            this.Movement.CurrentCell.OnWidgetDropped( this );
+            this.Movement.Stop();
             
             //-- Call the base implementation
             base.OnMouseUp( e );

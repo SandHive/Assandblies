@@ -124,7 +124,7 @@ namespace Sand.Controls
 
         public void OnWidgetDropped( SandWidget widget )
         {
-            if( this.Widget != null )
+            if( ( this.Widget != null ) && ( this.Widget != widget ) )
             {
                 throw new InvalidOperationException( "The cell is already occupied!" );
             }
@@ -148,15 +148,21 @@ namespace Sand.Controls
             #endregion //-- Place the widget to the cell's center
         }
 
-        public void OnWidgetEnter( SandWidget widget )
+        public void OnWidgetEnter( SandWidget enteringWidget )
         {
             this.IsHovered = true;
             this.RaiseEvent( new RoutedEventArgs( SandWidgetGridCell.WidgetEnterEvent ) );
         }
 
-        public void OnWidgetLeave( SandWidget widget )
+        public void OnWidgetLeave( SandWidget leavingWidget )
         {
+            if( this.Widget != leavingWidget )
+            {
+                throw new ArgumentException( "Invalid leaving widget!" );
+            }
+
             this.IsHovered = false;
+            this.Widget = null;
             this.RaiseEvent( new RoutedEventArgs( SandWidgetGridCell.WidgetLeaveEvent ) );
         }
 
