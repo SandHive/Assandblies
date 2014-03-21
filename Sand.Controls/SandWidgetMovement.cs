@@ -123,6 +123,11 @@ namespace Sand.Controls
 
         internal static SandWidgetMovement Start( SandWidget widget, ISandWidgetGridCell homeCell )
         {
+            if( widget == null )
+                throw new ArgumentNullException( null, "The widget may not be null!" );
+            if( homeCell == null )
+                throw new ArgumentNullException( null, "The home cell may not be null!" );
+
             homeCell.IsHome = true;
             homeCell.OnWidgetEnter( widget );
 
