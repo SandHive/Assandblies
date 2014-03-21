@@ -48,6 +48,21 @@ namespace Sand.Controls.Tests
             SandWidgetMovement.Start( widget, null );
         }
 
+        [Test]
+        public void StartStop_ValidTest()
+        {
+            //-- Create necessary objects
+            var grid = new SandWidgetGrid();
+            var widget = new SandWidget() { Content = "Test", Name = "_1" }; grid.AddWidget( widget );
+            var homeCell = grid.WidgetGridCells[0, 0];
+
+            var widgetMovement = SandWidgetMovement.Start( widget, homeCell );
+            Assert.AreEqual( true, homeCell.IsHome, "The cell that was set at \"SandWidgetMovement.Start\" should be marked as home cell!" );
+
+            widgetMovement.Stop();
+            Assert.AreEqual( false, homeCell.IsHome, "When stopping a widget movement, the home cell mark should be removed!" );
+        }
+
         #endregion Tests
         //---------------------------------------------------------------------
     }
