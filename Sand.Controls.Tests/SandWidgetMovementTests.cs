@@ -71,6 +71,32 @@ namespace Sand.Controls.Tests
         }
 
         [Test]
+        public void MoveWidgetTo_MoveToOccupiedNeighborCellTest()
+        {
+            //-- Create necessary objects
+            var grid = new SandWidgetGrid();
+            var widget1 = new SandWidget() { Content = "Test", Name = "_1" }; grid.AddWidget( widget1, 0, 0 );
+            var widget2 = new SandWidget() { Content = "Test", Name = "_2" }; grid.AddWidget( widget2, 0, 1 );
+            var homeCell = grid.WidgetGridCells[0, 0];
+            var neighborCell = grid.WidgetGridCells[0, 1];
+
+            //-- Check the cell's widget before calling the "MoveWidgetTo" method ...
+            var movement = SandWidgetMovement.Start( widget1, homeCell );
+            Assert.AreEqual( widget1, homeCell.Widget );
+            Assert.AreEqual( widget2, neighborCell.Widget );
+
+            //-- ... and afterwards ...
+            movement.MoveWidgetTo( neighborCell );
+            Assert.AreEqual( widget2, homeCell.Widget );
+            Assert.AreEqual( widget1, neighborCell.Widget );
+
+            //-- ... and after the widget was moved back to its home cell
+            movement.MoveWidgetTo( homeCell );
+            Assert.AreEqual( widget1, homeCell.Widget );
+            Assert.AreEqual( widget2, neighborCell.Widget );
+        }
+
+        [Test]
         public void StartStop_ValidTest()
         {
             //-- Create necessary objects
