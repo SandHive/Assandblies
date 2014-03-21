@@ -31,13 +31,6 @@ namespace Sand.Controls.Tests
         #region Tests
 
         [Test]
-        [ExpectedException( typeof( ArgumentNullException ), ExpectedMessage = "The widget may not be null!" )]
-        public void Start_WidgetArgumentNullTest()
-        {
-            SandWidgetMovement.Start( null, null );
-        }
-
-        [Test]
         [ExpectedException( typeof( ArgumentNullException ), ExpectedMessage = "The home cell may not be null!" )]
         public void Start_HomeCellArgumentNullTest()
         {
@@ -46,6 +39,35 @@ namespace Sand.Controls.Tests
             var widget = new SandWidget() { Content = "Test", Name = "_1" }; grid.AddWidget( widget );
 
             SandWidgetMovement.Start( widget, null );
+        }
+
+        [Test]
+        [ExpectedException( typeof( ArgumentNullException ), ExpectedMessage = "The widget may not be null!" )]
+        public void Start_WidgetArgumentNullTest()
+        {
+            SandWidgetMovement.Start( null, null );
+        }
+
+        [Test]
+        public void MoveWidgetTo_MoveToEmptyNeighborCellTest()
+        {
+            //-- Create necessary objects
+            var grid = new SandWidgetGrid();
+            var widget = new SandWidget() { Content = "Test", Name = "_1" }; grid.AddWidget( widget, 0, 0 );
+            var homeCell = grid.WidgetGridCells[0, 0];
+            var neighborCell = grid.WidgetGridCells[0, 1];
+
+            var movement = SandWidgetMovement.Start( widget, homeCell );
+
+            //-- Check the cell's widget before calling the "MoveWidgetTo" method ...
+            Assert.AreEqual( widget, homeCell.Widget );
+            Assert.AreEqual( null, neighborCell.Widget );
+
+            movement.MoveWidgetTo( neighborCell );
+
+            //-- ... and afterwards
+            Assert.AreEqual( null, homeCell.Widget );
+            Assert.AreEqual( widget, neighborCell.Widget );
         }
 
         [Test]
