@@ -71,31 +71,38 @@ namespace Sand.Controls.Tests
         }
 
         [Test]
-        public void MoveWidgetTo_MoveToOccupiedNeighborCellTest()
+        public void MoveWidgetTo_MoveToOccupiedNeighborCellsTest()
         {
             //-- Create necessary objects
             var grid = new SandWidgetGrid();
-            var widget1 = new SandWidget() { Content = "Test", Name = "_1" }; grid.AddWidget( widget1, 0, 0 );
-            var widget2 = new SandWidget() { Content = "Test", Name = "_2" }; grid.AddWidget( widget2, 0, 1 );
+            var movingWidget = new SandWidget() { Content = "movingWidget", Name = "movingWidget" }; grid.AddWidget( movingWidget, 0, 0 );
+            var neighborWidget1 = new SandWidget() { Content = "neighborWidget1", Name = "neighborWidget1" }; grid.AddWidget( neighborWidget1, 0, 1 );
+            var neighborWidget2 = new SandWidget() { Content = "neighborWidget2", Name = "neighborWidget2" }; grid.AddWidget( neighborWidget2, 0, 2 );
             var homeCell = grid.WidgetGridCells[0, 0];
-            var neighborCell = grid.WidgetGridCells[0, 1];
+            var neighborCell1 = grid.WidgetGridCells[0, 1];
+            var neighborCell2 = grid.WidgetGridCells[0, 2];
 
-            //-- Check the cell's widget before calling the "MoveWidgetTo" method ...
-            var movement = SandWidgetMovement.Start( widget1, homeCell );
-            Assert.AreEqual( widget1, homeCell.Widget );
-            Assert.AreEqual( widget2, neighborCell.Widget );
+            //-- Check the cell's widget before executing the first "MoveWidgetTo" call ...
+            var movement = SandWidgetMovement.Start( movingWidget, homeCell );
+            Assert.AreEqual( movingWidget, homeCell.Widget );
+            Assert.AreEqual( neighborWidget1, neighborCell1.Widget );
+            Assert.AreEqual( neighborWidget2, neighborCell2.Widget );
 
             //-- ... and afterwards ...
-            movement.MoveWidgetTo( neighborCell );
-            Assert.AreEqual( widget2, homeCell.Widget );
-            Assert.AreEqual( widget1, neighborCell.Widget );
+            movement.MoveWidgetTo( neighborCell1 );
+            Assert.AreEqual( neighborWidget1, homeCell.Widget );
+            Assert.AreEqual( movingWidget, neighborCell1.Widget );
+            Assert.AreEqual( neighborWidget2, neighborCell2.Widget );
 
-            //-- ... and after the widget was moved back to its home cell
-            movement.MoveWidgetTo( homeCell );
-            Assert.AreEqual( widget1, homeCell.Widget );
-            Assert.AreEqual( widget2, neighborCell.Widget );
+            //-- ... and after the second "MoveWidgetTo" call
+            movement.MoveWidgetTo( neighborCell2 );
+            //-- Notice: When moving a second time, the first swapped widget (in this case "neighborWidget1")
+            //-- should be moved back to its own home cell which is not occupied any more by the moving widget
+            Assert.AreEqual( neighborWidget2, homeCell.Widget );
+            Assert.AreEqual( neighborWidget1, neighborCell1.Widget );
+            Assert.AreEqual( movingWidget, neighborCell2.Widget );
         }
-
+        
         [Test]
         public void StartStop_ValidTest()
         {
