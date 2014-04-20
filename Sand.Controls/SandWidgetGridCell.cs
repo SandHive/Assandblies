@@ -124,10 +124,11 @@ namespace Sand.Controls
 
         public void OnWidgetDropped( SandWidget widget )
         {
-            if( ( this.Widget != null ) && ( this.Widget != widget ) )
-            {
+            if( //-- Check that this cell is not occupied ...
+                ( this.Widget != null ) &&
+                //-- ... but consider the case when moving back to the own home cell
+                ( this.Widget != widget ) )
                 throw new InvalidOperationException( "The cell is already occupied!" );
-            }
 
             this.Widget = widget;
             this.IsHovered = false;
