@@ -22,6 +22,8 @@
 using Sand.Controls;
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -32,7 +34,7 @@ namespace SandPanelPrototype
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IDisposable
     {
         /// <summary>
         /// A simple trace listener for writing debug messages into a TextBox.
@@ -93,6 +95,20 @@ namespace SandPanelPrototype
         }
 
         //---------------------------------------------------------------------
+        #region Constants
+
+        private readonly Cursor TARGET_CURSOR;
+
+        private readonly Cursor TARGET_HOVERED_CURSOR;
+
+        #endregion Constants
+        //---------------------------------------------------------------------
+        #region Fields
+
+        private bool _isManualWidgetMovingEnabled;
+
+        #endregion Fields
+        //---------------------------------------------------------------------
         #region Properties
 
         public static DependencyProperty CellGuidProperty = DependencyProperty.Register( "CellGuid", typeof( Guid ), typeof( MainWindow ), new PropertyMetadata( Guid.Empty ) );
@@ -144,6 +160,13 @@ namespace SandPanelPrototype
         public MainWindow()
         {
             InitializeComponent();
+
+            var executingAssembly = Assembly.GetExecutingAssembly();
+            var executingAssemblyLocation = Path.GetDirectoryName( executingAssembly.Location );
+            var imagesLocation = Path.Combine( executingAssemblyLocation, "Images" );
+
+            TARGET_CURSOR = new Cursor( Path.Combine( imagesLocation, "Sniper Scope_Normal Select.ani" ) );
+            TARGET_HOVERED_CURSOR = new Cursor( Path.Combine( imagesLocation, "Sniper Scope_Link Select.ani" ) );
         }
 
         #endregion Constructors
@@ -267,6 +290,12 @@ namespace SandPanelPrototype
             );
         }
 
+        private void SelectWidgetButton_Click( object sender, RoutedEventArgs e )
+        {
+            Mouse.OverrideCursor = TARGET_CURSOR;
+            _isManualWidgetMovingEnabled = true;
+        }
+
         private void Window_Loaded( object sender, RoutedEventArgs e )
         {
             Debug.Listeners.Add( new ListBoxTraceListener( _DebugOutputListBox ) );
@@ -291,15 +320,35 @@ namespace SandPanelPrototype
                 var widget = cell.Widget;
                 this.WidgetGuid = widget.Guid.ToString();
                 this.WidgetName = widget.Name;
+
+                if( _isManualWidgetMovingEnabled )
+                {
+                    Mouse.OverrideCursor = TARGET_HOVERED_CURSOR;
+                }
             }
             else
             {
                 this.WidgetGuid = String.Empty;
                 this.WidgetName = String.Empty;
+
+                if( _isManualWidgetMovingEnabled )
+                {
+                    Mouse.OverrideCursor = TARGET_CURSOR;
+                }
             }           
         }
         
         #endregion Event Handling
+        //---------------------------------------------------------------------
+        #region IDisposable
+
+        public void Dispose()
+        {
+            TARGET_CURSOR.Dispose();
+            TARGET_HOVERED_CURSOR.Dispose();
+        }
+
+        #endregion IDisposable
         //---------------------------------------------------------------------
     }
 }

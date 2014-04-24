@@ -55,7 +55,7 @@
                 </StackPanel>
             </GroupBox>
 
-            <!-- Cell Details at Mouse Cursor -->
+            <!-- Widget Details at Mouse Cursor -->
             <GroupBox Header="Widget Details at Mouse Cursor">
                 <StackPanel>
                     <DockPanel>
@@ -119,6 +119,30 @@
                     <Button Click="Add3x2WidgetButton_Click" Content="3x2" Grid.Column="1" Grid.Row="2" Name="Add3x2WidgetButton" />
                     <Button Click="Add3x3WidgetButton_Click" Content="3x3" Grid.Column="2" Grid.Row="2" Name="Add3x3WidgetButton" />
                 </Grid>
+            </GroupBox>
+
+            <!-- Add Widget Buttons -->
+            <GroupBox Header="Manual Widget Moving">
+                <StackPanel>
+                    <Button Click="SelectWidgetButton_Click" Content="Select Widget" Margin="7" Name="SelectWidgetButton" />
+                    <Separator Margin="7,0,7,7" />
+                    <StackPanel>
+                        <StackPanel.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="Height" Value="28" />
+                            <Setter Property="IsEnabled" Value="False" />
+                            <Setter Property="Margin" Value="1" />
+                            <Setter Property="Width" Value="40" />
+                        </Style>
+                    </StackPanel.Resources>
+                        <Button HorizontalAlignment="Center" Content="Up" />
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <Button Content="Left" />
+                            <Button Content="Down" />
+                            <Button Content="Right" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
             </GroupBox>
 
         </StackPanel>
