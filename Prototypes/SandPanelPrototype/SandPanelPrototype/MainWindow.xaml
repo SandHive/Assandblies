@@ -2,6 +2,7 @@
 <Window 
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:sc="clr-namespace:Sand.Controls;assembly=Sand.Controls"
+    xmlns:scc="clr-namespace:Sand.Controls.Converters;assembly=Sand.Controls"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="SandPanelPrototype.MainWindow"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
@@ -39,6 +40,8 @@
                     <Setter Property="Margin" Value="2" />
                     <Setter Property="Width" Value="70" />
                 </Style>
+                
+                <scc:InvertBooleanConverter x:Key="InvertedBooleanConverter" />
 
             </StackPanel.Resources>
 
@@ -97,7 +100,7 @@
             </GroupBox>
 
             <!-- Add Widget Buttons -->
-            <GroupBox Header="Add Widgets">
+            <GroupBox Header="Add Widgets" IsEnabled="{Binding IsManualWidgetMovingEnabled, Converter={StaticResource InvertedBooleanConverter}}">
                 <Grid Margin="3">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />

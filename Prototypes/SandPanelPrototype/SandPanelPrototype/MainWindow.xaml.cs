@@ -105,7 +105,6 @@ namespace SandPanelPrototype
         //---------------------------------------------------------------------
         #region Fields
 
-        private bool _isManualWidgetMovingEnabled;
         private bool _isManualWidgetSelectingEnabled;
 
         #endregion Fields
@@ -141,6 +140,17 @@ namespace SandPanelPrototype
         {
             get { return (Point) this.GetValue( MainWindow.CellIndexesProperty ); }
             private set { this.SetValue( MainWindow.CellIndexesProperty, value ); }
+        }
+
+        public static DependencyProperty IsManualWidgetMovingEnabledProperty = DependencyProperty.Register( "IsManualWidgetMovingEnabled", typeof( bool ), typeof( MainWindow ), new PropertyMetadata( false ) );
+        /// <summary>
+        /// Gets a flag that indicates whether the manual widget moving is 
+        /// currently enabled or not.
+        /// </summary>
+        public bool IsManualWidgetMovingEnabled
+        {
+            get { return (bool) this.GetValue( MainWindow.IsManualWidgetMovingEnabledProperty ); }
+            private set { this.SetValue( MainWindow.IsManualWidgetMovingEnabledProperty, value ); }
         }
 
         public static DependencyProperty WidgetGuidProperty = DependencyProperty.Register( "WidgetGuid", typeof( String ), typeof( MainWindow ), new PropertyMetadata( String.Empty ) );
@@ -308,14 +318,14 @@ namespace SandPanelPrototype
             {
                 Mouse.OverrideCursor = TARGET_CURSOR;
 
-                _isManualWidgetMovingEnabled = true;
+                this.IsManualWidgetMovingEnabled = true;
                 _isManualWidgetSelectingEnabled = true;
             }
             else
             {
                 Mouse.OverrideCursor = null;
 
-                _isManualWidgetMovingEnabled = false;
+                this.IsManualWidgetMovingEnabled = false;
                 _isManualWidgetSelectingEnabled = false;
             }
         }
@@ -332,7 +342,7 @@ namespace SandPanelPrototype
 
         private void Window_PreviewMouseLeftButtonUp( object sender, MouseButtonEventArgs e )
         {
-            if( !_isManualWidgetMovingEnabled ) { return; }
+            if( !this.IsManualWidgetMovingEnabled ) { return; }
 
             var mousePosition = e.GetPosition( _sandWidgetGrid );
             var cell = _sandWidgetGrid.GetCellRelativeToPoint( mousePosition );
