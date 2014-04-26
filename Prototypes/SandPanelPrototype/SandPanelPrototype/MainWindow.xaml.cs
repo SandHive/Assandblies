@@ -302,14 +302,22 @@ namespace SandPanelPrototype
             );
         }
 
-        private void SelectWidgetButton_Click( object sender, RoutedEventArgs e )
+        private void SelectWidgetToggleButton_Click( object sender, RoutedEventArgs e )
         {
-            Mouse.OverrideCursor = TARGET_CURSOR;
-            
-            _isManualWidgetMovingEnabled = true;
-            _isManualWidgetSelectingEnabled = true;
+            if( SelectWidgetToggleButton.IsChecked == true )
+            {
+                Mouse.OverrideCursor = TARGET_CURSOR;
 
-            SelectWidgetButton.IsEnabled = false;
+                _isManualWidgetMovingEnabled = true;
+                _isManualWidgetSelectingEnabled = true;
+            }
+            else
+            {
+                Mouse.OverrideCursor = null;
+
+                _isManualWidgetMovingEnabled = false;
+                _isManualWidgetSelectingEnabled = false;
+            }
         }
 
         private void Window_Loaded( object sender, RoutedEventArgs e )

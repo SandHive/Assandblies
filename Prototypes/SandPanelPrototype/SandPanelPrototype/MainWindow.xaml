@@ -125,7 +125,7 @@
             <!-- Add Widget Buttons -->
             <GroupBox Header="Manual Widget Moving">
                 <StackPanel>
-                    <Button Click="SelectWidgetButton_Click" Content="Select Widget" Margin="7" Name="SelectWidgetButton" />
+                    <ToggleButton Click="SelectWidgetToggleButton_Click" Content="Select Widget" Margin="7" Name="SelectWidgetToggleButton" />
                     <Separator Margin="7,0,7,7" />
                     <StackPanel>
                         <StackPanel.Resources>
