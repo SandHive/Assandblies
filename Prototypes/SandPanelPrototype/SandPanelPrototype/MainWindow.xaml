@@ -7,6 +7,7 @@
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     Loaded="Window_Loaded"
     PreviewMouseMove="Window_PreviewMouseMove"
+    PreviewMouseLeftButtonUp="Window_PreviewMouseLeftButtonUp"
     Title="Prototype" 
     SizeToContent="WidthAndHeight"
     WindowStartupLocation="CenterScreen">
@@ -130,16 +131,16 @@
                         <StackPanel.Resources>
                         <Style TargetType="Button">
                             <Setter Property="Height" Value="28" />
-                            <Setter Property="IsEnabled" Value="False" />
+                            <Setter Property="IsEnabled" Value="{Binding AreManualWidgetMovingButtonsEnabled}" />
                             <Setter Property="Margin" Value="1" />
                             <Setter Property="Width" Value="40" />
                         </Style>
                     </StackPanel.Resources>
-                        <Button HorizontalAlignment="Center" Content="Up" />
+                        <Button Content="Up" HorizontalAlignment="Center" Name="ManualWidgetMovingUpButton" />
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                            <Button Content="Left" />
-                            <Button Content="Down" />
-                            <Button Content="Right" />
+                            <Button Content="Left" Name="ManualWidgetMovingLeftButton" />
+                            <Button Content="Down" Name="ManualWidgetMovingDownButton" />
+                            <Button Content="Right" Name="ManualWidgetMovingRightButton" />
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>

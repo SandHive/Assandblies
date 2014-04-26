@@ -106,10 +106,22 @@ namespace SandPanelPrototype
         #region Fields
 
         private bool _isManualWidgetMovingEnabled;
+        private bool _isManualWidgetSelectingEnabled;
 
         #endregion Fields
         //---------------------------------------------------------------------
         #region Properties
+
+        public static DependencyProperty AreManualWidgetMovingButtonsEnabledProperty = DependencyProperty.Register( "AreManualWidgetMovingButtonsEnabled", typeof( bool ), typeof( MainWindow ), new PropertyMetadata( false ) );
+        /// <summary>
+        /// Gets a flag that indicates whether the widget moving buttons are 
+        /// enabled or not.
+        /// </summary>
+        public bool AreManualWidgetMovingButtonsEnabled
+        {
+            get { return (bool) this.GetValue( MainWindow.AreManualWidgetMovingButtonsEnabledProperty ); }
+            private set { this.SetValue( MainWindow.AreManualWidgetMovingButtonsEnabledProperty, value ); }
+        }
 
         public static DependencyProperty CellGuidProperty = DependencyProperty.Register( "CellGuid", typeof( Guid ), typeof( MainWindow ), new PropertyMetadata( Guid.Empty ) );
         /// <summary>
@@ -293,7 +305,11 @@ namespace SandPanelPrototype
         private void SelectWidgetButton_Click( object sender, RoutedEventArgs e )
         {
             Mouse.OverrideCursor = TARGET_CURSOR;
+            
             _isManualWidgetMovingEnabled = true;
+            _isManualWidgetSelectingEnabled = true;
+
+            SelectWidgetButton.IsEnabled = false;
         }
 
         private void Window_Loaded( object sender, RoutedEventArgs e )
@@ -306,6 +322,22 @@ namespace SandPanelPrototype
             _sandWidgetGrid.AddWidget( new SandWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) }, Name = "_7" }, 3, 3 );
         }
 
+        private void Window_PreviewMouseLeftButtonUp( object sender, MouseButtonEventArgs e )
+        {
+            if( !_isManualWidgetMovingEnabled ) { return; }
+
+            var mousePosition = e.GetPosition( _sandWidgetGrid );
+            var cell = _sandWidgetGrid.GetCellRelativeToPoint( mousePosition );
+
+            if( cell.ContainsWidget )
+            {
+                Mouse.OverrideCursor = null;
+
+                _isManualWidgetSelectingEnabled = false;
+                this.AreManualWidgetMovingButtonsEnabled = true;
+            }
+        }
+        
         private void Window_PreviewMouseMove( object sender, MouseEventArgs e )
         {
             var mousePosition = e.GetPosition( _sandWidgetGrid );
@@ -321,7 +353,7 @@ namespace SandPanelPrototype
                 this.WidgetGuid = widget.Guid.ToString();
                 this.WidgetName = widget.Name;
 
-                if( _isManualWidgetMovingEnabled )
+                if( _isManualWidgetSelectingEnabled )
                 {
                     Mouse.OverrideCursor = TARGET_HOVERED_CURSOR;
                 }
@@ -331,7 +363,7 @@ namespace SandPanelPrototype
                 this.WidgetGuid = String.Empty;
                 this.WidgetName = String.Empty;
 
-                if( _isManualWidgetMovingEnabled )
+                if( _isManualWidgetSelectingEnabled )
                 {
                     Mouse.OverrideCursor = TARGET_CURSOR;
                 }
