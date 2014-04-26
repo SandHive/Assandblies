@@ -129,6 +129,7 @@
             <GroupBox Header="Manual Widget Moving">
                 <StackPanel>
                     <ToggleButton Click="SelectWidgetToggleButton_Click" Content="Select Widget" Margin="7" Name="SelectWidgetToggleButton" />
+                    <Button Click="StopManualWidgetMovingButton_Click" Content="Stop manual widget moving" Margin="7" Name="StopManualWidgetMovingButton" Visibility="Collapsed" />
                     <Separator Margin="7,0,7,7" />
                     <StackPanel>
                         <StackPanel.Resources>

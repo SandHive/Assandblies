@@ -107,6 +107,8 @@ namespace SandPanelPrototype
 
         private bool _isManualWidgetSelectingEnabled;
 
+        private SandWidget _manualMovingWidget;
+
         #endregion Fields
         //---------------------------------------------------------------------
         #region Properties
@@ -330,6 +332,13 @@ namespace SandPanelPrototype
             }
         }
 
+        private void StopManualWidgetMovingButton_Click( object sender, RoutedEventArgs e )
+        {
+            this.IsManualWidgetMovingEnabled = false;
+            StopManualWidgetMovingButton.Visibility = System.Windows.Visibility.Collapsed;
+            SelectWidgetToggleButton.Visibility = System.Windows.Visibility.Visible;
+        }
+        
         private void Window_Loaded( object sender, RoutedEventArgs e )
         {
             Debug.Listeners.Add( new ListBoxTraceListener( _DebugOutputListBox ) );
@@ -342,16 +351,35 @@ namespace SandPanelPrototype
 
         private void Window_PreviewMouseLeftButtonUp( object sender, MouseButtonEventArgs e )
         {
+            //-- Do nothing when the manual moving was not enabled before
             if( !this.IsManualWidgetMovingEnabled ) { return; }
 
+            //-- Determine the affected cell
             var mousePosition = e.GetPosition( _sandWidgetGrid );
             var cell = _sandWidgetGrid.GetCellRelativeToPoint( mousePosition );
 
             if( cell.ContainsWidget )
             {
+                //-- Reset the TARGET cursor
                 Mouse.OverrideCursor = null;
 
+                //-- Mark the widget selcting as finished (otherwise the TARGET cursors will be set again)
                 _isManualWidgetSelectingEnabled = false;
+
+                //-- Keep the widget that will be manually moved in mind
+                _manualMovingWidget = cell.Widget;
+
+                //-- Apply the widget name to the content of the moving stopping button ...
+                StopManualWidgetMovingButton.Content = String.Format( "Stop moving widget \"{0}\"", _manualMovingWidget.Name );
+                //-- ... and make the button visible
+                StopManualWidgetMovingButton.Visibility = System.Windows.Visibility.Visible;
+
+                //-- Reset the checked state of the toggle button ...
+                SelectWidgetToggleButton.IsChecked = false;
+                //-- ... and collapse it
+                SelectWidgetToggleButton.Visibility = System.Windows.Visibility.Collapsed;
+
+                //-- Activate the "Up", "Down", "Right" and "Left" buttons
                 this.AreManualWidgetMovingButtonsEnabled = true;
             }
         }
