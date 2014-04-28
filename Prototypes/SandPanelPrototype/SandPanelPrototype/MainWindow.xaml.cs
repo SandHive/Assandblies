@@ -334,9 +334,11 @@ namespace SandPanelPrototype
 
         private void StopManualWidgetMovingButton_Click( object sender, RoutedEventArgs e )
         {
+            //-- Reset all made settings again
+            this.AreManualWidgetMovingButtonsEnabled = false;
             this.IsManualWidgetMovingEnabled = false;
-            StopManualWidgetMovingButton.Visibility = System.Windows.Visibility.Collapsed;
             SelectWidgetToggleButton.Visibility = System.Windows.Visibility.Visible;
+            StopManualWidgetMovingButton.Visibility = System.Windows.Visibility.Collapsed;
         }
         
         private void Window_Loaded( object sender, RoutedEventArgs e )
