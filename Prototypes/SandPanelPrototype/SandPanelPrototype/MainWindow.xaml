@@ -167,6 +167,17 @@
                     <!-- <Style TargetType="{x:Type sc:SandWidget}"> -->
                     <Style TargetType="{x:Type sc:SandWidget}">
                         
+                        <Style.Triggers>
+                            <Trigger Property="sc:SandWidget.IsMoving" Value="True">
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="Black" Direction="320" Opacity="1" ShadowDepth="4" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>        
+                        </Style.Triggers>
+                        
+                        
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate>

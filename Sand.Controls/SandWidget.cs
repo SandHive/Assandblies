@@ -32,14 +32,14 @@ namespace Sand.Controls
         //---------------------------------------------------------------------
         #region Properties
 
-        public static DependencyProperty MouseDownEffectProperty = DependencyProperty.Register( "MouseDownEffect", typeof( Effect ), typeof( SandWidget ), new PropertyMetadata( new DropShadowEffect { Color = Colors.Black, Direction = 320, ShadowDepth = 4, Opacity = 1 } ) );
+        public static DependencyProperty IsMovingProperty = DependencyProperty.Register( "IsMoving", typeof( bool ), typeof( SandWidget ), new PropertyMetadata( false ) );
         /// <summary>
-        /// Gets or sets the effect when a mouse button is pressed.
+        /// Gets a flag that indicates whether the widget is moving or not.
         /// </summary>
-        public Effect MouseDownEffect
+        public bool IsMoving
         {
-            get { return (Effect) this.GetValue( SandWidget.MouseDownEffectProperty ); }
-            set { this.SetValue( SandWidget.MouseDownEffectProperty, value ); }
+            get { return (bool) this.GetValue( SandWidget.IsMovingProperty ); }
+            private set { this.SetValue( SandWidget.IsMovingProperty, value ); }
         }
 
         /// <summary>
@@ -69,14 +69,13 @@ namespace Sand.Controls
             //-- Check for abortion
             if( e.Handled ) { return; }
 
-            //-- Hide the mouse cursor ...
-            Mouse.OverrideCursor = Cursors.None;
-            //-- ... and show some nice effect around the affected item
-            this.Effect = this.MouseDownEffect;
+            //-- Hide the mouse cursor
+            Mouse.OverrideCursor = Cursors.None;            
 
             //-- Initialize a new widget movement
             var homeGridCell = ( (SandWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
             this.Movement = SandWidgetMovement.Start( this, homeGridCell );
+            this.IsMoving = true;
 
             Debug.WriteLine( string.Format( "Widget moving started (Name: {0}; Cell: {1})", this.Name, homeGridCell ) );
         }
@@ -128,7 +127,7 @@ namespace Sand.Controls
             Mouse.OverrideCursor = null;
 
             //-- Reset all made settings
-            this.Effect = null;
+            this.IsMoving = false;
             this.Movement = null;
         }
 
