@@ -460,8 +460,18 @@ namespace SandPanelPrototype
         //---------------------------------------------------------------------
         #region Methods
 
+        /// <summary>
+        /// Moves the selected widget relative to its current cell.
+        /// </summary>
+        /// <param name="xOffset">
+        /// The offset by which the widget should be moved on the x axe.  
+        /// </param>
+        /// <param name="yOffset">
+        /// The offset by which the widget should be moved on the y axe.
+        /// </param>
         private void moveWidgetRelativeToCurrentCell( int xOffset, int yOffset )
         {
+            //-- No selected widget -> no moving!
             if( _manualMovingWidget == null ) { return; }
 
             if( _manualMovingWidget.Movement == null ) 
@@ -503,7 +513,10 @@ namespace SandPanelPrototype
             #endregion var nextYIndex = ...
             var nextCell = _sandWidgetGrid.WidgetGridCells[nextXIndex, nextYIndex];
 
+            //-- Move the widget to the new cell
             _manualMovingWidget.Movement.MoveWidgetTo( nextCell );
+
+            //-- Place the widget to the new cell's center
             nextCell.OnWidgetDropped( _manualMovingWidget );
         }
 
