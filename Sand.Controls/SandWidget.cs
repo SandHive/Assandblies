@@ -43,9 +43,9 @@ namespace Sand.Controls
         }
 
         /// <summary>
-        /// Gets or sets the widget movement object.
+        /// Gets the widget movement object.
         /// </summary>
-        internal SandWidgetMovement Movement { get; set; }
+        internal SandWidgetMovement Movement { get; private set; }
 
         public static DependencyProperty TileSizeProperty = DependencyProperty.Register( "TileSize", typeof( Size ), typeof( SandWidget ), new PropertyMetadata( new Size( 1.0, 1.0 ) ) );
         /// <summary>
@@ -70,14 +70,10 @@ namespace Sand.Controls
             if( e.Handled ) { return; }
 
             //-- Hide the mouse cursor
-            Mouse.OverrideCursor = Cursors.None;            
+            Mouse.OverrideCursor = Cursors.None;
 
-            //-- Initialize a new widget movement
-            var homeGridCell = ( (SandWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
-            this.Movement = SandWidgetMovement.Start( this, homeGridCell );
-            this.IsMoving = true;
-
-            Debug.WriteLine( string.Format( "Widget moving started (Name: {0}; Cell: {1})", this.Name, homeGridCell ) );
+            //-- Start a new movement
+            this.StartMovement();
         }
 
         protected override void OnMouseMove( MouseEventArgs e )
@@ -132,6 +128,23 @@ namespace Sand.Controls
         }
 
         #endregion SandPanelItem Members
+        //---------------------------------------------------------------------
+        #region Methods
+
+        /// <summary>
+        /// Starts a new movement.
+        /// </summary>
+        internal void StartMovement()
+        {
+            //-- Initialize a new widget movement
+            var homeGridCell = ( (SandWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
+            this.Movement = SandWidgetMovement.Start( this, homeGridCell );
+            this.IsMoving = true;
+
+            Debug.WriteLine( string.Format( "Widget moving started (Name: {0}; Cell: {1})", this.Name, homeGridCell ) );
+        }
+
+        #endregion Methods
         //---------------------------------------------------------------------
     }
 }
