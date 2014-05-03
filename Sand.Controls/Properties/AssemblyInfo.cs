@@ -41,5 +41,6 @@ using System.Runtime.InteropServices;
 
 //-- Make all internal stuff visible for the corresponding testing assembly 
 [assembly: InternalsVisibleTo( "Sand.Controls.Tests" )]
+[assembly: InternalsVisibleTo( "SandPanelPrototype" )]
 
 //-----------------------------------------------------------------------------

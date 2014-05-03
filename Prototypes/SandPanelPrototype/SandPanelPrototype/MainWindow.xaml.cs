@@ -197,6 +197,8 @@ namespace SandPanelPrototype
         //---------------------------------------------------------------------
         #region Event Handling
 
+        #region Widget Adding
+
         private void Add1x1WidgetButton_Click( object sender, RoutedEventArgs e )
         {
             _sandWidgetGrid.AddItem( 
@@ -314,6 +316,32 @@ namespace SandPanelPrototype
             );
         }
 
+        #endregion Widget Adding
+
+        #region Manual Widget Moving
+
+        private void ManualWidgetMovingDownButton_Click( object sender, RoutedEventArgs e )
+        {
+            this.moveWidgetRelativeToCurrentCell( 0, 1 );
+        }
+
+        private void ManualWidgetMovingLeftButton_Click( object sender, RoutedEventArgs e )
+        {
+            this.moveWidgetRelativeToCurrentCell( -1, 0 );
+        }
+
+        private void ManualWidgetMovingRightButton_Click( object sender, RoutedEventArgs e )
+        {
+            this.moveWidgetRelativeToCurrentCell( 1, 0 );
+        }
+
+        private void ManualWidgetMovingUpButton_Click( object sender, RoutedEventArgs e )
+        {
+            this.moveWidgetRelativeToCurrentCell( 0, -1 );
+        }
+
+        #endregion Manual Widget Moving
+
         private void SelectWidgetToggleButton_Click( object sender, RoutedEventArgs e )
         {
             if( SelectWidgetToggleButton.IsChecked == true )
@@ -429,6 +457,57 @@ namespace SandPanelPrototype
         }
 
         #endregion IDisposable
+        //---------------------------------------------------------------------
+        #region Methods
+
+        private void moveWidgetRelativeToCurrentCell( int xOffset, int yOffset )
+        {
+            if( _manualMovingWidget == null ) { return; }
+
+            if( _manualMovingWidget.Movement == null ) 
+            { 
+                //-- Start a movement when there is none available yet
+                _manualMovingWidget.StartMovement(); 
+            }
+
+            //-- Create a shortcut for the current cell
+            var currentCell = _manualMovingWidget.Movement.currentCell;
+
+            #region var nextXIndex = ...
+
+            //-- Determine the next x index in consideration of the grid borders
+            var nextXIndex = currentCell.XCellIndex + xOffset;
+            if( nextXIndex < 0 ) 
+            { 
+                nextXIndex = 0; 
+            }
+            else if( nextXIndex > _sandWidgetGrid.ColumnCount - 1 )
+            {
+                nextXIndex = _sandWidgetGrid.ColumnCount - 1;
+            }
+
+            #endregion var nextXIndex = ...
+            #region var nextYIndex = ...
+
+            //-- Determine the next y index in consideration of the grid borders
+            var nextYIndex = currentCell.YCellIndex + yOffset;
+            if( nextYIndex < 0 )
+            {
+                nextYIndex = 0;
+            }
+            else if( nextYIndex > _sandWidgetGrid.RowCount - 1 )
+            {
+                nextYIndex = _sandWidgetGrid.RowCount - 1;
+            }
+
+            #endregion var nextYIndex = ...
+            var nextCell = _sandWidgetGrid.WidgetGridCells[nextXIndex, nextYIndex];
+
+            _manualMovingWidget.Movement.MoveWidgetTo( nextCell );
+            nextCell.OnWidgetDropped( _manualMovingWidget );
+        }
+
+        #endregion Methods
         //---------------------------------------------------------------------
     }
 }

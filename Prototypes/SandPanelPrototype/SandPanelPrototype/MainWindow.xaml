@@ -140,11 +140,11 @@
                             <Setter Property="Width" Value="40" />
                         </Style>
                     </StackPanel.Resources>
-                        <Button Content="Up" HorizontalAlignment="Center" Name="ManualWidgetMovingUpButton" />
+                        <Button Click="ManualWidgetMovingUpButton_Click" Content="Up" HorizontalAlignment="Center" Name="ManualWidgetMovingUpButton" />
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                            <Button Content="Left" Name="ManualWidgetMovingLeftButton" />
-                            <Button Content="Down" Name="ManualWidgetMovingDownButton" />
-                            <Button Content="Right" Name="ManualWidgetMovingRightButton" />
+                            <Button Click="ManualWidgetMovingLeftButton_Click" Content="Left" Name="ManualWidgetMovingLeftButton" />
+                            <Button Click="ManualWidgetMovingDownButton_Click" Content="Down" Name="ManualWidgetMovingDownButton" />
+                            <Button Click="ManualWidgetMovingRightButton_Click" Content="Right" Name="ManualWidgetMovingRightButton" />
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
