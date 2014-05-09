@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 2013 - 2014 The Sand Hive Project
+﻿/* Copyright (c) 2013 - 2014 The Sandhive Project (http://sandhive.org)
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy 
  * of this software and associated documentation files (the "Software"), to 
