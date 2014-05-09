@@ -362,6 +362,10 @@ namespace SandPanelPrototype
 
         private void StopManualWidgetMovingButton_Click( object sender, RoutedEventArgs e )
         {
+            //-- Stop the manual widget moving
+            _manualMovingWidget.StopMovement();
+            _manualMovingWidget = null;
+
             //-- Reset all made settings again
             this.AreManualWidgetMovingButtonsEnabled = false;
             this.IsManualWidgetMovingEnabled = false;

@@ -129,17 +129,13 @@ namespace Sand.Controls
             //-- and will be released on another cell's widget
             if( this.Movement == null ) { return; }
 
-            this.Movement.Stop();
+            this.StopMovement();
             
             //-- Call the base implementation
             base.OnMouseUp( e );
 
             //-- The mouse cursor was set to Cursors.None before, so let's reset it again
             Mouse.OverrideCursor = null;
-
-            //-- Reset all made settings
-            this.IsMoving = false;
-            this.Movement = null;
         }
 
         #endregion SandPanelItem Members
@@ -172,6 +168,20 @@ namespace Sand.Controls
             this.IsMoving = true;
 
             Debug.WriteLine( string.Format( "Widget moving started (Name: {0}; Cell: {1})", this.Name, homeGridCell ) );
+        }
+
+        /// <summary>
+        /// Stops the widget moving.
+        /// </summary>
+        internal void StopMovement()
+        {
+            //-- Stop and reset the movement
+            this.Movement.Stop();
+            this.Movement = null;
+
+            //-- Reset other members
+            _isManualModeEnabled = false;
+            this.IsMoving = false;
         }
 
         #endregion Methods
