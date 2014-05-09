@@ -30,6 +30,12 @@ namespace Sand.Controls
     public class SandWidget : SandPanelItem
     {
         //---------------------------------------------------------------------
+        #region Fields
+
+        private bool _isManualModeEnabled;
+
+        #endregion Fields
+        //---------------------------------------------------------------------
         #region Properties
 
         public static DependencyProperty IsMovingProperty = DependencyProperty.Register( "IsMoving", typeof( bool ), typeof( SandWidget ), new PropertyMetadata( false ) );
@@ -63,6 +69,9 @@ namespace Sand.Controls
 
         protected override void OnMouseDown( MouseButtonEventArgs e )
         {
+            //-- Do not evaluate the mouse movement when the widget is moved manually
+            if( _isManualModeEnabled ) { return; }
+
             //-- Call the base implementation
             base.OnMouseDown( e );
 
@@ -78,6 +87,9 @@ namespace Sand.Controls
 
         protected override void OnMouseMove( MouseEventArgs e )
         {
+            //-- Do not evaluate the mouse movement when the widget is moved manually
+            if( _isManualModeEnabled ) { return; }
+
             //-- Call the base implementation
             base.OnMouseMove( e );
 
@@ -110,6 +122,9 @@ namespace Sand.Controls
 
         protected override void OnMouseUp( MouseButtonEventArgs e )
         {
+            //-- Do not evaluate the mouse movement when the widget is moved manually
+            if( _isManualModeEnabled ) { return; }
+
             //-- The movement may be null when the mouse is pressed on an empty cell
             //-- and will be released on another cell's widget
             if( this.Movement == null ) { return; }
@@ -134,8 +149,23 @@ namespace Sand.Controls
         /// <summary>
         /// Starts a new movement.
         /// </summary>
+        [DebuggerStepThrough]
         internal void StartMovement()
         {
+            this.StartMovement( false );
+        }
+
+        /// <summary>
+        /// Starts a new movement.
+        /// </summary>
+        /// <param name="isManualModeEnabled">
+        /// A flag that indicates whether the widget is moved manually or not.
+        /// </param>
+        internal void StartMovement( bool isManualModeEnabled )
+        {
+            //-- Apply argument
+            _isManualModeEnabled = isManualModeEnabled;
+
             //-- Initialize a new widget movement
             var homeGridCell = ( (SandWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
             this.Movement = SandWidgetMovement.Start( this, homeGridCell );

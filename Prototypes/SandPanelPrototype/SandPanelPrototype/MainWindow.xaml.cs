@@ -477,7 +477,7 @@ namespace SandPanelPrototype
             if( _manualMovingWidget.Movement == null ) 
             { 
                 //-- Start a movement when there is none available yet
-                _manualMovingWidget.StartMovement(); 
+                _manualMovingWidget.StartMovement( true ); 
             }
 
             //-- Create a shortcut for the current cell
