@@ -9,7 +9,7 @@
     Loaded="Window_Loaded"
     PreviewMouseMove="Window_PreviewMouseMove"
     PreviewMouseLeftButtonUp="Window_PreviewMouseLeftButtonUp"
-    Title="Prototype" 
+    Title="SandPanelPrototype" 
     SizeToContent="WidthAndHeight"
     WindowStartupLocation="CenterScreen">
     
