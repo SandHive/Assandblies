@@ -124,9 +124,9 @@ namespace Sand.Controls
         }
 
         [DebuggerStepThrough]
-        public void OnWidgetDropped( SandWidget widget )
+        public void OnWidgetDropped( SandWidget droppedWidget )
         {
-            this.OnWidgetDropped( widget, false );
+            this.OnWidgetDropped( droppedWidget, false );
         }
 
         public void OnWidgetEnter( SandWidget enteringWidget )

@@ -105,13 +105,13 @@ namespace Sand.Controls
             }
         }
 
-        public void OnWidgetDropped( SandWidget widget )
+        public void OnWidgetDropped( SandWidget droppedWidget )
         {
             this.ForEachCellDo( 
 
                 ( cell ) =>
                 {
-                    cell.Widget = widget;
+                    cell.Widget = droppedWidget;
                     cell.IsHovered = false;
                 }
             );
@@ -122,24 +122,24 @@ namespace Sand.Controls
             Point cellInGridLocation = _parentGrid.GetCellLocation( _parentGrid.WidgetGridCells[this.XCellIndex, this.YCellIndex] );
 
             //-- Calculate the offset in order to center the widget
-            double xOffset = ( ( _parentGrid.CellSize.Width * _xCellsCount ) - widget.Width ) / 2;
-            double yOffset = ( ( _parentGrid.CellSize.Height * _yCellsCount ) - widget.Height ) / 2;
+            double xOffset = ( ( _parentGrid.CellSize.Width * _xCellsCount ) - droppedWidget.Width ) / 2;
+            double yOffset = ( ( _parentGrid.CellSize.Height * _yCellsCount ) - droppedWidget.Height ) / 2;
 
             //-- Move the widget to the cell's center
-            SandWidgetGrid.SetLeft( widget, cellInGridLocation.X + xOffset );
-            SandWidgetGrid.SetTop( widget, cellInGridLocation.Y + yOffset );
+            SandWidgetGrid.SetLeft( droppedWidget, cellInGridLocation.X + xOffset );
+            SandWidgetGrid.SetTop( droppedWidget, cellInGridLocation.Y + yOffset );
 
             #endregion //-- Place the widget to the cell's center
         }
 
-        public void OnWidgetEnter( SandWidget widget )
+        public void OnWidgetEnter( SandWidget enteringWidget )
         {
-            this.ForEachCellDo( ( cell ) => cell.OnWidgetEnter( widget ) );
+            this.ForEachCellDo( ( cell ) => cell.OnWidgetEnter( enteringWidget ) );
         }
 
-        public void OnWidgetLeave( SandWidget widget )
+        public void OnWidgetLeave( SandWidget leavingWidget )
         {
-            this.ForEachCellDo( ( cell ) => cell.OnWidgetLeave( widget ) );
+            this.ForEachCellDo( ( cell ) => cell.OnWidgetLeave( leavingWidget ) );
         }
 
         public SandWidget Widget 
