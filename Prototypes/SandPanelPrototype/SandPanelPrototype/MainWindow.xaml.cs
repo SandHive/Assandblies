@@ -518,7 +518,7 @@ namespace SandPanelPrototype
             _manualMovingWidget.Movement.MoveWidgetTo( nextCell );
 
             //-- Place the widget to the new cell's center
-            nextCell.OnWidgetDropped( _manualMovingWidget );
+            nextCell.OnWidgetDropped( _manualMovingWidget, true );
         }
 
         #endregion Methods

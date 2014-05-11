@@ -20,6 +20,7 @@
  */
 
 using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 //-----------------------------------------------------------------------------
@@ -122,31 +123,10 @@ namespace Sand.Controls
             set { this.SetValue( SandWidgetGridCell.IsHomeProperty, value ); }
         }
 
+        [DebuggerStepThrough]
         public void OnWidgetDropped( SandWidget widget )
         {
-            if( //-- Check that this cell is not occupied ...
-                ( this.Widget != null ) &&
-                //-- ... but consider the case when moving back to the own home cell
-                ( this.Widget != widget ) )
-                throw new InvalidOperationException( "The cell is already occupied!" );
-
-            this.Widget = widget;
-            this.IsHovered = false;
-
-            #region //-- Place the widget to the cell's center
-
-            //-- Get the location of the cell within the widget grid
-            Point cellInGridLocation = ( (SandWidgetGrid) this.Parent ).GetCellLocation( this );
-
-            //-- Calculate the offset in order to center the widget
-            double xOffset = ( this.Width - widget.Width ) / 2;
-            double yOffset = ( this.Height - widget.Height ) / 2;
-
-            //-- Move the widget to the cell's center
-            SandWidgetGrid.SetLeft( widget, cellInGridLocation.X + xOffset );
-            SandWidgetGrid.SetTop( widget, cellInGridLocation.Y + yOffset );
-
-            #endregion //-- Place the widget to the cell's center
+            this.OnWidgetDropped( widget, false );
         }
 
         public void OnWidgetEnter( SandWidget enteringWidget )
@@ -177,6 +157,47 @@ namespace Sand.Controls
         //---------------------------------------------------------------------
         #region Methods
 
+        /// <summary>
+        /// Handles a dropped widget.
+        /// </summary>
+        /// <param name="droppedWidget">
+        /// The dropped SandWidget object.
+        /// </param>
+        /// <param name="keepIsHoveredEnabled">
+        /// A flag that indicates whether the IsHovered property should be kept
+        /// enabled or not.
+        /// </param>
+        internal void OnWidgetDropped( SandWidget droppedWidget, bool keepIsHoveredEnabled )
+        {
+            if( //-- Check that this cell is not occupied ...
+                ( this.Widget != null ) &&
+                //-- ... but consider the case when moving back to the own home cell
+                ( this.Widget != droppedWidget ) )
+                throw new InvalidOperationException( "The cell is already occupied!" );
+
+            this.Widget = droppedWidget;
+            this.IsHovered = keepIsHoveredEnabled;
+
+            #region //-- Place the widget to the cell's center
+
+            //-- Get the location of the cell within the widget grid
+            Point cellInGridLocation = ( (SandWidgetGrid) this.Parent ).GetCellLocation( this );
+
+            //-- Calculate the offset in order to center the widget
+            double xOffset = ( this.Width - droppedWidget.Width ) / 2;
+            double yOffset = ( this.Height - droppedWidget.Height ) / 2;
+
+            //-- Move the widget to the cell's center
+            SandWidgetGrid.SetLeft( droppedWidget, cellInGridLocation.X + xOffset );
+            SandWidgetGrid.SetTop( droppedWidget, cellInGridLocation.Y + yOffset );
+
+            #endregion //-- Place the widget to the cell's center
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return String.Format( "({0},{1})", this.XCellIndex, this.YCellIndex );
