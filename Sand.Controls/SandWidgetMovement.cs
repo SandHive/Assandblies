@@ -45,13 +45,18 @@ namespace Sand.Controls
         /// <summary>
         /// Gets the current cell of the moving widegt.
         /// </summary>
-        internal ISandWidgetGridCell currentCell { get; private set; }
+        internal ISandWidgetGridCell CurrentCell { get; private set; }
 
         /// <summary>
         /// Gets the home cell of the current moving widget.
         /// </summary>
-        internal ISandWidgetGridCell homeCell { get; private set; }
-        
+        internal ISandWidgetGridCell HomeCell { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the moving mode of the current widget.
+        /// </summary>
+        internal static SandWidgetMovementModes Mode { get; set; }
+
         #endregion Property
         //---------------------------------------------------------------------
         #region Constructors
@@ -68,8 +73,8 @@ namespace Sand.Controls
         private SandWidgetMovement( SandWidget widget, ISandWidgetGridCell homeCell )
         {
             _widget = widget;
-            this.homeCell = homeCell;
-            this.currentCell = homeCell;
+            this.HomeCell = homeCell;
+            this.CurrentCell = homeCell;
         }
 
         #endregion Constructors
@@ -81,7 +86,7 @@ namespace Sand.Controls
             if( newCurrentCell == null )
                 throw new ArgumentNullException( "The new target cell may not be null!" );
             
-            if( newCurrentCell == this.currentCell ) 
+            if( newCurrentCell == this.CurrentCell ) 
                 return;
 
             var grid = (SandWidgetGrid) _widget.Parent;
@@ -89,7 +94,7 @@ namespace Sand.Controls
             grid.BeginInit();
 
             //-- Remove the widget from the current cell
-            this.currentCell.OnWidgetLeave( _widget );
+            this.CurrentCell.OnWidgetLeave( _widget );
 
             //-- Check if the new current cell contains a widget that has to be moved to the old current cell
             if( newCurrentCell.ContainsWidget )
@@ -101,7 +106,7 @@ namespace Sand.Controls
                 newCurrentCell.Widget = null;
 
                 //-- Add the swap widget to the old current cell
-                this.currentCell.OnWidgetDropped( swapWidget );
+                this.CurrentCell.OnWidgetDropped( swapWidget );
 
                 if( _subMovements == null )
                 {
@@ -119,11 +124,11 @@ namespace Sand.Controls
             }
             
             //-- Add the moving widget to the new current cell ...
-            this.currentCell = newCurrentCell;
+            this.CurrentCell = newCurrentCell;
             //-- ... (but do not use the "OnWidgetDropped" method to avoid a 
             //-- flickering when the widget is centered within the cell)
-            this.currentCell.Widget = _widget;
-            this.currentCell.OnWidgetEnter( _widget );
+            this.CurrentCell.Widget = _widget;
+            this.CurrentCell.OnWidgetEnter( _widget );
 
 
             #region //-- Validate sub movements
@@ -136,12 +141,12 @@ namespace Sand.Controls
                 foreach( var subMovement in _subMovements.Values )
                 {
                     //-- Continue when the moving widget's current cell is the home cell of the swapped widget.
-                    if( subMovement.homeCell == this.currentCell )
+                    if( subMovement.HomeCell == this.CurrentCell )
                         continue;
 
-                    var blubbWidget = subMovement.homeCell.Widget;
-                    subMovement.currentCell.Widget = blubbWidget;
-                    subMovement.homeCell.Widget = subMovement._widget;
+                    var blubbWidget = subMovement.HomeCell.Widget;
+                    subMovement.CurrentCell.Widget = blubbWidget;
+                    subMovement.HomeCell.Widget = subMovement._widget;
                 }
             }
 
@@ -167,17 +172,17 @@ namespace Sand.Controls
 
         internal void Stop()
         {
-            Debug.WriteLine( string.Format( "Widget moving stopped (Name: {0}; Cell: {1})", _widget.Name, this.currentCell ) );
+            Debug.WriteLine( string.Format( "Widget moving stopped (Name: {0}; Cell: {1})", _widget.Name, this.CurrentCell ) );
 
             //-- 
-            this.homeCell.IsHome = false;
-            this.currentCell.OnWidgetDropped( _widget );
+            this.HomeCell.IsHome = false;
+            this.CurrentCell.OnWidgetDropped( _widget );
         }
 
         public override string ToString()
         {
             //-- Assemble the main movement data
-            string result = String.Format( "( Widget Name: {0}, Home Cell: {1}, Current Cell: {2} )", _widget.Name, this.homeCell, this.currentCell );
+            string result = String.Format( "( Widget Name: {0}, Home Cell: {1}, Current Cell: {2} )", _widget.Name, this.HomeCell, this.CurrentCell );
 
             #region //-- Assemble the sub movement data
 

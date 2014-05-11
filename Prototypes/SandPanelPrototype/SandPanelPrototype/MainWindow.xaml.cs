@@ -350,6 +350,8 @@ namespace SandPanelPrototype
 
                 this.IsManualWidgetMovingEnabled = true;
                 _isManualWidgetSelectingEnabled = true;
+
+                SandWidgetMovement.Mode = SandWidgetMovementModes.Manual;
             }
             else
             {
@@ -481,11 +483,11 @@ namespace SandPanelPrototype
             if( _manualMovingWidget.Movement == null ) 
             { 
                 //-- Start a movement when there is none available yet
-                _manualMovingWidget.StartMovement( true ); 
+                _manualMovingWidget.StartMovement(); 
             }
 
             //-- Create a shortcut for the current cell
-            var currentCell = _manualMovingWidget.Movement.currentCell;
+            var currentCell = _manualMovingWidget.Movement.CurrentCell;
 
             #region var nextXIndex = ...
 

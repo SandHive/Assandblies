@@ -43,6 +43,7 @@
       <Link>Properties\AssandbliesInfo.cs</Link>
     </Compile>
     <Compile Include="Converters\InvertBooleanConverter.cs" />
+    <Compile Include="SandWidgetMovementModes.cs" />
     <Compile Include="ISandWidgetGridCell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SandPanel.cs" />
