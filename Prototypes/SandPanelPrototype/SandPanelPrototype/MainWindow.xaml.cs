@@ -404,6 +404,7 @@ namespace SandPanelPrototype
 
                 //-- Keep the widget that will be manually moved in mind
                 _manualMovingWidget = cell.Widget;
+                _manualMovingWidget.StartMovement();
 
                 //-- Apply the widget name to the content of the moving stopping button ...
                 StopManualWidgetMovingButton.Content = String.Format( "Stop moving widget \"{0}\"", _manualMovingWidget.Name );
@@ -479,12 +480,6 @@ namespace SandPanelPrototype
         {
             //-- No selected widget -> no moving!
             if( _manualMovingWidget == null ) { return; }
-
-            if( _manualMovingWidget.Movement == null ) 
-            { 
-                //-- Start a movement when there is none available yet
-                _manualMovingWidget.StartMovement(); 
-            }
 
             //-- Create a shortcut for the current cell
             var currentCell = _manualMovingWidget.Movement.CurrentCell;
