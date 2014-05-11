@@ -195,9 +195,11 @@ namespace Sand.Controls
         }
 
         /// <summary>
-        /// 
+        /// Create some more informative output.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// The string representation of this object.
+        /// </returns>
         public override string ToString()
         {
             return String.Format( "({0},{1})", this.XCellIndex, this.YCellIndex );

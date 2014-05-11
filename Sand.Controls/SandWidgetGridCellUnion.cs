@@ -186,7 +186,13 @@ namespace Sand.Controls
 
             _parentGrid.EndInit();
         }
-        
+
+        /// <summary>
+        /// Create some more informative output.
+        /// </summary>
+        /// <returns>
+        /// The string representation of this object.
+        /// </returns>
         public override string ToString()
         {
             if( ( _xCellsCount == 1 ) && ( _yCellsCount == 1 ) )
