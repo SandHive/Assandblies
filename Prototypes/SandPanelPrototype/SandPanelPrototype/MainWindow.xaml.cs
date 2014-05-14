@@ -201,7 +201,7 @@ namespace SandPanelPrototype
 
         private void Add1x1WidgetButton_Click( object sender, RoutedEventArgs e )
         {
-            _sandWidgetGrid.AddItem( 
+            _sandWidgetGrid.AddWidget( 
                 
                 new SandWidget() 
                 { 
@@ -214,7 +214,7 @@ namespace SandPanelPrototype
 
         private void Add1x2WidgetButton_Click( object sender, RoutedEventArgs e )
         {
-            _sandWidgetGrid.AddItem(
+            _sandWidgetGrid.AddWidget(
 
                 new SandWidget()
                 {
@@ -227,7 +227,7 @@ namespace SandPanelPrototype
 
         private void Add1x3WidgetButton_Click( object sender, RoutedEventArgs e )
         {
-            _sandWidgetGrid.AddItem(
+            _sandWidgetGrid.AddWidget(
 
                 new SandWidget()
                 {
@@ -240,7 +240,7 @@ namespace SandPanelPrototype
 
         private void Add2x1WidgetButton_Click( object sender, RoutedEventArgs e )
         {
-            _sandWidgetGrid.AddItem(
+            _sandWidgetGrid.AddWidget(
 
                 new SandWidget()
                 {
@@ -253,7 +253,7 @@ namespace SandPanelPrototype
 
         private void Add2x2WidgetButton_Click( object sender, RoutedEventArgs e )
         {
-            _sandWidgetGrid.AddItem(
+            _sandWidgetGrid.AddWidget(
 
                 new SandWidget()
                 {
@@ -266,7 +266,7 @@ namespace SandPanelPrototype
 
         private void Add2x3WidgetButton_Click( object sender, RoutedEventArgs e )
         {
-            _sandWidgetGrid.AddItem(
+            _sandWidgetGrid.AddWidget(
 
                 new SandWidget()
                 {
@@ -279,7 +279,7 @@ namespace SandPanelPrototype
 
         private void Add3x1WidgetButton_Click( object sender, RoutedEventArgs e )
         {
-            _sandWidgetGrid.AddItem(
+            _sandWidgetGrid.AddWidget(
 
                 new SandWidget()
                 {
@@ -292,7 +292,7 @@ namespace SandPanelPrototype
 
         private void Add3x2WidgetButton_Click( object sender, RoutedEventArgs e )
         {
-            _sandWidgetGrid.AddItem(
+            _sandWidgetGrid.AddWidget(
 
                 new SandWidget()
                 {
@@ -305,7 +305,7 @@ namespace SandPanelPrototype
 
         private void Add3x3WidgetButton_Click( object sender, RoutedEventArgs e )
         {
-            _sandWidgetGrid.AddItem(
+            _sandWidgetGrid.AddWidget(
 
                 new SandWidget()
                 {
