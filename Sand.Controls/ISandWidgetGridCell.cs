@@ -26,6 +26,14 @@ namespace Sand.Controls
     public interface ISandWidgetGridCell
     {
         /// <summary>
+        /// Places a widget to the cell's center. 
+        /// </summary>
+        /// <param name="widget">
+        /// The widget that should be centered.
+        /// </param>
+        void CenterWidget( SandWidget widget );
+
+        /// <summary>
         /// Gets a flag that indicates whether the cell currently contains a 
         /// widget or not. 
         /// </summary>

@@ -66,6 +66,20 @@ namespace Sand.Controls
         //---------------------------------------------------------------------
         #region ISandWidgetGridCell Members
 
+        public void CenterWidget( SandWidget widget )
+        {
+            //-- Get the location of the cell within the widget grid
+            Point cellInGridLocation = _parentGrid.GetCellLocation( _parentGrid.WidgetGridCells[this.XCellIndex, this.YCellIndex] );
+
+            //-- Calculate the offset in order to center the widget
+            double xOffset = ( ( _parentGrid.CellSize.Width * _xCellsCount ) - widget.Width ) / 2;
+            double yOffset = ( ( _parentGrid.CellSize.Height * _yCellsCount ) - widget.Height ) / 2;
+
+            //-- Move the widget to the cell's center
+            SandWidgetGrid.SetLeft( widget, cellInGridLocation.X + xOffset );
+            SandWidgetGrid.SetTop( widget, cellInGridLocation.Y + yOffset );
+        }
+
         public bool ContainsWidget 
         { 
             get 
@@ -116,20 +130,8 @@ namespace Sand.Controls
                 }
             );
             
-            #region //-- Place the widget to the cell's center
-
-            //-- Get the location of the cell within the widget grid
-            Point cellInGridLocation = _parentGrid.GetCellLocation( _parentGrid.WidgetGridCells[this.XCellIndex, this.YCellIndex] );
-
-            //-- Calculate the offset in order to center the widget
-            double xOffset = ( ( _parentGrid.CellSize.Width * _xCellsCount ) - droppedWidget.Width ) / 2;
-            double yOffset = ( ( _parentGrid.CellSize.Height * _yCellsCount ) - droppedWidget.Height ) / 2;
-
-            //-- Move the widget to the cell's center
-            SandWidgetGrid.SetLeft( droppedWidget, cellInGridLocation.X + xOffset );
-            SandWidgetGrid.SetTop( droppedWidget, cellInGridLocation.Y + yOffset );
-
-            #endregion //-- Place the widget to the cell's center
+            //-- Place the widget to the cell's center
+            this.CenterWidget( droppedWidget );
         }
 
         public void OnWidgetEnter()

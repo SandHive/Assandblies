@@ -114,6 +114,20 @@ namespace Sand.Controls
         //---------------------------------------------------------------------
         #region ISandWidgetGridCell Members
 
+        public void CenterWidget( SandWidget widget )
+        {
+            //-- Get the location of the cell within the widget grid
+            Point cellInGridLocation = ( (SandWidgetGrid) this.Parent ).GetCellLocation( this );
+
+            //-- Calculate the offset in order to center the widget
+            double xOffset = ( this.Width - widget.Width ) / 2;
+            double yOffset = ( this.Height - widget.Height ) / 2;
+
+            //-- Move the widget to the cell's center
+            SandWidgetGrid.SetLeft( widget, cellInGridLocation.X + xOffset );
+            SandWidgetGrid.SetTop( widget, cellInGridLocation.Y + yOffset );
+        }
+
         public bool ContainsWidget { get { return this.Widget != null; } }
 
         public static DependencyProperty IsHomeProperty = DependencyProperty.Register( "IsHome", typeof( bool ), typeof( SandWidgetGridCell ), new PropertyMetadata( false ) );
@@ -172,20 +186,8 @@ namespace Sand.Controls
             this.Widget = droppedWidget;
             this.IsHovered = keepIsHoveredEnabled;
 
-            #region //-- Place the widget to the cell's center
-
-            //-- Get the location of the cell within the widget grid
-            Point cellInGridLocation = ( (SandWidgetGrid) this.Parent ).GetCellLocation( this );
-
-            //-- Calculate the offset in order to center the widget
-            double xOffset = ( this.Width - droppedWidget.Width ) / 2;
-            double yOffset = ( this.Height - droppedWidget.Height ) / 2;
-
-            //-- Move the widget to the cell's center
-            SandWidgetGrid.SetLeft( droppedWidget, cellInGridLocation.X + xOffset );
-            SandWidgetGrid.SetTop( droppedWidget, cellInGridLocation.Y + yOffset );
-
-            #endregion //-- Place the widget to the cell's center
+            //-- Place the widget to the cell's center
+            this.CenterWidget( droppedWidget );
         }
 
         /// <summary>
