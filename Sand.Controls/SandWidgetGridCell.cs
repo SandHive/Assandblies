@@ -129,7 +129,7 @@ namespace Sand.Controls
             this.OnWidgetDropped( droppedWidget, false );
         }
 
-        public void OnWidgetEnter( SandWidget enteringWidget )
+        public void OnWidgetEnter()
         {
             this.IsHovered = true;
             this.RaiseEvent( new RoutedEventArgs( SandWidgetGridCell.WidgetEnterEvent ) );

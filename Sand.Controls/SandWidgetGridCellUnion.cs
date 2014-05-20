@@ -132,9 +132,9 @@ namespace Sand.Controls
             #endregion //-- Place the widget to the cell's center
         }
 
-        public void OnWidgetEnter( SandWidget enteringWidget )
+        public void OnWidgetEnter()
         {
-            this.ForEachCellDo( ( cell ) => cell.OnWidgetEnter( enteringWidget ) );
+            this.ForEachCellDo( ( cell ) => cell.OnWidgetEnter() );
         }
 
         public void OnWidgetLeave( SandWidget leavingWidget )

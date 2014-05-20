@@ -46,12 +46,9 @@ namespace Sand.Controls
         void OnWidgetDropped( SandWidget droppedWidget );
 
         /// <summary>
-        /// Handles a widget that enters the cell..
+        /// Handles the entering of a widget.
         /// </summary>
-        /// <param name="enteringWidget">
-        /// The entering SandWidget object.
-        /// </param>
-        void OnWidgetEnter( SandWidget enteringWidget );
+        void OnWidgetEnter();
 
         /// <summary>
         /// Handles a leavingWidget that leaves the cell..

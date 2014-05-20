@@ -128,7 +128,7 @@ namespace Sand.Controls
             //-- ... (but do not use the "OnWidgetDropped" method to avoid a 
             //-- flickering when the widget is centered within the cell)
             this.CurrentCell.Widget = _widget;
-            this.CurrentCell.OnWidgetEnter( _widget );
+            this.CurrentCell.OnWidgetEnter();
 
 
             #region //-- Validate sub movements
@@ -165,7 +165,7 @@ namespace Sand.Controls
                 throw new ArgumentNullException( null, "The home cell may not be null!" );
 
             homeCell.IsHome = true;
-            homeCell.OnWidgetEnter( widget );
+            homeCell.OnWidgetEnter();
 
             return new SandWidgetMovement( widget, homeCell );
         }
