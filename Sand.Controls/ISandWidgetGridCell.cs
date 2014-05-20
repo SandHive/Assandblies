@@ -51,12 +51,9 @@ namespace Sand.Controls
         void OnWidgetEnter();
 
         /// <summary>
-        /// Handles a leavingWidget that leaves the cell..
+        /// Handles the leaving of a widget.
         /// </summary>
-        /// <param name="leavingWidget">
-        /// The leaving SandWidget object.
-        /// </param>
-        void OnWidgetLeave( SandWidget leavingWidget );
+        void OnWidgetLeave();
 
         /// <summary>
         /// Gets or sets the widget that is currently in the cell. 

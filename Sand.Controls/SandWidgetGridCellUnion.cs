@@ -137,9 +137,9 @@ namespace Sand.Controls
             this.ForEachCellDo( ( cell ) => cell.OnWidgetEnter() );
         }
 
-        public void OnWidgetLeave( SandWidget leavingWidget )
+        public void OnWidgetLeave()
         {
-            this.ForEachCellDo( ( cell ) => cell.OnWidgetLeave( leavingWidget ) );
+            this.ForEachCellDo( ( cell ) => cell.OnWidgetLeave() );
         }
 
         public SandWidget Widget 

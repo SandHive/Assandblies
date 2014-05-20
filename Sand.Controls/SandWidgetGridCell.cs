@@ -135,15 +135,9 @@ namespace Sand.Controls
             this.RaiseEvent( new RoutedEventArgs( SandWidgetGridCell.WidgetEnterEvent ) );
         }
 
-        public void OnWidgetLeave( SandWidget leavingWidget )
+        public void OnWidgetLeave()
         {
-            if( this.Widget != leavingWidget )
-            {
-                throw new ArgumentException( "Invalid leaving widget!" );
-            }
-
             this.IsHovered = false;
-            this.Widget = null;
             this.RaiseEvent( new RoutedEventArgs( SandWidgetGridCell.WidgetLeaveEvent ) );
         }
 

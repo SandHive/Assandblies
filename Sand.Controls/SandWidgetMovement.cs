@@ -94,7 +94,8 @@ namespace Sand.Controls
             grid.BeginInit();
 
             //-- Remove the widget from the current cell
-            this.CurrentCell.OnWidgetLeave( _widget );
+            this.CurrentCell.OnWidgetLeave();
+            this.CurrentCell.Widget = null;
 
             //-- Check if the new current cell contains a widget that has to be moved to the old current cell
             if( newCurrentCell.ContainsWidget )
