@@ -201,14 +201,14 @@ namespace SandPanelPrototype
 
         private void Add1x1WidgetButton_Click( object sender, RoutedEventArgs e )
         {
-            _sandWidgetGrid.AddWidget( 
-                
-                new SandWidget() 
-                { 
+            _sandWidgetGrid.AddWidget(
+
+                new SandWidget()
+                {
                     Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) },
                     Name = "_" + _sandWidgetGrid.Children.Count.ToString(),
                     TileSize = new Size( 1, 1 )
-                } 
+                }
             );
         }
 
@@ -374,7 +374,20 @@ namespace SandPanelPrototype
             SelectWidgetToggleButton.Visibility = System.Windows.Visibility.Visible;
             StopManualWidgetMovingButton.Visibility = System.Windows.Visibility.Collapsed;
         }
-        
+
+        private void Window_KeyDown( object sender, KeyEventArgs e )
+        {
+            if( _manualMovingWidget == null ) { return; }
+
+            switch( e.Key )
+            {
+                case Key.Down: this.moveWidgetRelativeToCurrentCell( 0, 1 ); break;
+                case Key.Left: this.moveWidgetRelativeToCurrentCell( -1, 0 ); break;
+                case Key.Right: this.moveWidgetRelativeToCurrentCell( 1, 0 ); break;
+                case Key.Up: this.moveWidgetRelativeToCurrentCell( 0, -1 ); break;
+            }
+        }
+
         private void Window_Loaded( object sender, RoutedEventArgs e )
         {
             Debug.Listeners.Add( new ListBoxTraceListener( _DebugOutputListBox ) );
@@ -420,7 +433,7 @@ namespace SandPanelPrototype
                 this.AreManualWidgetMovingButtonsEnabled = true;
             }
         }
-        
+
         private void Window_PreviewMouseMove( object sender, MouseEventArgs e )
         {
             var mousePosition = e.GetPosition( _sandWidgetGrid );
@@ -450,9 +463,9 @@ namespace SandPanelPrototype
                 {
                     Mouse.OverrideCursor = TARGET_CURSOR;
                 }
-            }           
+            }
         }
-        
+
         #endregion Event Handling
         //---------------------------------------------------------------------
         #region IDisposable
@@ -488,9 +501,9 @@ namespace SandPanelPrototype
 
             //-- Determine the next x index in consideration of the grid borders
             var nextXIndex = currentCell.XCellIndex + xOffset;
-            if( nextXIndex < 0 ) 
-            { 
-                nextXIndex = 0; 
+            if( nextXIndex < 0 )
+            {
+                nextXIndex = 0;
             }
             else if( nextXIndex > _sandWidgetGrid.ColumnCount - 1 )
             {

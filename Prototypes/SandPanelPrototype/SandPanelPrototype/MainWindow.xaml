@@ -6,6 +6,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="SandPanelPrototype.MainWindow"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
+    KeyDown="Window_KeyDown"
     Loaded="Window_Loaded"
     PreviewMouseMove="Window_PreviewMouseMove"
     PreviewMouseLeftButtonUp="Window_PreviewMouseLeftButtonUp"
@@ -154,7 +155,7 @@
 
         <Border BorderBrush="Black" BorderThickness="1"  Margin="10">
 
-            <sc:SandWidgetGrid 
+            <sc:SandWidgetGrid
                 CellPadding="10" 
                 CellSize="75,75" 
                 ColumnCount="10"
