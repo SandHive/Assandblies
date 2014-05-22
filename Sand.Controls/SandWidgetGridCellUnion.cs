@@ -117,20 +117,8 @@ namespace Sand.Controls
                 }
             );
 
-            #region //-- Place the widget to the cell's center
-
-            //-- Get the location of the cell within the widget grid
-            Point cellInGridLocation = _parentGrid.GetCellLocation( _parentGrid.WidgetGridCells[this.XCellIndex, this.YCellIndex] );
-
-            //-- Calculate the offset in order to center the widget
-            double xOffset = ( ( _parentGrid.CellSize.Width * _xCellsCount ) - widget.Width ) / 2;
-            double yOffset = ( ( _parentGrid.CellSize.Height * _yCellsCount ) - widget.Height ) / 2;
-
-            //-- Move the widget to the cell's center
-            SandWidgetGrid.SetLeft( widget, cellInGridLocation.X + xOffset );
-            SandWidgetGrid.SetTop( widget, cellInGridLocation.Y + yOffset );
-
-            #endregion //-- Place the widget to the cell's center
+            //-- Place the widget to the cell's center
+            this.CenterWidget();
         }
 
         [DebuggerStepThrough]
@@ -142,6 +130,13 @@ namespace Sand.Controls
         public void OnWidgetEnter( SandWidget widget, bool isPrimaryMovingWidget )
         {
             this.ForEachCellDo( ( cell ) => cell.OnWidgetEnter( widget, isPrimaryMovingWidget ) );
+
+            if( !isPrimaryMovingWidget )
+            {
+                //-- The widget was displaced by the primary moving widget. So
+                //-- let's take care that it is centered
+                this.CenterWidget();
+            }
         }
 
         public void OnWidgetLeave()
@@ -168,6 +163,23 @@ namespace Sand.Controls
         #endregion ISandWidgetGridCell Members
         //---------------------------------------------------------------------
         #region Methods
+
+        /// <summary>
+        /// Places the current widget to the cell's center. 
+        /// </summary>
+        private void CenterWidget()
+        {
+            //-- Get the location of the cell within the widget grid
+            Point cellInGridLocation = _parentGrid.GetCellLocation( _parentGrid.WidgetGridCells[this.XCellIndex, this.YCellIndex] );
+
+            //-- Calculate the offset in order to center the widget
+            double xOffset = ( ( _parentGrid.CellSize.Width * _xCellsCount ) - this.Widget.Width ) / 2;
+            double yOffset = ( ( _parentGrid.CellSize.Height * _yCellsCount ) - this.Widget.Height ) / 2;
+
+            //-- Move the widget to the cell's center
+            SandWidgetGrid.SetLeft( this.Widget, cellInGridLocation.X + xOffset );
+            SandWidgetGrid.SetTop( this.Widget, cellInGridLocation.Y + yOffset );
+        }
 
         /// <summary>
         /// Performs an action on each cell of this union.
