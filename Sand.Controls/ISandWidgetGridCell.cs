@@ -26,14 +26,6 @@ namespace Sand.Controls
     public interface ISandWidgetGridCell
     {
         /// <summary>
-        /// Places a widget to the cell's center. 
-        /// </summary>
-        /// <param name="widget">
-        /// The widget that should be centered.
-        /// </param>
-        void CenterWidget( SandWidget widget );
-
-        /// <summary>
         /// Gets a flag that indicates whether the cell currently contains a 
         /// widget or not. 
         /// </summary>
@@ -48,15 +40,32 @@ namespace Sand.Controls
         /// <summary>
         /// Handles a dropped widget.
         /// </summary>
-        /// <param name="droppedWidget">
-        /// The dropped SandWidget object.
+        /// <param name="widget">
+        /// The SandWidget object that should be dropped into this cell.
         /// </param>
-        void OnWidgetDropped( SandWidget droppedWidget );
+        void OnWidgetDropped( SandWidget widget );
 
         /// <summary>
         /// Handles the entering of a widget.
         /// </summary>
-        void OnWidgetEnter();
+        /// <param name="widget">
+        /// The SandWidget object that enters this cell.
+        /// </param>
+        void OnWidgetEnter( SandWidget widget );
+
+        /// <summary>
+        /// Handles the entering of a widget.
+        /// </summary>
+        /// <param name="widget">
+        /// The SandWidget object that enters this cell.
+        /// </param>
+        /// <param name="isPrimaryMovingWidget">
+        /// A flag that indicates whether the widget is the primary moving 
+        /// widget (the one that is moved by a user interaction) or a
+        /// secondary moving widget (one of the widgets that were displaced
+        /// by the primary one).
+        /// </param>
+        void OnWidgetEnter( SandWidget widget, bool isPrimaryMovingWidget );
 
         /// <summary>
         /// Handles the leaving of a widget.
@@ -66,7 +75,7 @@ namespace Sand.Controls
         /// <summary>
         /// Gets or sets the widget that is currently in the cell. 
         /// </summary>
-        SandWidget Widget { get; set; }
+        SandWidget Widget { get; }
 
         /// <summary>
         /// Gets the x cell index within the parent grid. 

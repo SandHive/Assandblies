@@ -239,7 +239,7 @@ namespace Sand.Controls
             var widget = (SandWidget) item;
             this.CalculateWidgetWidthAndHeight( widget );
             var targetGridCell = this.GetNextFreeGridCell( widget );
-            targetGridCell.OnWidgetDropped( widget );
+            targetGridCell.OnWidgetEnter( widget, false );
         }
 
         #endregion SandPanel Members
@@ -259,7 +259,7 @@ namespace Sand.Controls
 
             this.CalculateWidgetWidthAndHeight( widget );
             var targetGridCell = this.GetNextFreeGridCell( widget );
-            targetGridCell.OnWidgetDropped( widget );
+            targetGridCell.OnWidgetEnter( widget, false );
         }
 
         /// <summary>
@@ -281,7 +281,7 @@ namespace Sand.Controls
 
             this.CalculateWidgetWidthAndHeight( widget );
             var targetGridCell = _widgetGridCells[xCellIndex, yCellIndex];
-            targetGridCell.OnWidgetDropped( widget );
+            targetGridCell.OnWidgetEnter( widget, false );
         }
 
         /// <summary>

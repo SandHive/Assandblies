@@ -95,7 +95,6 @@ namespace Sand.Controls
 
             //-- Remove the widget from the current cell
             this.CurrentCell.OnWidgetLeave();
-            this.CurrentCell.Widget = null;
 
             //-- Check if the new current cell contains a widget that has to be moved to the old current cell
             if( newCurrentCell.ContainsWidget )
@@ -104,10 +103,10 @@ namespace Sand.Controls
                 var swapWidget = newCurrentCell.Widget;
 
                 //-- Remove the swap widget from the new current cell
-                newCurrentCell.Widget = null;
+                newCurrentCell.OnWidgetLeave();
 
                 //-- Add the swap widget to the old current cell
-                this.CurrentCell.OnWidgetDropped( swapWidget );
+                this.CurrentCell.OnWidgetEnter( swapWidget, false );
 
                 if( _subMovements == null )
                 {
@@ -124,12 +123,9 @@ namespace Sand.Controls
                 }
             }
             
-            //-- Add the moving widget to the new current cell ...
+            //-- Add the moving widget to the new current cell
             this.CurrentCell = newCurrentCell;
-            //-- ... (but do not use the "OnWidgetDropped" method to avoid a 
-            //-- flickering when the widget is centered within the cell)
-            this.CurrentCell.Widget = _widget;
-            this.CurrentCell.OnWidgetEnter();
+            this.CurrentCell.OnWidgetEnter( _widget );
 
 
             #region //-- Validate sub movements
@@ -146,8 +142,8 @@ namespace Sand.Controls
                         continue;
 
                     var blubbWidget = subMovement.HomeCell.Widget;
-                    subMovement.CurrentCell.Widget = blubbWidget;
-                    subMovement.HomeCell.Widget = subMovement._widget;
+                    //subMovement.CurrentCell.Widget = blubbWidget;
+                    //subMovement.HomeCell.Widget = subMovement._widget;
                 }
             }
 
@@ -166,7 +162,6 @@ namespace Sand.Controls
                 throw new ArgumentNullException( null, "The home cell may not be null!" );
 
             homeCell.IsHome = true;
-            homeCell.OnWidgetEnter();
 
             return new SandWidgetMovement( widget, homeCell );
         }
