@@ -29,7 +29,7 @@ namespace Sand.Controls
     /// <summary>
     /// A union of several SandWidgetGridCell objects.
     /// </summary>
-    public sealed class SandWidgetGridCellUnion : Border, ISandWidgetGridCell
+    public sealed class SandWidgetGridCellUnion : SandWidgetGridCellBase
     {
         //---------------------------------------------------------------------
         #region Fields
@@ -65,19 +65,19 @@ namespace Sand.Controls
 
         #endregion Constructors
         //---------------------------------------------------------------------
-        #region ISandWidgetGridCell Members
+        #region SandWidgetGridCellBase Members
 
-        public bool ContainsWidget 
-        { 
-            get 
+        public override bool ContainsWidget
+        {
+            get
             {
                 int bottomRightX = this.XCellIndex + _xCellsCount;
                 int bottomRightY = this.YCellIndex + _yCellsCount;
-                for( int x = this.XCellIndex; x < bottomRightX; x++ )
+                for (int x = this.XCellIndex; x < bottomRightX; x++)
                 {
-                    for( int y = this.YCellIndex; y < bottomRightY; y++ )
+                    for (int y = this.YCellIndex; y < bottomRightY; y++)
                     {
-                        if( _parentGrid.WidgetGridCells[x, y].ContainsWidget )
+                        if (_parentGrid.WidgetGridCells[x, y].ContainsWidget)
                         {
                             return true;
                         }
@@ -85,16 +85,16 @@ namespace Sand.Controls
                 }
 
                 return false;
-            } 
+            }
         }
 
-        public bool IsHome
+        public override bool IsHome
         {
             get
             {
                 return _parentGrid.WidgetGridCells[this.XCellIndex, this.YCellIndex].IsHome;
             }
-            set
+            internal set
             {
                 this.ForEachCellDo(
 
@@ -106,9 +106,9 @@ namespace Sand.Controls
             }
         }
 
-        public void OnWidgetDropped( SandWidget widget )
+        internal override void OnWidgetDropped( SandWidget widget )
         {
-            this.ForEachCellDo( 
+            this.ForEachCellDo(
 
                 ( cell ) =>
                 {
@@ -121,13 +121,7 @@ namespace Sand.Controls
             this.CenterWidget();
         }
 
-        [DebuggerStepThrough]
-        public void OnWidgetEnter( SandWidget widget )
-        {
-            this.OnWidgetEnter( widget, true );
-        }
-
-        public void OnWidgetEnter( SandWidget widget, bool isPrimaryMovingWidget )
+        internal override void OnWidgetEnter( SandWidget widget, bool isPrimaryMovingWidget )
         {
             this.ForEachCellDo( ( cell ) => cell.OnWidgetEnter( widget, isPrimaryMovingWidget ) );
 
@@ -139,28 +133,24 @@ namespace Sand.Controls
             }
         }
 
-        public void OnWidgetLeave()
+        internal override void OnWidgetLeave()
         {
-            this.ForEachCellDo( ( cell ) => cell.OnWidgetLeave() );
+            this.ForEachCellDo((cell) => cell.OnWidgetLeave());
         }
 
-        public SandWidget Widget 
+        public override SandWidget Widget
         {
             get
             {
                 return _parentGrid.WidgetGridCells[this.XCellIndex, this.YCellIndex].Widget;
             }
-            set
+            internal set
             {
-                this.ForEachCellDo( ( cell ) => cell.Widget = value );
+                this.ForEachCellDo((cell) => cell.Widget = value);
             }
         }
 
-        public int XCellIndex { get; private set; }
-
-        public int YCellIndex { get; private set; }
-
-        #endregion ISandWidgetGridCell Members
+        #endregion SandWidgetGridCellBase Members
         //---------------------------------------------------------------------
         #region Methods
 

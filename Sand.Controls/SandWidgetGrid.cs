@@ -291,7 +291,7 @@ namespace Sand.Controls
         /// <param name="targetCell">
         /// The cell to which the widget should be added.
         /// </param>
-        private void AddWidget( SandWidget widget, ISandWidgetGridCell targetCell )
+        private void AddWidget(SandWidget widget, SandWidgetGridCellBase targetCell)
         {
             base.Children.Add( widget );
             base.OnItemAdded( widget );
@@ -372,7 +372,7 @@ namespace Sand.Controls
         /// <returns>
         /// The next free ISandWidgetGridCell object.
         /// </returns>
-        private ISandWidgetGridCell GetNextFreeGridCell( SandWidget widget )
+        private SandWidgetGridCellBase GetNextFreeGridCell(SandWidget widget)
         {
             //-- Determine the number of occupied cells
             int xOccupiedCellsCount = (int) Math.Ceiling( widget.TileSize.Width );
@@ -380,7 +380,7 @@ namespace Sand.Controls
 
             int xMaxIndex = this.ColumnCount - xOccupiedCellsCount;
             int yMaxIndex = this.RowCount - yOccupiedCellsCount;
-            ISandWidgetGridCell nextFreeCell;
+            SandWidgetGridCellBase nextFreeCell;
             for( int x = 0; x <= xMaxIndex; x++ )
             {
                 for( int y = 0; y <= yMaxIndex; y++ )
@@ -416,7 +416,7 @@ namespace Sand.Controls
         /// <returns>
         /// The cells.
         /// </returns>
-        internal ISandWidgetGridCell GetOccupiedGridCell( SandWidget widget )
+        internal SandWidgetGridCellBase GetOccupiedGridCell( SandWidget widget )
         {
             //-- Get the location of the cell within the widget grid
             Point topLeftWidgetCornerLocation = widget.TranslatePoint( new Point(), this );

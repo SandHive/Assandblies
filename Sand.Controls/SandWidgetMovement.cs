@@ -45,12 +45,12 @@ namespace Sand.Controls
         /// <summary>
         /// Gets the current cell of the moving widegt.
         /// </summary>
-        internal ISandWidgetGridCell CurrentCell { get; private set; }
+        internal SandWidgetGridCellBase CurrentCell { get; private set; }
 
         /// <summary>
         /// Gets the home cell of the current moving widget.
         /// </summary>
-        internal ISandWidgetGridCell HomeCell { get; private set; }
+        internal SandWidgetGridCellBase HomeCell { get; private set; }
 
         /// <summary>
         /// Gets or sets the moving mode of the current widget.
@@ -70,7 +70,7 @@ namespace Sand.Controls
         /// <param name="homeCell">
         /// The home cell of the moving widget.
         /// </param>
-        private SandWidgetMovement( SandWidget widget, ISandWidgetGridCell homeCell )
+        private SandWidgetMovement( SandWidget widget, SandWidgetGridCellBase homeCell )
         {
             _widget = widget;
             this.HomeCell = homeCell;
@@ -81,7 +81,7 @@ namespace Sand.Controls
         //---------------------------------------------------------------------
         #region Methods
 
-        internal void MoveWidgetTo( ISandWidgetGridCell newCurrentCell )
+        internal void MoveWidgetTo( SandWidgetGridCellBase newCurrentCell )
         {
             if( newCurrentCell == null )
                 throw new ArgumentNullException( "The new target cell may not be null!" );
@@ -153,7 +153,7 @@ namespace Sand.Controls
             grid.EndInit();
         }
 
-        internal static SandWidgetMovement Start( SandWidget widget, ISandWidgetGridCell homeCell )
+        internal static SandWidgetMovement Start( SandWidget widget, SandWidgetGridCellBase homeCell )
         {
             //-- Check arguments
             if( widget == null )

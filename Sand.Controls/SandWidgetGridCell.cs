@@ -26,7 +26,7 @@ using System.Windows.Controls;
 //-----------------------------------------------------------------------------
 namespace Sand.Controls
 {
-    public sealed class SandWidgetGridCell : Border, ISandWidgetGridCell
+    public sealed class SandWidgetGridCell : SandWidgetGridCellBase
     {
         //---------------------------------------------------------------------
         #region Events
@@ -37,13 +37,13 @@ namespace Sand.Controls
         /// </summary>
         public event RoutedEventHandler WidgetEnter
         {
-            add 
-            { 
-                this.AddHandler( SandWidgetGridCell.WidgetEnterEvent, value ); 
+            add
+            {
+                this.AddHandler( SandWidgetGridCell.WidgetEnterEvent, value );
             }
-            remove 
-            { 
-                this.RemoveHandler( SandWidgetGridCell.WidgetEnterEvent, value ); 
+            remove
+            {
+                this.RemoveHandler( SandWidgetGridCell.WidgetEnterEvent, value );
             }
         }
 
@@ -112,16 +112,19 @@ namespace Sand.Controls
 
         #endregion Constructors
         //---------------------------------------------------------------------
-        #region ISandWidgetGridCell Members
+        #region SandWidgetGridCellBase Members
 
-        public bool ContainsWidget { get { return this.Widget != null; } }
+        public override bool ContainsWidget
+        {
+            get { return this.Widget != null; }
+        }
 
         public static DependencyProperty IsHomeProperty = DependencyProperty.Register( "IsHome", typeof( bool ), typeof( SandWidgetGridCell ), new PropertyMetadata( false ) );
-        public bool IsHome
+        public override bool IsHome
         {
             get { return (bool) this.GetValue( SandWidgetGridCell.IsHomeProperty ); }
-            set 
-            { 
+            internal set
+            {
                 this.SetValue( SandWidgetGridCell.IsHomeProperty, value );
 
                 this.IsHovered = value;
@@ -129,18 +132,12 @@ namespace Sand.Controls
         }
 
         [DebuggerStepThrough]
-        public void OnWidgetDropped( SandWidget widget )
+        internal override void OnWidgetDropped( SandWidget widget )
         {
             this.OnWidgetDropped( widget, false );
         }
 
-        [DebuggerStepThrough]
-        public void OnWidgetEnter( SandWidget widget )
-        {
-            this.OnWidgetEnter( widget, true );
-        }
-
-        public void OnWidgetEnter( SandWidget widget, bool isPrimaryMovingWidget )
+        internal override void OnWidgetEnter( SandWidget widget, bool isPrimaryMovingWidget )
         {
             if( this.Widget != null )
                 throw new InvalidOperationException( "The cell is already occupied!" );
@@ -160,20 +157,16 @@ namespace Sand.Controls
             }
         }
 
-        public void OnWidgetLeave()
+        internal override void OnWidgetLeave()
         {
             this.Widget = null;
             this.IsHovered = false;
             this.RaiseEvent( new RoutedEventArgs( SandWidgetGridCell.WidgetLeaveEvent ) );
         }
 
-        public SandWidget Widget { get; set; }
+        public override SandWidget Widget { get; internal set; }
 
-        public int XCellIndex { get; private set; }
-
-        public int YCellIndex { get; private set; }
-
-        #endregion ISandWidgetGridCell Members
+        #endregion SandWidgetGridCellBase Members
         //---------------------------------------------------------------------
         #region Methods
 
