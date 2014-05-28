@@ -322,22 +322,22 @@ namespace SandPanelPrototype
 
         private void ManualWidgetMovingDownButton_Click( object sender, RoutedEventArgs e )
         {
-            this.moveWidgetRelativeToCurrentCell( 0, 1 );
+            this.MoveWidgetRelativeToCurrentCell( 0, 1 );
         }
 
         private void ManualWidgetMovingLeftButton_Click( object sender, RoutedEventArgs e )
         {
-            this.moveWidgetRelativeToCurrentCell( -1, 0 );
+            this.MoveWidgetRelativeToCurrentCell( -1, 0 );
         }
 
         private void ManualWidgetMovingRightButton_Click( object sender, RoutedEventArgs e )
         {
-            this.moveWidgetRelativeToCurrentCell( 1, 0 );
+            this.MoveWidgetRelativeToCurrentCell( 1, 0 );
         }
 
         private void ManualWidgetMovingUpButton_Click( object sender, RoutedEventArgs e )
         {
-            this.moveWidgetRelativeToCurrentCell( 0, -1 );
+            this.MoveWidgetRelativeToCurrentCell( 0, -1 );
         }
 
         #endregion Manual Widget Moving
@@ -364,18 +364,7 @@ namespace SandPanelPrototype
 
         private void StopManualWidgetMovingButton_Click( object sender, RoutedEventArgs e )
         {
-            //-- Stop the manual widget moving
-            _manualMovingWidget.StopMovement();
-            _manualMovingWidget = null;
-
-            //-- Reset the movement mode in order to enable the mouse controlling again
-            SandWidgetMovement.Mode = SandWidgetMovementModes.DragAndDrop;
-
-            //-- Reset all made settings again
-            this.AreManualWidgetMovingButtonsEnabled = false;
-            this.IsManualWidgetMovingEnabled = false;
-            SelectWidgetToggleButton.Visibility = System.Windows.Visibility.Visible;
-            StopManualWidgetMovingButton.Visibility = System.Windows.Visibility.Collapsed;
+            this.StopManualWidgetMoving();
         }
 
         private void Window_KeyDown( object sender, KeyEventArgs e )
@@ -384,10 +373,11 @@ namespace SandPanelPrototype
 
             switch( e.Key )
             {
-                case Key.Down: this.moveWidgetRelativeToCurrentCell( 0, 1 ); break;
-                case Key.Left: this.moveWidgetRelativeToCurrentCell( -1, 0 ); break;
-                case Key.Right: this.moveWidgetRelativeToCurrentCell( 1, 0 ); break;
-                case Key.Up: this.moveWidgetRelativeToCurrentCell( 0, -1 ); break;
+                case Key.Down: this.MoveWidgetRelativeToCurrentCell( 0, 1 ); break;
+                case Key.Left: this.MoveWidgetRelativeToCurrentCell( -1, 0 ); break;
+                case Key.Right: this.MoveWidgetRelativeToCurrentCell( 1, 0 ); break;
+                case Key.Up: this.MoveWidgetRelativeToCurrentCell( 0, -1 ); break;
+                case Key.Escape: this.StopManualWidgetMoving(); break;
             }
         }
 
@@ -492,7 +482,7 @@ namespace SandPanelPrototype
         /// <param name="yOffset">
         /// The offset by which the widget should be moved on the y axe.
         /// </param>
-        private void moveWidgetRelativeToCurrentCell( int xOffset, int yOffset )
+        private void MoveWidgetRelativeToCurrentCell( int xOffset, int yOffset )
         {
             //-- No selected widget -> no moving!
             if( _manualMovingWidget == null ) { return; }
@@ -535,6 +525,25 @@ namespace SandPanelPrototype
 
             //-- Place the widget to the new cell's center
             nextCell.OnWidgetDropped( _manualMovingWidget, false );
+        }
+
+        /// <summary>
+        /// Stops the manual widget moving.
+        /// </summary>
+        private void StopManualWidgetMoving()
+        {
+            //-- Stop the manual widget moving
+            _manualMovingWidget.StopMovement();
+            _manualMovingWidget = null;
+
+            //-- Reset the movement mode in order to enable the mouse controlling again
+            SandWidgetMovement.Mode = SandWidgetMovementModes.DragAndDrop;
+
+            //-- Reset all made settings again
+            this.AreManualWidgetMovingButtonsEnabled = false;
+            this.IsManualWidgetMovingEnabled = false;
+            SelectWidgetToggleButton.Visibility = System.Windows.Visibility.Visible;
+            StopManualWidgetMovingButton.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         #endregion Methods
