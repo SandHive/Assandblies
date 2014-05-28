@@ -76,7 +76,7 @@ namespace Sand.Controls
             Mouse.OverrideCursor = Cursors.None;
 
             //-- Start a new movement
-            this.StartMovement();
+            this.StartMovement( true );
         }
 
         protected override void OnMouseMove( MouseEventArgs e )
@@ -139,11 +139,24 @@ namespace Sand.Controls
         /// <summary>
         /// Starts a new movement.
         /// </summary>
+        [DebuggerStepThrough]
         internal void StartMovement()
+        {
+            this.StartMovement( false );
+        }
+
+        /// <summary>
+        /// Starts a new movement.
+        /// </summary>
+        /// <param name="isHomeGridCellHovered">
+        /// A flag that indicates whether the "IsHovered" property of the home 
+        /// grid cell should be set or not. 
+        /// </param>
+        private void StartMovement( bool isHomeGridCellHovered )
         {
             //-- Initialize a new widget movement
             var homeGridCell = ( (SandWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
-            homeGridCell.IsHovered = true;
+            homeGridCell.IsHovered = isHomeGridCellHovered;
             this.Movement = SandWidgetMovement.Start( this, homeGridCell );
             this.IsMoving = true;
 
