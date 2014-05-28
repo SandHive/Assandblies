@@ -368,6 +368,9 @@ namespace SandPanelPrototype
             _manualMovingWidget.StopMovement();
             _manualMovingWidget = null;
 
+            //-- Reset the movement mode in order to enable the mouse controlling again
+            SandWidgetMovement.Mode = SandWidgetMovementModes.DragAndDrop;
+
             //-- Reset all made settings again
             this.AreManualWidgetMovingButtonsEnabled = false;
             this.IsManualWidgetMovingEnabled = false;
@@ -531,7 +534,7 @@ namespace SandPanelPrototype
             _manualMovingWidget.Movement.MoveWidgetTo( nextCell );
 
             //-- Place the widget to the new cell's center
-            nextCell.OnWidgetDropped( _manualMovingWidget, true );
+            nextCell.OnWidgetDropped( _manualMovingWidget, false );
         }
 
         #endregion Methods
