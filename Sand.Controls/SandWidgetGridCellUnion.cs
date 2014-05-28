@@ -96,12 +96,24 @@ namespace Sand.Controls
             }
             internal set
             {
+                this.ForEachCellDo( 
+
+                    ( cell ) => cell.IsHome = value
+                );
+            }
+        }
+
+        public override bool IsHovered
+        {
+            get
+            {
+                return _parentGrid.WidgetGridCells[this.XCellIndex, this.YCellIndex].IsHovered;
+            }
+            internal set
+            {
                 this.ForEachCellDo(
 
-                    ( cell ) =>
-                    {
-                        cell.IsHome = value;
-                    }
+                    ( cell ) => cell.IsHovered = value
                 );
             }
         }

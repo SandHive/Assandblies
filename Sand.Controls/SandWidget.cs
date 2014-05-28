@@ -143,6 +143,7 @@ namespace Sand.Controls
         {
             //-- Initialize a new widget movement
             var homeGridCell = ( (SandWidgetGrid) this.Parent ).GetOccupiedGridCell( this );
+            homeGridCell.IsHovered = true;
             this.Movement = SandWidgetMovement.Start( this, homeGridCell );
             this.IsMoving = true;
 

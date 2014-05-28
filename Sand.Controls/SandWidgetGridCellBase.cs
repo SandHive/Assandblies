@@ -44,6 +44,12 @@ namespace Sand.Controls
         public abstract bool IsHome { get; internal set; }
 
         /// <summary>
+        /// Gets a flag that indicates whether this cell is currently hoverd by 
+        /// a widget or not.
+        /// </summary>
+        public abstract bool IsHovered { get; internal set; }
+
+        /// <summary>
         /// Gets the widget that is currently in the cell. 
         /// </summary>
         public abstract SandWidget Widget { get; internal set; }

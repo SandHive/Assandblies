@@ -78,17 +78,6 @@ namespace Sand.Controls
         /// </summary>
         public Guid Guid { get { return _guid; } }
 
-        public static DependencyProperty IsHoveredProperty = DependencyProperty.Register( "IsHovered", typeof( bool ), typeof( SandWidgetGridCell ), new PropertyMetadata( false ) );
-        /// <summary>
-        /// Gets a flag that indicates whether this cell is currently hoverd by 
-        /// a widget or not.
-        /// </summary>
-        public bool IsHovered
-        {
-            get { return (bool) this.GetValue( SandWidgetGridCell.IsHoveredProperty ); }
-            internal set { this.SetValue( SandWidgetGridCell.IsHoveredProperty, value ); }
-        }
-
         #endregion Properties
         //---------------------------------------------------------------------
         #region Constructors
@@ -123,12 +112,14 @@ namespace Sand.Controls
         public override bool IsHome
         {
             get { return (bool) this.GetValue( SandWidgetGridCell.IsHomeProperty ); }
-            internal set
-            {
-                this.SetValue( SandWidgetGridCell.IsHomeProperty, value );
+            internal set { this.SetValue( SandWidgetGridCell.IsHomeProperty, value ); }
+        }
 
-                this.IsHovered = value;
-            }
+        public static DependencyProperty IsHoveredProperty = DependencyProperty.Register( "IsHovered", typeof( bool ), typeof( SandWidgetGridCell ), new PropertyMetadata( false ) );
+        public override bool IsHovered
+        {
+            get { return (bool) this.GetValue( SandWidgetGridCell.IsHoveredProperty ); }
+            internal set { this.SetValue( SandWidgetGridCell.IsHoveredProperty, value ); }
         }
 
         [DebuggerStepThrough]
