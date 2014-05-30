@@ -170,6 +170,7 @@ namespace Sand.Controls
         {
             //-- Stop and reset the movement
             this.Movement.Stop();
+            this.Movement.CurrentCell.IsHovered = false;
             this.Movement = null;
 
             //-- Reset other members

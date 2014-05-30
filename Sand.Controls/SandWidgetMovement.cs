@@ -172,7 +172,7 @@ namespace Sand.Controls
 
             //-- 
             this.HomeCell.IsHome = false;
-            this.CurrentCell.OnWidgetDropped( _widget );
+            this.CurrentCell.CenterCurrentWidget();
         }
 
         public override string ToString()

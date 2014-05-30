@@ -103,6 +103,20 @@ namespace Sand.Controls
         //---------------------------------------------------------------------
         #region SandWidgetGridCellBase Members
 
+        internal override void CenterCurrentWidget()
+        {
+            //-- Get the location of the cell within the widget grid
+            Point cellInGridLocation = ( (SandWidgetGrid) this.Parent ).GetCellLocation( this );
+
+            //-- Calculate the offset in order to center the widget
+            double xOffset = ( this.Width - this.Widget.Width ) / 2;
+            double yOffset = ( this.Height - this.Widget.Height ) / 2;
+
+            //-- Move the widget to the cell's center
+            SandWidgetGrid.SetLeft( this.Widget, cellInGridLocation.X + xOffset );
+            SandWidgetGrid.SetTop( this.Widget, cellInGridLocation.Y + yOffset );
+        }
+
         public override bool ContainsWidget
         {
             get { return this.Widget != null; }
@@ -122,12 +136,6 @@ namespace Sand.Controls
             internal set { this.SetValue( SandWidgetGridCell.IsHoveredProperty, value ); }
         }
 
-        [DebuggerStepThrough]
-        internal override void OnWidgetDropped( SandWidget widget )
-        {
-            this.OnWidgetDropped( widget, false );
-        }
-
         internal override void OnWidgetEnter( SandWidget widget, bool isPrimaryMovingWidget )
         {
             if( this.Widget != null )
@@ -144,7 +152,7 @@ namespace Sand.Controls
             {
                 //-- The widget was displaced by the primary moving widget. So
                 //-- let's take care that it is centered
-                this.CenterWidget();
+                this.CenterCurrentWidget();
             }
         }
 
@@ -160,48 +168,6 @@ namespace Sand.Controls
         #endregion SandWidgetGridCellBase Members
         //---------------------------------------------------------------------
         #region Methods
-
-        /// <summary>
-        /// Places the current widget to the cell's center. 
-        /// </summary>
-        private void CenterWidget()
-        {
-            //-- Get the location of the cell within the widget grid
-            Point cellInGridLocation = ( (SandWidgetGrid) this.Parent ).GetCellLocation( this );
-
-            //-- Calculate the offset in order to center the widget
-            double xOffset = ( this.Width - this.Widget.Width ) / 2;
-            double yOffset = ( this.Height - this.Widget.Height ) / 2;
-
-            //-- Move the widget to the cell's center
-            SandWidgetGrid.SetLeft( this.Widget, cellInGridLocation.X + xOffset );
-            SandWidgetGrid.SetTop( this.Widget, cellInGridLocation.Y + yOffset );
-        }
-
-        /// <summary>
-        /// Handles a dropped widget.
-        /// </summary>
-        /// <param name="widget">
-        /// The dropped SandWidget object.
-        /// </param>
-        /// <param name="keepIsHoveredEnabled">
-        /// A flag that indicates whether the IsHovered property should be kept
-        /// enabled or not.
-        /// </param>
-        internal void OnWidgetDropped( SandWidget widget, bool keepIsHoveredEnabled )
-        {
-            if( //-- Check that this cell is not occupied ...
-                ( this.Widget != null ) &&
-                //-- ... but consider the case when moving back to the own home cell
-                ( this.Widget != widget ) )
-                throw new InvalidOperationException( "The cell is already occupied!" );
-
-            //this.Widget = widget;
-            this.IsHovered = keepIsHoveredEnabled;
-
-            //-- Place the widget to the cell's center
-            this.CenterWidget();
-        }
 
         /// <summary>
         /// Create some more informative output.

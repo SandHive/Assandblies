@@ -67,14 +67,11 @@ namespace Sand.Controls
         #endregion Properties
         //---------------------------------------------------------------------
         #region Methods
-        
+
         /// <summary>
-        /// Handles a dropped widget.
+        /// Places the current widget to the cell's center. 
         /// </summary>
-        /// <param name="widget">
-        /// The SandWidget object that should be dropped into this cell.
-        /// </param>
-        internal abstract void OnWidgetDropped( SandWidget widget );
+        internal abstract void CenterCurrentWidget();
 
         /// <summary>
         /// Handles the entering of a widget.
