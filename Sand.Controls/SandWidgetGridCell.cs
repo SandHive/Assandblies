@@ -29,42 +29,6 @@ namespace Sand.Controls
     public sealed class SandWidgetGridCell : SandWidgetGridCellBase
     {
         //---------------------------------------------------------------------
-        #region Events
-
-        public static readonly RoutedEvent WidgetEnterEvent = EventManager.RegisterRoutedEvent( "WidgetEnter", RoutingStrategy.Bubble, typeof( RoutedEventHandler ), typeof( SandWidgetGridCell ) );
-        /// <summary>
-        /// Occurs when a widget enters the cell.
-        /// </summary>
-        public event RoutedEventHandler WidgetEnter
-        {
-            add
-            {
-                this.AddHandler( SandWidgetGridCell.WidgetEnterEvent, value );
-            }
-            remove
-            {
-                this.RemoveHandler( SandWidgetGridCell.WidgetEnterEvent, value );
-            }
-        }
-
-        public static readonly RoutedEvent WidgetLeaveEvent = EventManager.RegisterRoutedEvent( "WidgetLeave", RoutingStrategy.Bubble, typeof( RoutedEventHandler ), typeof( SandWidgetGridCell ) );
-        /// <summary>
-        /// Occurs when a widget leaves the cell.
-        /// </summary>
-        public event RoutedEventHandler WidgetLeave
-        {
-            add
-            {
-                this.AddHandler( SandWidgetGridCell.WidgetLeaveEvent, value );
-            }
-            remove
-            {
-                this.RemoveHandler( SandWidgetGridCell.WidgetLeaveEvent, value );
-            }
-        }
-
-        #endregion Events
-        //---------------------------------------------------------------------
         #region Fields
 
         private readonly Guid _guid = Guid.NewGuid();
@@ -146,7 +110,6 @@ namespace Sand.Controls
             if( isPrimaryMovingWidget )
             {
                 this.IsHovered = true;
-                this.RaiseEvent( new RoutedEventArgs( SandWidgetGridCell.WidgetEnterEvent ) );
             }
             else
             {
@@ -160,7 +123,6 @@ namespace Sand.Controls
         {
             this.Widget = null;
             this.IsHovered = false;
-            this.RaiseEvent( new RoutedEventArgs( SandWidgetGridCell.WidgetLeaveEvent ) );
         }
 
         public override SandWidget Widget { get; internal set; }
