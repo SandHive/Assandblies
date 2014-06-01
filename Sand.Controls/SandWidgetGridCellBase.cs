@@ -99,11 +99,6 @@ namespace Sand.Controls
         /// </param>
         internal abstract void OnWidgetEnter(SandWidget widget, bool isPrimaryMovingWidget);
 
-        /// <summary>
-        /// Handles the leaving of a widget.
-        /// </summary>
-        internal abstract void OnWidgetLeave();
-
         #endregion Methods
         //---------------------------------------------------------------------
     }

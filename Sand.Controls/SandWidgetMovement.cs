@@ -94,7 +94,8 @@ namespace Sand.Controls
             grid.BeginInit();
 
             //-- Remove the widget from the current cell
-            this.CurrentCell.OnWidgetLeave();
+            this.CurrentCell.Widget = null;
+            this.CurrentCell.IsHovered = false;
 
             //-- Check if the new current cell contains a widget that has to be moved to the old current cell
             if( newCurrentCell.ContainsWidget )
@@ -103,7 +104,8 @@ namespace Sand.Controls
                 var swapWidget = newCurrentCell.Widget;
 
                 //-- Remove the swap widget from the new current cell
-                newCurrentCell.OnWidgetLeave();
+                newCurrentCell.Widget = null;
+                newCurrentCell.IsHovered = false;
 
                 //-- Add the swap widget to the old current cell
                 this.CurrentCell.OnWidgetEnter( swapWidget, false );

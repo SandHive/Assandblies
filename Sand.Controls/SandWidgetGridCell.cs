@@ -119,12 +119,6 @@ namespace Sand.Controls
             }
         }
 
-        internal override void OnWidgetLeave()
-        {
-            this.Widget = null;
-            this.IsHovered = false;
-        }
-
         public override SandWidget Widget { get; internal set; }
 
         #endregion SandWidgetGridCellBase Members

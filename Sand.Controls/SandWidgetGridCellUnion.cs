@@ -144,11 +144,6 @@ namespace Sand.Controls
             }
         }
 
-        internal override void OnWidgetLeave()
-        {
-            this.ForEachCellDo((cell) => cell.OnWidgetLeave());
-        }
-
         public override SandWidget Widget
         {
             get
