@@ -100,25 +100,6 @@ namespace Sand.Controls
             internal set { this.SetValue( SandWidgetGridCell.IsHoveredProperty, value ); }
         }
 
-        internal override void OnWidgetEnter( SandWidget widget, bool isPrimaryMovingWidget )
-        {
-            if( this.Widget != null )
-                throw new InvalidOperationException( "The cell is already occupied!" );
-
-            this.Widget = widget;
-
-            if( isPrimaryMovingWidget )
-            {
-                this.IsHovered = true;
-            }
-            else
-            {
-                //-- The widget was displaced by the primary moving widget. So
-                //-- let's take care that it is centered
-                this.CenterCurrentWidget();
-            }
-        }
-
         public override SandWidget Widget { get; internal set; }
 
         #endregion SandWidgetGridCellBase Members

@@ -132,18 +132,6 @@ namespace Sand.Controls
             }
         }
 
-        internal override void OnWidgetEnter( SandWidget widget, bool isPrimaryMovingWidget )
-        {
-            this.ForEachCellDo( ( cell ) => cell.OnWidgetEnter( widget, isPrimaryMovingWidget ) );
-
-            if( !isPrimaryMovingWidget )
-            {
-                //-- The widget was displaced by the primary moving widget. So
-                //-- let's take care that it is centered
-                this.CenterCurrentWidget();
-            }
-        }
-
         public override SandWidget Widget
         {
             get

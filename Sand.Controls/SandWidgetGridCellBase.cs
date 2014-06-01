@@ -73,32 +73,6 @@ namespace Sand.Controls
         /// </summary>
         internal abstract void CenterCurrentWidget();
 
-        /// <summary>
-        /// Handles the entering of a widget.
-        /// </summary>
-        /// <param name="widget">
-        /// The SandWidget object that enters this cell.
-        /// </param>
-        [DebuggerStepThrough]
-        internal void OnWidgetEnter(SandWidget widget)
-        {
-            this.OnWidgetEnter(widget, true);
-        }
-
-        /// <summary>
-        /// Handles the entering of a widget.
-        /// </summary>
-        /// <param name="widget">
-        /// The SandWidget object that enters this cell.
-        /// </param>
-        /// <param name="isPrimaryMovingWidget">
-        /// A flag that indicates whether the widget is the primary moving 
-        /// widget (the one that is moved by a user interaction) or a
-        /// secondary moving widget (one of the widgets that were displaced
-        /// by the primary one).
-        /// </param>
-        internal abstract void OnWidgetEnter(SandWidget widget, bool isPrimaryMovingWidget);
-
         #endregion Methods
         //---------------------------------------------------------------------
     }

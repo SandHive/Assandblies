@@ -108,7 +108,8 @@ namespace Sand.Controls
                 newCurrentCell.IsHovered = false;
 
                 //-- Add the swap widget to the old current cell
-                this.CurrentCell.OnWidgetEnter( swapWidget, false );
+                this.CurrentCell.Widget = swapWidget;
+                this.CurrentCell.CenterCurrentWidget();    
 
                 if( _subMovements == null )
                 {
@@ -127,7 +128,8 @@ namespace Sand.Controls
             
             //-- Add the moving widget to the new current cell
             this.CurrentCell = newCurrentCell;
-            this.CurrentCell.OnWidgetEnter( _widget );
+            this.CurrentCell.Widget = _widget;
+            this.CurrentCell.IsHovered = true;
 
 
             #region //-- Validate sub movements
