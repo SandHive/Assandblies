@@ -81,7 +81,13 @@ namespace Sand.Controls
         //---------------------------------------------------------------------
         #region Methods
 
+        [DebuggerStepThrough]
         internal void MoveWidgetTo( SandWidgetGridCellBase newCurrentCell )
+        {
+            this.MoveWidgetTo( newCurrentCell, false );
+        }
+
+        internal void MoveWidgetTo( SandWidgetGridCellBase newCurrentCell, bool shouldWidgetBeCentered )
         {
             if( newCurrentCell == null )
                 throw new ArgumentNullException( "The new target cell may not be null!" );
@@ -94,7 +100,7 @@ namespace Sand.Controls
             grid.BeginInit();
 
             //-- Remove the widget from the current cell
-            this.CurrentCell.Widget = null;
+            this.CurrentCell.SetWidget( null );
             this.CurrentCell.IsHovered = false;
 
             //-- Check if the new current cell contains a widget that has to be moved to the old current cell
@@ -103,13 +109,8 @@ namespace Sand.Controls
                 //-- Keep the widget that should be swapped in mind
                 var swapWidget = newCurrentCell.Widget;
 
-                //-- Remove the swap widget from the new current cell
-                newCurrentCell.Widget = null;
-                newCurrentCell.IsHovered = false;
-
                 //-- Add the swap widget to the old current cell
-                this.CurrentCell.Widget = swapWidget;
-                this.CurrentCell.CenterCurrentWidget();    
+                this.CurrentCell.SetWidget( swapWidget ); 
 
                 if( _subMovements == null )
                 {
@@ -128,7 +129,7 @@ namespace Sand.Controls
             
             //-- Add the moving widget to the new current cell
             this.CurrentCell = newCurrentCell;
-            this.CurrentCell.Widget = _widget;
+            this.CurrentCell.SetWidget( _widget, shouldWidgetBeCentered );
             this.CurrentCell.IsHovered = true;
 
 
@@ -176,7 +177,9 @@ namespace Sand.Controls
 
             //-- 
             this.HomeCell.IsHome = false;
-            this.CurrentCell.CenterCurrentWidget();
+
+            //-- Set the widget to the current cell again in order to place it into the cell's center
+            this.CurrentCell.SetWidget( _widget );
         }
 
         public override string ToString()

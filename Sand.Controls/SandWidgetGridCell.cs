@@ -67,20 +67,6 @@ namespace Sand.Controls
         //---------------------------------------------------------------------
         #region SandWidgetGridCellBase Members
 
-        internal override void CenterCurrentWidget()
-        {
-            //-- Get the location of the cell within the widget grid
-            Point cellInGridLocation = ( (SandWidgetGrid) this.Parent ).GetCellLocation( this );
-
-            //-- Calculate the offset in order to center the widget
-            double xOffset = ( this.Width - this.Widget.Width ) / 2;
-            double yOffset = ( this.Height - this.Widget.Height ) / 2;
-
-            //-- Move the widget to the cell's center
-            SandWidgetGrid.SetLeft( this.Widget, cellInGridLocation.X + xOffset );
-            SandWidgetGrid.SetTop( this.Widget, cellInGridLocation.Y + yOffset );
-        }
-
         public override bool ContainsWidget
         {
             get { return this.Widget != null; }
@@ -100,7 +86,26 @@ namespace Sand.Controls
             internal set { this.SetValue( SandWidgetGridCell.IsHoveredProperty, value ); }
         }
 
-        public override SandWidget Widget { get; internal set; }
+        internal override void SetWidget( SandWidget widget, bool shouldWidgetBeCentered )
+        {
+            if( ( widget != null ) && shouldWidgetBeCentered )
+            {
+                //-- Get the location of the cell within the widget grid
+                Point cellInGridLocation = ( (SandWidgetGrid) this.Parent ).GetCellLocation( this );
+
+                //-- Calculate the offset in order to center the widget
+                double xOffset = ( this.Width - widget.Width ) / 2;
+                double yOffset = ( this.Height - widget.Height ) / 2;
+
+                //-- Move the widget to the cell's center
+                SandWidgetGrid.SetLeft( widget, cellInGridLocation.X + xOffset );
+                SandWidgetGrid.SetTop( widget, cellInGridLocation.Y + yOffset );
+            }
+
+            this.Widget = widget;
+        }
+
+        public override SandWidget Widget { get; protected set; }
 
         #endregion SandWidgetGridCellBase Members
         //---------------------------------------------------------------------

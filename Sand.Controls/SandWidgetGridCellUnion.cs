@@ -67,20 +67,6 @@ namespace Sand.Controls
         //---------------------------------------------------------------------
         #region SandWidgetGridCellBase Members
 
-        internal override void CenterCurrentWidget()
-        {
-            //-- Get the location of the cell within the widget grid
-            Point cellInGridLocation = _parentGrid.GetCellLocation( _parentGrid.WidgetGridCells[this.XCellIndex, this.YCellIndex] );
-
-            //-- Calculate the offset in order to center the widget
-            double xOffset = ( ( _parentGrid.CellSize.Width * _xCellsCount ) - this.Widget.Width ) / 2;
-            double yOffset = ( ( _parentGrid.CellSize.Height * _yCellsCount ) - this.Widget.Height ) / 2;
-
-            //-- Move the widget to the cell's center
-            SandWidgetGrid.SetLeft( this.Widget, cellInGridLocation.X + xOffset );
-            SandWidgetGrid.SetTop( this.Widget, cellInGridLocation.Y + yOffset );
-        }
-
         public override bool ContainsWidget
         {
             get
@@ -132,15 +118,34 @@ namespace Sand.Controls
             }
         }
 
+        internal override void SetWidget( SandWidget widget, bool shouldWidgetBeCentered )
+        {
+            this.ForEachCellDo( ( cell ) => cell.SetWidget( widget, false ) );
+
+            if( ( widget != null ) && shouldWidgetBeCentered )
+            {
+                //-- Get the location of the cell within the widget grid
+                Point cellInGridLocation = _parentGrid.GetCellLocation( _parentGrid.WidgetGridCells[this.XCellIndex, this.YCellIndex] );
+
+                //-- Calculate the offset in order to center the widget
+                double xOffset = ( ( _parentGrid.CellSize.Width * _xCellsCount ) - widget.Width ) / 2;
+                double yOffset = ( ( _parentGrid.CellSize.Height * _yCellsCount ) - widget.Height ) / 2;
+
+                //-- Move the widget to the cell's center
+                SandWidgetGrid.SetLeft( widget, cellInGridLocation.X + xOffset );
+                SandWidgetGrid.SetTop( widget, cellInGridLocation.Y + yOffset );
+            }
+        }
+
         public override SandWidget Widget
         {
             get
             {
                 return _parentGrid.WidgetGridCells[this.XCellIndex, this.YCellIndex].Widget;
             }
-            internal set
+            protected set
             {
-                this.ForEachCellDo((cell) => cell.Widget = value);
+                throw new NotSupportedException();
             }
         }
 

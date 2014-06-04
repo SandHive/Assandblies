@@ -521,10 +521,7 @@ namespace SandPanelPrototype
             var nextCell = _sandWidgetGrid.WidgetGridCells[nextXIndex, nextYIndex];
 
             //-- Move the widget to the new cell
-            _manualMovingWidget.Movement.MoveWidgetTo( nextCell );
-
-            //-- Place the widget to the new cell's center
-            nextCell.CenterCurrentWidget();
+            _manualMovingWidget.Movement.MoveWidgetTo( nextCell, true );
         }
 
         /// <summary>
