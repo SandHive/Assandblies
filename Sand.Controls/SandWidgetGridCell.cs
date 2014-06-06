@@ -88,18 +88,24 @@ namespace Sand.Controls
 
         internal override void SetWidget( SandWidget widget, bool shouldWidgetBeCentered )
         {
-            if( ( widget != null ) && shouldWidgetBeCentered )
+            if( widget != null )
             {
-                //-- Get the location of the cell within the widget grid
-                Point cellInGridLocation = ( (SandWidgetGrid) this.Parent ).GetCellLocation( this );
+                if( this.Widget != null )
+                    throw new InvalidOperationException( "The cell is already occupied!" );
 
-                //-- Calculate the offset in order to center the widget
-                double xOffset = ( this.Width - widget.Width ) / 2;
-                double yOffset = ( this.Height - widget.Height ) / 2;
+                if( shouldWidgetBeCentered )
+                {
+                    //-- Get the location of the cell within the widget grid
+                    Point cellInGridLocation = ( (SandWidgetGrid) this.Parent ).GetCellLocation( this );
 
-                //-- Move the widget to the cell's center
-                SandWidgetGrid.SetLeft( widget, cellInGridLocation.X + xOffset );
-                SandWidgetGrid.SetTop( widget, cellInGridLocation.Y + yOffset );
+                    //-- Calculate the offset in order to center the widget
+                    double xOffset = ( this.Width - widget.Width ) / 2;
+                    double yOffset = ( this.Height - widget.Height ) / 2;
+
+                    //-- Move the widget to the cell's center
+                    SandWidgetGrid.SetLeft( widget, cellInGridLocation.X + xOffset );
+                    SandWidgetGrid.SetTop( widget, cellInGridLocation.Y + yOffset );
+                }
             }
 
             this.Widget = widget;
