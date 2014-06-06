@@ -90,7 +90,8 @@ namespace Sand.Controls
         {
             if( widget != null )
             {
-                if( this.Widget != null )
+                if( ( this.Widget != null ) && 
+                    ( this.Widget != widget ) ) //-- Setting the already set widget again in order to center it is permitted
                     throw new InvalidOperationException( "The cell is already occupied!" );
 
                 if( shouldWidgetBeCentered )
