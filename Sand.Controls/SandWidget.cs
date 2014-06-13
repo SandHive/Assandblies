@@ -32,6 +32,11 @@ namespace Sand.Controls
         //---------------------------------------------------------------------
         #region Properties
 
+        /// <summary>
+        /// Gets the home cell.
+        /// </summary>
+        public SandWidgetGridCellBase HomeCell { get; internal set; }
+
         public static DependencyProperty IsMovingProperty = DependencyProperty.Register( "IsMoving", typeof( bool ), typeof( SandWidget ), new PropertyMetadata( false ) );
         /// <summary>
         /// Gets a flag that indicates whether the widget is moving or not.
