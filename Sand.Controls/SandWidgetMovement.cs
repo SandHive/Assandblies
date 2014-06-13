@@ -52,11 +52,6 @@ namespace Sand.Controls
         /// </summary>
         internal SandWidgetGridCellBase HomeCell { get; private set; }
 
-        /// <summary>
-        /// Gets or sets the moving mode of the current widget.
-        /// </summary>
-        internal static SandWidgetMovementModes Mode { get; set; }
-
         #endregion Property
         //---------------------------------------------------------------------
         #region Constructors

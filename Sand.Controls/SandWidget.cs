@@ -52,6 +52,11 @@ namespace Sand.Controls
         /// </summary>
         internal SandWidgetMovement Movement { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the moving mode of the current widget.
+        /// </summary>
+        internal static SandWidgetMovementModes MovementMode { get; set; }
+
         public static DependencyProperty TileSizeProperty = DependencyProperty.Register( "TileSize", typeof( Size ), typeof( SandWidget ), new PropertyMetadata( new Size( 1.0, 1.0 ) ) );
         /// <summary>
         /// Gets or sets the tile size.
@@ -69,7 +74,7 @@ namespace Sand.Controls
         protected override void OnMouseDown( MouseButtonEventArgs e )
         {
             //-- Do not evaluate the mouse movement when the widget is moved manually
-            if( SandWidgetMovement.Mode != SandWidgetMovementModes.DragAndDrop ) { return; }
+            if( SandWidget.MovementMode != SandWidgetMovementModes.DragAndDrop ) { return; }
 
             //-- Call the base implementation
             base.OnMouseDown( e );
@@ -87,7 +92,7 @@ namespace Sand.Controls
         protected override void OnMouseMove( MouseEventArgs e )
         {
             //-- Do not evaluate the mouse movement when the widget is moved manually
-            if( SandWidgetMovement.Mode != SandWidgetMovementModes.DragAndDrop ) { return; }
+            if( SandWidget.MovementMode != SandWidgetMovementModes.DragAndDrop ) { return; }
 
             //-- Call the base implementation
             base.OnMouseMove( e );
@@ -122,7 +127,7 @@ namespace Sand.Controls
         protected override void OnMouseUp( MouseButtonEventArgs e )
         {
             //-- Do not evaluate the mouse movement when the widget is moved manually
-            if( SandWidgetMovement.Mode != SandWidgetMovementModes.DragAndDrop ) { return; }
+            if( SandWidget.MovementMode != SandWidgetMovementModes.DragAndDrop ) { return; }
 
             //-- The movement may be null when the mouse is pressed on an empty cell
             //-- and will be released on another cell's widget
