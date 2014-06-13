@@ -71,6 +71,10 @@
                         <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding WidgetName}" />
                         <TextBlock DockPanel.Dock="Left" Text="WidgetName" />
                     </DockPanel>
+                    <DockPanel>
+                        <TextBox DockPanel.Dock="Right" HorizontalContentAlignment="Center" Text="{Binding WidgetHomeCell}" />
+                        <TextBlock DockPanel.Dock="Left" Text="WidgetHomeCell" />
+                    </DockPanel>
                 </StackPanel>
             </GroupBox>
 

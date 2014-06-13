@@ -166,6 +166,16 @@ namespace SandPanelPrototype
             private set { this.SetValue( MainWindow.WidgetGuidProperty, value ); }
         }
 
+        public static DependencyProperty WidgetHomeCellProperty = DependencyProperty.Register( "WidgetHomeCell", typeof( String ), typeof( MainWindow ), new PropertyMetadata( String.Empty ) );
+        /// <summary>
+        /// Gets the indexes of the home cell of the widget that is currently hovered.
+        /// </summary>
+        public String WidgetHomeCellIndexes
+        {
+            get { return (String) this.GetValue( MainWindow.WidgetHomeCellProperty ); }
+            private set { this.SetValue( MainWindow.WidgetHomeCellProperty, value ); }
+        }
+
         public static DependencyProperty WidgetNameProperty = DependencyProperty.Register( "WidgetName", typeof( String ), typeof( MainWindow ), new PropertyMetadata( String.Empty ) );
         /// <summary>
         /// Gets the name of the widget that is dropped to the cell that is 
@@ -441,6 +451,7 @@ namespace SandPanelPrototype
                 var widget = cell.Widget;
                 this.WidgetGuid = widget.Guid.ToString();
                 this.WidgetName = widget.Name;
+                this.WidgetHomeCellIndexes = new Point( widget.HomeCell.XCellIndex, widget.HomeCell.YCellIndex ).ToString();
 
                 if( _isManualWidgetSelectingEnabled )
                 {
@@ -451,6 +462,7 @@ namespace SandPanelPrototype
             {
                 this.WidgetGuid = String.Empty;
                 this.WidgetName = String.Empty;
+                this.WidgetHomeCellIndexes = String.Empty;
 
                 if( _isManualWidgetSelectingEnabled )
                 {
