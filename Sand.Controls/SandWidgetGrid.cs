@@ -252,17 +252,10 @@ namespace Sand.Controls
         /// <param name="widget">
         /// The widget that should be added.
         /// </param>
+        [DebuggerStepThrough]
         public void AddWidget( SandWidget widget )
         {
-            base.Children.Add( widget );
-            base.OnItemAdded( widget );
-
-            //-- Determine the target cell
-            var targetCell = this.GetNextFreeGridCell( widget );
-
-            //-- Add the widget to the target cell
-            this.CalculateWidgetWidthAndHeight( widget );
-            targetCell.SetWidget( widget );
+            this.AddWidget( widget, -1, -1 );
         }
 
         /// <summary>
@@ -283,7 +276,15 @@ namespace Sand.Controls
             base.OnItemAdded( widget );
 
             //-- Determine the target cell
-            var targetCell = _widgetGridCells[xCellIndex, yCellIndex];
+            SandWidgetGridCellBase targetCell;
+            if( ( xCellIndex > -1 ) && ( yCellIndex > -1 ) )
+            {
+                targetCell = _widgetGridCells[xCellIndex, yCellIndex];
+            }
+            else
+            {
+                targetCell = this.GetNextFreeGridCell( widget );
+            }
 
             //-- Add the widget to the target cell
             this.CalculateWidgetWidthAndHeight( widget );
