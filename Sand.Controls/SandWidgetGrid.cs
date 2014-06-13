@@ -234,12 +234,11 @@ namespace Sand.Controls
                 throw new ArgumentException( "Only items of type \"SandWidget\" can be added!" );
             }
 
-            base.OnItemAdded( item );
+            var widget =  (SandWidget) item;
 
-            var widget = (SandWidget) item;
-            this.CalculateWidgetWidthAndHeight( widget );
-            var targetGridCell = this.GetNextFreeGridCell( widget );
-            targetGridCell.SetWidget( widget );
+            //-- The widget should not be added to the children collection,
+            //-- because this was already done deep in the xaml world
+            this.AddWidget( widget, -1, -1, false );
         }
 
         #endregion SandPanel Members
@@ -270,9 +269,34 @@ namespace Sand.Controls
         /// <param name="yCellIndex">
         /// The x index of the cell into which the widget should be added.
         /// </param>
+        [DebuggerStepThrough]
         public void AddWidget( SandWidget widget, int xCellIndex, int yCellIndex )
         {
-            base.Children.Add( widget );
+            this.AddWidget( widget, xCellIndex, yCellIndex, true );
+        }
+
+        /// <summary>
+        /// Adds a widget into a desired cell of the widget grid.
+        /// </summary>
+        /// <param name="widget">
+        /// The widget that should be added.
+        /// </param>
+        /// <param name="xCellIndex">
+        /// The x index of the cell into which the widget should be added.
+        /// </param>
+        /// <param name="yCellIndex">
+        /// The x index of the cell into which the widget should be added.
+        /// </param>
+        /// <param name="shouldWidgetBeAddedToChildrenCollection">
+        /// When set to 'true', the widget will be added to the children 
+        /// collection.
+        /// </param>
+        private void AddWidget( SandWidget widget, int xCellIndex, int yCellIndex, bool shouldWidgetBeAddedToChildrenCollection )
+        {
+            if( shouldWidgetBeAddedToChildrenCollection )
+            {
+                base.Children.Add( widget );
+            }
             base.OnItemAdded( widget );
 
             //-- Determine the target cell
@@ -288,7 +312,12 @@ namespace Sand.Controls
 
             //-- Add the widget to the target cell
             this.CalculateWidgetWidthAndHeight( widget );
+
+            //-- Set the widget to the target cell ...
             targetCell.SetWidget( widget );
+
+            //-- ... and make the target cell the home cell of the widget
+            widget.HomeCell = targetCell;
         }
 
         /// <summary>
