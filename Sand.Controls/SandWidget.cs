@@ -19,11 +19,10 @@
  * IN THE SOFTWARE.
  */
 
+using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Effects;
 //-----------------------------------------------------------------------------
 namespace Sand.Controls
 {
@@ -57,6 +56,11 @@ namespace Sand.Controls
         /// </summary>
         internal static SandWidgetMovementModes MovementMode { get; set; }
 
+        /// <summary>
+        /// Gets the parent SandWidgetGrid object.
+        /// </summary>
+        public SandWidgetGrid ParentGrid { get; private set; }
+
         public static DependencyProperty TileSizeProperty = DependencyProperty.Register( "TileSize", typeof( Size ), typeof( SandWidget ), new PropertyMetadata( new Size( 1.0, 1.0 ) ) );
         /// <summary>
         /// Gets or sets the tile size.
@@ -70,6 +74,14 @@ namespace Sand.Controls
         #endregion Properties
         //---------------------------------------------------------------------
         #region SandPanelItem Members
+
+        protected override void OnInitialized( EventArgs e )
+        {
+            base.OnInitialized( e );
+
+            //-- Create a shortcut to the parent grid
+            this.ParentGrid = (SandWidgetGrid) this.Parent;
+        }
 
         protected override void OnMouseDown( MouseButtonEventArgs e )
         {
