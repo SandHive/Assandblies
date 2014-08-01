@@ -19,33 +19,21 @@
  * IN THE SOFTWARE.
  */
 
-using NUnit.Framework;
-using System;
+using System.Windows;
 //-----------------------------------------------------------------------------
-namespace Sand.Controls.Tests
+namespace Sand.Controls
 {
-    [TestFixture, RequiresSTA]
-    public class SandWidgetGridCellTests
+    public interface ISandWidget
     {
-        //---------------------------------------------------------------------
-        #region Tests
+        /// <summary>
+        /// Gets or sets the tile size.
+        /// </summary>
+        Size TileSize { get; set; }
 
-        [Test]
-        [ExpectedException( typeof( InvalidOperationException ), ExpectedMessage = "The cell is already occupied!" )]
-        public void OnWidgetDropped_DroppingIntoOccupiedCellTest()
-        {
-            SandWidgetGrid _sandWidgetGrid = new SandWidgetGrid()
-            {
-                ColumnCount = 10,
-                RowCount = 10
-            };
-
-            _sandWidgetGrid.AddWidget( new SandTestWidget(), 0, 0 );
-            _sandWidgetGrid.AddWidget( new SandTestWidget(), 0, 0 );
-        }
-
-        #endregion Tests
-        //---------------------------------------------------------------------
+        /// <summary>
+        /// Gets the FrameworkElement object that should be the widgets content.
+        /// </summary>
+        FrameworkElement WidgetFrameworkElement { get; }
     }
 }
 //-----------------------------------------------------------------------------

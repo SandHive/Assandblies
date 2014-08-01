@@ -26,7 +26,7 @@ using System.Windows.Input;
 //-----------------------------------------------------------------------------
 namespace Sand.Controls
 {
-    public class SandWidget : SandPanelItem
+    internal sealed class SandWidgetWrapper : SandPanelItem
     {
         //---------------------------------------------------------------------
         #region Properties
@@ -36,14 +36,14 @@ namespace Sand.Controls
         /// </summary>
         public SandWidgetGridCellBase HomeCell { get; internal set; }
 
-        public static DependencyProperty IsMovingProperty = DependencyProperty.Register( "IsMoving", typeof( bool ), typeof( SandWidget ), new PropertyMetadata( false ) );
+        public static DependencyProperty IsMovingProperty = DependencyProperty.Register( "IsMoving", typeof( bool ), typeof( SandWidgetWrapper ), new PropertyMetadata( false ) );
         /// <summary>
         /// Gets a flag that indicates whether the widget is moving or not.
         /// </summary>
         public bool IsMoving
         {
-            get { return (bool) this.GetValue( SandWidget.IsMovingProperty ); }
-            private set { this.SetValue( SandWidget.IsMovingProperty, value ); }
+            get { return (bool) this.GetValue( SandWidgetWrapper.IsMovingProperty ); }
+            private set { this.SetValue( SandWidgetWrapper.IsMovingProperty, value ); }
         }
 
         /// <summary>
@@ -61,17 +61,31 @@ namespace Sand.Controls
         /// </summary>
         public SandWidgetGrid ParentGrid { get; private set; }
 
-        public static DependencyProperty TileSizeProperty = DependencyProperty.Register( "TileSize", typeof( Size ), typeof( SandWidget ), new PropertyMetadata( new Size( 1.0, 1.0 ) ) );
         /// <summary>
-        /// Gets or sets the tile size.
+        /// Gets the ISandWidget object that is hosted by this instance.
         /// </summary>
-        public Size TileSize
-        {
-            get { return (Size) this.GetValue( SandWidget.TileSizeProperty ); }
-            set { this.SetValue( SandWidget.TileSizeProperty, value ); }
-        }
+        internal ISandWidget Widget { get; private set; }
 
         #endregion Properties
+        //---------------------------------------------------------------------
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the SandWidget class.
+        /// </summary>
+        /// <param name="widget">
+        /// The ISandWidget object that is hosted by this instance.
+        /// </param>
+        internal SandWidgetWrapper( ISandWidget widget )
+        {
+            //-- Apply the ISandWidget object ... 
+            this.Widget = widget;
+
+            //-- .. and take its framework element as content
+            this.Content = widget.WidgetFrameworkElement;
+        }
+
+        #endregion Constructors
         //---------------------------------------------------------------------
         #region SandPanelItem Members
 
@@ -86,7 +100,7 @@ namespace Sand.Controls
         protected override void OnMouseDown( MouseButtonEventArgs e )
         {
             //-- Do not evaluate the mouse movement when the widget is moved manually
-            if( SandWidget.MovementMode != SandWidgetMovementModes.DragAndDrop ) { return; }
+            if( SandWidgetWrapper.MovementMode != SandWidgetMovementModes.DragAndDrop ) { return; }
 
             //-- Call the base implementation
             base.OnMouseDown( e );
@@ -104,7 +118,7 @@ namespace Sand.Controls
         protected override void OnMouseMove( MouseEventArgs e )
         {
             //-- Do not evaluate the mouse movement when the widget is moved manually
-            if( SandWidget.MovementMode != SandWidgetMovementModes.DragAndDrop ) { return; }
+            if( SandWidgetWrapper.MovementMode != SandWidgetMovementModes.DragAndDrop ) { return; }
 
             //-- Call the base implementation
             base.OnMouseMove( e );
@@ -139,7 +153,7 @@ namespace Sand.Controls
         protected override void OnMouseUp( MouseButtonEventArgs e )
         {
             //-- Do not evaluate the mouse movement when the widget is moved manually
-            if( SandWidget.MovementMode != SandWidgetMovementModes.DragAndDrop ) { return; }
+            if( SandWidgetWrapper.MovementMode != SandWidgetMovementModes.DragAndDrop ) { return; }
 
             //-- The movement may be null when the mouse is pressed on an empty cell
             //-- and will be released on another cell's widget

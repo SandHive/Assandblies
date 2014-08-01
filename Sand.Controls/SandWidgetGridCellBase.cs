@@ -52,7 +52,7 @@ namespace Sand.Controls
         /// <summary>
         /// Gets the widget that is currently in the cell. 
         /// </summary>
-        public abstract SandWidget Widget { get; protected set; }
+        internal abstract SandWidgetWrapper Widget { get; set; }
 
         /// <summary>
         /// Gets the x cell index within the parent grid. 
@@ -69,12 +69,12 @@ namespace Sand.Controls
         #region Methods
 
         [DebuggerStepThrough]
-        internal void SetWidget( SandWidget widget )
+        internal void SetWidget( SandWidgetWrapper widget )
         {
             this.SetWidget( widget, true );
         }
 
-        internal abstract void SetWidget( SandWidget widget, bool shouldWidgetBeCentered );
+        internal abstract void SetWidget( SandWidgetWrapper widget, bool shouldWidgetBeCentered );
 
         #endregion Methods
         //---------------------------------------------------------------------

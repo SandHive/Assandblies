@@ -19,32 +19,42 @@
  * IN THE SOFTWARE.
  */
 
-using NUnit.Framework;
-using System;
+using Sand.Controls;
+using System.Windows;
+using System.Windows.Controls;
 //-----------------------------------------------------------------------------
-namespace Sand.Controls.Tests
+namespace SandPanelPrototype
 {
-    [TestFixture, RequiresSTA]
-    public class SandWidgetGridCellTests
+    /// <summary>
+    /// Interaction logic for ImageWidget.xaml
+    /// </summary>
+    public partial class ImageWidget : UserControl, ISandWidget
     {
         //---------------------------------------------------------------------
-        #region Tests
+        #region Constructors
 
-        [Test]
-        [ExpectedException( typeof( InvalidOperationException ), ExpectedMessage = "The cell is already occupied!" )]
-        public void OnWidgetDropped_DroppingIntoOccupiedCellTest()
+        public ImageWidget()
         {
-            SandWidgetGrid _sandWidgetGrid = new SandWidgetGrid()
-            {
-                ColumnCount = 10,
-                RowCount = 10
-            };
-
-            _sandWidgetGrid.AddWidget( new SandTestWidget(), 0, 0 );
-            _sandWidgetGrid.AddWidget( new SandTestWidget(), 0, 0 );
+            InitializeComponent();
         }
 
-        #endregion Tests
+        #endregion Constructors
+        //---------------------------------------------------------------------
+        #region ISandWidget Members
+
+        public static DependencyProperty TileSizeProperty = DependencyProperty.Register( "TileSize", typeof( Size ), typeof( ImageWidget ), new PropertyMetadata( new Size( 1.0, 1.0 ) ) );
+        public Size TileSize
+        {
+            get { return (Size) this.GetValue( ImageWidget.TileSizeProperty ); }
+            set { this.SetValue( ImageWidget.TileSizeProperty, value ); }
+        }
+
+        public FrameworkElement WidgetFrameworkElement
+        {
+            get { return this; }
+        }
+
+        #endregion ISandWidget Members
         //---------------------------------------------------------------------
     }
 }

@@ -107,7 +107,7 @@ namespace SandPanelPrototype
 
         private bool _isManualWidgetSelectingEnabled;
 
-        private SandWidget _manualMovingWidget;
+        private SandWidgetWrapper _manualMovingWidget;
 
         #endregion Fields
         //---------------------------------------------------------------------
@@ -213,9 +213,8 @@ namespace SandPanelPrototype
         {
             _sandWidgetGrid.AddWidget(
 
-                new SandWidget()
+                new ImageWidget()
                 {
-                    Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) },
                     Name = "_" + _sandWidgetGrid.Children.Count.ToString(),
                     TileSize = new Size( 1, 1 )
                 }
@@ -226,9 +225,8 @@ namespace SandPanelPrototype
         {
             _sandWidgetGrid.AddWidget(
 
-                new SandWidget()
+                new ImageWidget()
                 {
-                    Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) },
                     Name = "_" + _sandWidgetGrid.Children.Count.ToString(),
                     TileSize = new Size( 1, 2 )
                 }
@@ -239,9 +237,8 @@ namespace SandPanelPrototype
         {
             _sandWidgetGrid.AddWidget(
 
-                new SandWidget()
+                new ImageWidget()
                 {
-                    Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) },
                     Name = "_" + _sandWidgetGrid.Children.Count.ToString(),
                     TileSize = new Size( 1, 3 )
                 }
@@ -252,9 +249,8 @@ namespace SandPanelPrototype
         {
             _sandWidgetGrid.AddWidget(
 
-                new SandWidget()
+                new ImageWidget()
                 {
-                    Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) },
                     Name = "_" + _sandWidgetGrid.Children.Count.ToString(),
                     TileSize = new Size( 2, 1 )
                 }
@@ -265,9 +261,8 @@ namespace SandPanelPrototype
         {
             _sandWidgetGrid.AddWidget(
 
-                new SandWidget()
+                new ImageWidget()
                 {
-                    Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) },
                     Name = "_" + _sandWidgetGrid.Children.Count.ToString(),
                     TileSize = new Size( 2, 2 )
                 }
@@ -278,9 +273,8 @@ namespace SandPanelPrototype
         {
             _sandWidgetGrid.AddWidget(
 
-                new SandWidget()
+                new ImageWidget()
                 {
-                    Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) },
                     Name = "_" + _sandWidgetGrid.Children.Count.ToString(),
                     TileSize = new Size( 2, 3 )
                 }
@@ -291,9 +285,8 @@ namespace SandPanelPrototype
         {
             _sandWidgetGrid.AddWidget(
 
-                new SandWidget()
+                new ImageWidget()
                 {
-                    Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) },
                     Name = "_" + _sandWidgetGrid.Children.Count.ToString(),
                     TileSize = new Size( 3, 1 )
                 }
@@ -304,9 +297,8 @@ namespace SandPanelPrototype
         {
             _sandWidgetGrid.AddWidget(
 
-                new SandWidget()
+                new ImageWidget()
                 {
-                    Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) },
                     Name = "_" + _sandWidgetGrid.Children.Count.ToString(),
                     TileSize = new Size( 3, 2 )
                 }
@@ -317,9 +309,8 @@ namespace SandPanelPrototype
         {
             _sandWidgetGrid.AddWidget(
 
-                new SandWidget()
+                new ImageWidget()
                 {
-                    Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) },
                     Name = "_" + _sandWidgetGrid.Children.Count.ToString(),
                     TileSize = new Size( 3, 3 )
                 }
@@ -361,7 +352,7 @@ namespace SandPanelPrototype
                 this.IsManualWidgetMovingEnabled = true;
                 _isManualWidgetSelectingEnabled = true;
 
-                SandWidget.MovementMode = SandWidgetMovementModes.Manual;
+                SandWidgetWrapper.MovementMode = SandWidgetMovementModes.Manual;
             }
             else
             {
@@ -395,10 +386,10 @@ namespace SandPanelPrototype
         {
             Debug.Listeners.Add( new ListBoxTraceListener( _DebugOutputListBox ) );
 
-            _sandWidgetGrid.AddWidget( new SandWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) }, Name = "_4" } );
-            _sandWidgetGrid.AddWidget( new SandWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) }, Name = "_5" } );
-            _sandWidgetGrid.AddWidget( new SandWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) }, Name = "_6" } );
-            _sandWidgetGrid.AddWidget( new SandWidget() { Content = new Image() { Source = new BitmapImage( new Uri( @"pack://application:,,,/SandPanelPrototype;component/Images/convert_icon256.png" ) ) }, Name = "_7" }, 3, 3 );
+            _sandWidgetGrid.AddWidget( new ImageWidget() { Name = "_4" } );
+            _sandWidgetGrid.AddWidget( new ImageWidget() { Name = "_5" } );
+            _sandWidgetGrid.AddWidget( new ImageWidget() { Name = "_6" } );
+            _sandWidgetGrid.AddWidget( new ImageWidget() { Name = "_7" }, 3, 3 );
         }
 
         private void Window_PreviewMouseLeftButtonUp( object sender, MouseButtonEventArgs e )
@@ -546,7 +537,7 @@ namespace SandPanelPrototype
             _manualMovingWidget = null;
 
             //-- Reset the movement mode in order to enable the mouse controlling again
-            SandWidget.MovementMode = SandWidgetMovementModes.DragAndDrop;
+            SandWidgetWrapper.MovementMode = SandWidgetMovementModes.DragAndDrop;
 
             //-- Reset all made settings again
             this.AreManualWidgetMovingButtonsEnabled = false;

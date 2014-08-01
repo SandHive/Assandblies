@@ -118,7 +118,7 @@ namespace Sand.Controls
             }
         }
 
-        internal override void SetWidget( SandWidget widget, bool shouldWidgetBeCentered )
+        internal override void SetWidget( SandWidgetWrapper widget, bool shouldWidgetBeCentered )
         {
             this.ForEachCellDo( ( cell ) => cell.SetWidget( widget, false ) );
 
@@ -137,13 +137,13 @@ namespace Sand.Controls
             }
         }
 
-        public override SandWidget Widget
+        internal override SandWidgetWrapper Widget
         {
             get
             {
                 return _parentGrid.WidgetGridCells[this.XCellIndex, this.YCellIndex].Widget;
             }
-            protected set
+            set
             {
                 throw new NotSupportedException();
             }

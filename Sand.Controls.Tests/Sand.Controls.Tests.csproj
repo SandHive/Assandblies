@@ -46,7 +46,7 @@
     <Compile Include="..\AssandbliesInfo.cs">
       <Link>Properties\AssandbliesInfo.cs</Link>
     </Compile>
-    <Compile Include="SandWidgetMovementTests.cs" />
+    <Compile Include="SandTestWidget.cs" />
     <Compile Include="SandWidgetGridCellTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SandWidgetGridTests.cs" />

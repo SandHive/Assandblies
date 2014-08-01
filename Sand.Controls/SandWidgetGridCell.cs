@@ -86,7 +86,7 @@ namespace Sand.Controls
             internal set { this.SetValue( SandWidgetGridCell.IsHoveredProperty, value ); }
         }
 
-        internal override void SetWidget( SandWidget widget, bool shouldWidgetBeCentered )
+        internal override void SetWidget( SandWidgetWrapper widget, bool shouldWidgetBeCentered )
         {
             if( widget != null )
             {
@@ -112,7 +112,7 @@ namespace Sand.Controls
             this.Widget = widget;
         }
 
-        public override SandWidget Widget { get; protected set; }
+        internal override SandWidgetWrapper Widget { get; set; }
 
         #endregion SandWidgetGridCellBase Members
         //---------------------------------------------------------------------

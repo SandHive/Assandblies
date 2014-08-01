@@ -36,7 +36,7 @@ namespace Sand.Controls
 
         private Dictionary<Guid, SandWidgetMovement>  _subMovements;
 
-        private SandWidget _widget;
+        private SandWidgetWrapper _widget;
 
         #endregion Fields
         //---------------------------------------------------------------------
@@ -65,7 +65,7 @@ namespace Sand.Controls
         /// <param name="homeCell">
         /// The home cell of the moving widget.
         /// </param>
-        private SandWidgetMovement( SandWidget widget, SandWidgetGridCellBase homeCell )
+        private SandWidgetMovement( SandWidgetWrapper widget, SandWidgetGridCellBase homeCell )
         {
             _widget = widget;
             this.HomeCell = homeCell;
@@ -153,7 +153,7 @@ namespace Sand.Controls
             grid.EndInit();
         }
 
-        internal static SandWidgetMovement Start( SandWidget widget, SandWidgetGridCellBase homeCell )
+        internal static SandWidgetMovement Start( SandWidgetWrapper widget, SandWidgetGridCellBase homeCell )
         {
             //-- Check arguments
             if( widget == null )

@@ -50,11 +50,11 @@ namespace Sand.Controls.Tests
             //-- Create necessary objects
             var grid = new SandWidgetGrid() { ColumnCount = 10, RowCount = 10 };
             
-            var widget1 = new SandWidget() { Content = "Test", Name = "_1" };
+            var widget1 = new SandTestWidget();
             grid.AddWidget( widget1, 2, 3 );
-            Assert.AreEqual( widget1, grid.WidgetGridCells[2, 3].Widget );
+            Assert.AreEqual( widget1, grid.WidgetGridCells[2, 3].Widget.Widget );
 
-            var widget2 = new SandWidget() { Content = "Test", Name = "_2" };
+            var widget2 = new SandTestWidget();
             grid.AddWidget( widget2, 2, 3 );
         }
 
@@ -63,7 +63,7 @@ namespace Sand.Controls.Tests
         {
             //-- Create necessary objects
             var grid = new SandWidgetGrid() { ColumnCount = 10, RowCount = 10 };
-            var widget = new SandWidget() { Content = "Test", Name = "_1" };
+            var widget = new SandTestWidget();
 
             grid.AddWidget( widget, 2, 3 );
             Assert.AreEqual( widget, grid.WidgetGridCells[2, 3].Widget ); 

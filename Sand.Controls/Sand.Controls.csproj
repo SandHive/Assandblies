@@ -43,17 +43,18 @@
       <Link>Properties\AssandbliesInfo.cs</Link>
     </Compile>
     <Compile Include="Converters\InvertBooleanConverter.cs" />
+    <Compile Include="ISandWidget.cs" />
     <Compile Include="SandWidgetGridsManager.cs" />
     <Compile Include="SandWidgetGridCellBase.cs" />
     <Compile Include="SandWidgetMovementModes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SandPanel.cs" />
     <Compile Include="SandPanelItem.cs" />
-    <Compile Include="SandWidget.cs" />
     <Compile Include="SandWidgetGrid.cs" />
     <Compile Include="SandWidgetGridCell.cs" />
     <Compile Include="SandWidgetGridCellUnion.cs" />
     <Compile Include="SandWidgetMovement.cs" />
+    <Compile Include="SandWidgetWrapper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
