@@ -170,11 +170,11 @@
 
                 <sc:SandWidgetGrid.Resources>
 
-                    <!-- <Style TargetType="{x:Type sc:SandWidget}"> -->
-                    <Style TargetType="{x:Type sc:SandWidgetWrapper}">
+                    <!-- <Style TargetType="{x:Type sc:SandWidgetAdapter}"> -->
+                    <Style TargetType="{x:Type sc:SandWidgetAdapter}">
                         
                         <Style.Triggers>
-                            <Trigger Property="sc:SandWidgetWrapper.IsMoving" Value="True">
+                            <Trigger Property="sc:SandWidgetAdapter.IsMoving" Value="True">
                                 <Setter Property="Effect">
                                     <Setter.Value>
                                         <DropShadowEffect Color="Black" Direction="320" Opacity="1" ShadowDepth="4" />

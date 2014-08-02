@@ -118,7 +118,7 @@ namespace Sand.Controls
             }
         }
 
-        internal override void SetWidget( SandWidgetWrapper widget, bool shouldWidgetBeCentered )
+        internal override void SetWidget( SandWidgetAdapter widget, bool shouldWidgetBeCentered )
         {
             this.ForEachCellDo( ( cell ) => cell.SetWidget( widget, false ) );
 
@@ -137,7 +137,7 @@ namespace Sand.Controls
             }
         }
 
-        internal override SandWidgetWrapper Widget
+        internal override SandWidgetAdapter Widget
         {
             get
             {

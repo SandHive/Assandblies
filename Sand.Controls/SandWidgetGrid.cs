@@ -249,7 +249,7 @@ namespace Sand.Controls
             foreach( UIElement childToBeWrapped in ISandWidgetObjects )
             {
                 this.Children.Remove( childToBeWrapped );
-                this.Children.Add( new SandWidgetWrapper( (ISandWidget) childToBeWrapped ) );
+                this.Children.Add( new SandWidgetAdapter( (ISandWidget) childToBeWrapped ) );
             }
 
             //-- Call the base implementation
@@ -260,17 +260,17 @@ namespace Sand.Controls
         {
             //-- This method is called when a widget was added via xaml
 
-            if( !( item is SandWidgetWrapper ) )
+            if( !( item is SandWidgetAdapter ) )
             {
-                throw new ArgumentException( "Only items of type \"SandWidgetWrapper\" can be added!" );
+                throw new ArgumentException( "Only items of type \"SandWidgetAdapter\" can be added!" );
             }
 
             //-- Get the widget wrapper
-            var widgetWrapper = (SandWidgetWrapper) item;
+            var widgetAdapter = (SandWidgetAdapter) item;
                     
             //-- The widget should not be added to the children collection,
             //-- because this was already done deep in the xaml world
-            this.AddWidget( widgetWrapper, -1, -1, false );
+            this.AddWidget( widgetAdapter, -1, -1, false );
         }
 
         #endregion SandPanel Members
@@ -304,10 +304,10 @@ namespace Sand.Controls
         [DebuggerStepThrough]
         public void AddWidget( ISandWidget widget, int xCellIndex, int yCellIndex )
         {
-            //-- Create a host for the widget in order to provide the widget functionality
-            var widgetWrapper = new SandWidgetWrapper( widget );
+            //-- Create an adapter for the ISandWidget object in order to equip it with widget functionality
+            var widgetAdapter = new SandWidgetAdapter( widget );
 
-            this.AddWidget( widgetWrapper, xCellIndex, yCellIndex, true );
+            this.AddWidget( widgetAdapter, xCellIndex, yCellIndex, true );
         }
 
         /// <summary>
@@ -326,13 +326,13 @@ namespace Sand.Controls
         /// When set to 'true', the widget will be added to the children 
         /// collection.
         /// </param>
-        private void AddWidget( SandWidgetWrapper widgetWrapper, int xCellIndex, int yCellIndex, bool shouldWidgetBeAddedToChildrenCollection )
+        private void AddWidget( SandWidgetAdapter widgetAdapter, int xCellIndex, int yCellIndex, bool shouldWidgetBeAddedToChildrenCollection )
         {
             if( shouldWidgetBeAddedToChildrenCollection )
             {
-                base.Children.Add( widgetWrapper );
+                base.Children.Add( widgetAdapter );
             }
-            base.OnItemAdded( widgetWrapper );
+            base.OnItemAdded( widgetAdapter );
 
             //-- Determine the target cell
             SandWidgetGridCellBase targetCell;
@@ -342,18 +342,18 @@ namespace Sand.Controls
             }
             else
             {
-                targetCell = this.GetNextFreeGridCell( widgetWrapper.Widget );
+                targetCell = this.GetNextFreeGridCell( widgetAdapter.Widget );
             }
 
             //-- Adjust the widget size by regarding the tile size
-            widgetWrapper.Height = ( this.CellSize.Height * widgetWrapper.Widget.TileSize.Height ) - ( this.CellPadding.Top + this.CellPadding.Bottom );
-            widgetWrapper.Width = ( this.CellSize.Width * widgetWrapper.Widget.TileSize.Width ) - ( this.CellPadding.Left + this.CellPadding.Right );
+            widgetAdapter.Height = ( this.CellSize.Height * widgetAdapter.Widget.TileSize.Height ) - ( this.CellPadding.Top + this.CellPadding.Bottom );
+            widgetAdapter.Width = ( this.CellSize.Width * widgetAdapter.Widget.TileSize.Width ) - ( this.CellPadding.Left + this.CellPadding.Right );
 
             //-- Set the widget to the target cell ...
-            targetCell.SetWidget( widgetWrapper );
+            targetCell.SetWidget( widgetAdapter );
 
             //-- ... and make the target cell the home cell of the widget
-            widgetWrapper.HomeCell = targetCell;
+            widgetAdapter.HomeCell = targetCell;
         }
 
         /// <summary>
@@ -452,28 +452,28 @@ namespace Sand.Controls
         /// <summary>
         /// Gets the cells that are occupied by the widget.
         /// </summary>
-        /// <param name="widgetWrapper">
+        /// <param name="widgetAdapter">
         /// The widget.
         /// </param>
         /// <returns>
         /// The cells.
         /// </returns>
-        internal SandWidgetGridCellBase GetOccupiedGridCell( SandWidgetWrapper widgetWrapper )
+        internal SandWidgetGridCellBase GetOccupiedGridCell( SandWidgetAdapter widgetAdapter )
         {
             //-- Get the location of the cell within the widget grid
-            Point topLeftWidgetCornerLocation = widgetWrapper.TranslatePoint( new Point(), this );
+            Point topLeftWidgetCornerLocation = widgetAdapter.TranslatePoint( new Point(), this );
 
             //-- Determine the cell index where the upper left corner of the widget is located
             int cellXIndexOfTopLeftWidgetCorner = (int) ( topLeftWidgetCornerLocation.X / this.CellSize.Width );
             int cellYIndexOfTopLeftWidgetCorner = (int) ( topLeftWidgetCornerLocation.Y / this.CellSize.Height );
 
             //-- Determine the number of occupied cells
-            int xOccupiedCellsCount = (int) Math.Ceiling( widgetWrapper.Widget.TileSize.Width );
-            int yOccupiedCellsCount = (int) Math.Ceiling( widgetWrapper.Widget.TileSize.Height );
+            int xOccupiedCellsCount = (int) Math.Ceiling( widgetAdapter.Widget.TileSize.Width );
+            int yOccupiedCellsCount = (int) Math.Ceiling( widgetAdapter.Widget.TileSize.Height );
 
             //-- Determine the cell index where the lower right corner of the widget is located
-            int cellXIndexOfBottomRightWidgetCorner = (int) ( ( topLeftWidgetCornerLocation.X + widgetWrapper.Width ) / this.CellSize.Width );
-            int cellYIndexOfBottomRightWidgetCorner = (int) ( ( topLeftWidgetCornerLocation.Y + widgetWrapper.Height ) / this.CellSize.Height );
+            int cellXIndexOfBottomRightWidgetCorner = (int) ( ( topLeftWidgetCornerLocation.X + widgetAdapter.Width ) / this.CellSize.Width );
+            int cellYIndexOfBottomRightWidgetCorner = (int) ( ( topLeftWidgetCornerLocation.Y + widgetAdapter.Height ) / this.CellSize.Height );
 
             //-- Determine locations for calculating where the biggest part of the widget is located
             Point topLeftCellBottomRightLocation = new Point( ( cellXIndexOfTopLeftWidgetCorner + 1 ) * this.CellSize.Width, ( cellYIndexOfTopLeftWidgetCorner + 1 ) * this.CellSize.Height );
@@ -482,8 +482,8 @@ namespace Sand.Controls
             //-- Check if the biggest part of the widget lies in a neighboring cell, ...
             double widgetWidthInTopLeftCell = topLeftCellBottomRightLocation.X - topLeftWidgetCornerLocation.X;
             double widgetHeightInTopLeftCell = topLeftCellBottomRightLocation.Y - topLeftWidgetCornerLocation.Y;
-            double widgetWidthInBottomRightCell = ( topLeftWidgetCornerLocation.X + widgetWrapper.Width ) - bottomRightCellTopLeftLocation.X;
-            double widgetHeightInBottomRightCell = ( topLeftWidgetCornerLocation.Y + widgetWrapper.Height ) - bottomRightCellTopLeftLocation.Y;
+            double widgetWidthInBottomRightCell = ( topLeftWidgetCornerLocation.X + widgetAdapter.Width ) - bottomRightCellTopLeftLocation.X;
+            double widgetHeightInBottomRightCell = ( topLeftWidgetCornerLocation.Y + widgetAdapter.Height ) - bottomRightCellTopLeftLocation.Y;
 
             //-- ... so we have to adjust the indexes
             if( ( widgetWidthInBottomRightCell > widgetWidthInTopLeftCell ) &&

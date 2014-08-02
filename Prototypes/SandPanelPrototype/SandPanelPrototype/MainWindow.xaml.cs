@@ -107,7 +107,7 @@ namespace SandPanelPrototype
 
         private bool _isManualWidgetSelectingEnabled;
 
-        private SandWidgetWrapper _manualMovingWidget;
+        private SandWidgetAdapter _manualMovingWidget;
 
         #endregion Fields
         //---------------------------------------------------------------------
@@ -352,7 +352,7 @@ namespace SandPanelPrototype
                 this.IsManualWidgetMovingEnabled = true;
                 _isManualWidgetSelectingEnabled = true;
 
-                SandWidgetWrapper.MovementMode = SandWidgetMovementModes.Manual;
+                SandWidgetAdapter.MovementMode = SandWidgetMovementModes.Manual;
             }
             else
             {
@@ -537,7 +537,7 @@ namespace SandPanelPrototype
             _manualMovingWidget = null;
 
             //-- Reset the movement mode in order to enable the mouse controlling again
-            SandWidgetWrapper.MovementMode = SandWidgetMovementModes.DragAndDrop;
+            SandWidgetAdapter.MovementMode = SandWidgetMovementModes.DragAndDrop;
 
             //-- Reset all made settings again
             this.AreManualWidgetMovingButtonsEnabled = false;

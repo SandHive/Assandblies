@@ -26,7 +26,7 @@ using System.Windows.Input;
 //-----------------------------------------------------------------------------
 namespace Sand.Controls
 {
-    internal sealed class SandWidgetWrapper : SandPanelItem
+    internal sealed class SandWidgetAdapter : SandPanelItem
     {
         //---------------------------------------------------------------------
         #region Properties
@@ -36,14 +36,14 @@ namespace Sand.Controls
         /// </summary>
         public SandWidgetGridCellBase HomeCell { get; internal set; }
 
-        public static DependencyProperty IsMovingProperty = DependencyProperty.Register( "IsMoving", typeof( bool ), typeof( SandWidgetWrapper ), new PropertyMetadata( false ) );
+        public static DependencyProperty IsMovingProperty = DependencyProperty.Register( "IsMoving", typeof( bool ), typeof( SandWidgetAdapter ), new PropertyMetadata( false ) );
         /// <summary>
         /// Gets a flag that indicates whether the widget is moving or not.
         /// </summary>
         public bool IsMoving
         {
-            get { return (bool) this.GetValue( SandWidgetWrapper.IsMovingProperty ); }
-            private set { this.SetValue( SandWidgetWrapper.IsMovingProperty, value ); }
+            get { return (bool) this.GetValue( SandWidgetAdapter.IsMovingProperty ); }
+            private set { this.SetValue( SandWidgetAdapter.IsMovingProperty, value ); }
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Sand.Controls
         /// <param name="widget">
         /// The ISandWidget object that is hosted by this instance.
         /// </param>
-        internal SandWidgetWrapper( ISandWidget widget )
+        internal SandWidgetAdapter( ISandWidget widget )
         {
             //-- Apply the ISandWidget object ... 
             this.Widget = widget;
@@ -100,7 +100,7 @@ namespace Sand.Controls
         protected override void OnMouseDown( MouseButtonEventArgs e )
         {
             //-- Do not evaluate the mouse movement when the widget is moved manually
-            if( SandWidgetWrapper.MovementMode != SandWidgetMovementModes.DragAndDrop ) { return; }
+            if( SandWidgetAdapter.MovementMode != SandWidgetMovementModes.DragAndDrop ) { return; }
 
             //-- Call the base implementation
             base.OnMouseDown( e );
@@ -118,7 +118,7 @@ namespace Sand.Controls
         protected override void OnMouseMove( MouseEventArgs e )
         {
             //-- Do not evaluate the mouse movement when the widget is moved manually
-            if( SandWidgetWrapper.MovementMode != SandWidgetMovementModes.DragAndDrop ) { return; }
+            if( SandWidgetAdapter.MovementMode != SandWidgetMovementModes.DragAndDrop ) { return; }
 
             //-- Call the base implementation
             base.OnMouseMove( e );
@@ -153,7 +153,7 @@ namespace Sand.Controls
         protected override void OnMouseUp( MouseButtonEventArgs e )
         {
             //-- Do not evaluate the mouse movement when the widget is moved manually
-            if( SandWidgetWrapper.MovementMode != SandWidgetMovementModes.DragAndDrop ) { return; }
+            if( SandWidgetAdapter.MovementMode != SandWidgetMovementModes.DragAndDrop ) { return; }
 
             //-- The movement may be null when the mouse is pressed on an empty cell
             //-- and will be released on another cell's widget
