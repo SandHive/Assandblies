@@ -38,6 +38,8 @@ namespace Sand.Controls
 
         private SandWidgetGridCell[,] _widgetGridCells;
 
+        private List<SandWidgetAdapter> _widgetAdapters = new List<SandWidgetAdapter>();
+
         #endregion Fields
         //---------------------------------------------------------------------
         #region Properties
@@ -156,19 +158,6 @@ namespace Sand.Controls
 
         #endregion Properties
         //---------------------------------------------------------------------
-        #region Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the SandWidgetGrid class.
-        /// </summary>
-        public SandWidgetGrid()
-        {
-            //-- Just register this grid instance to the grid manager
-            SandWidgetGridsManager.RegisterGrid( this );
-        }
-
-        #endregion Constructors
-        //---------------------------------------------------------------------
         #region SandPanel Members
 
         public override void AddItem( SandPanelItem item )
@@ -254,6 +243,9 @@ namespace Sand.Controls
 
             //-- Call the base implementation
             base.OnInitialized( e );
+            
+            //-- Just register this grid instance to the grid manager
+            SandWidgetGridsManager.RegisterGrid( this );
         }
 
         protected override void OnItemAdded( SandPanelItem item )
@@ -328,11 +320,21 @@ namespace Sand.Controls
         /// </param>
         private void AddWidget( SandWidgetAdapter widgetAdapter, int xCellIndex, int yCellIndex, bool shouldWidgetBeAddedToChildrenCollection )
         {
+            //-- Store the widget adapter
+            _widgetAdapters.Add( widgetAdapter );
+
+            //-- When a widget is added via xaml it is already in the Children collection
             if( shouldWidgetBeAddedToChildrenCollection )
             {
                 base.Children.Add( widgetAdapter );
             }
+
+            //-- Call the base implementation
             base.OnItemAdded( widgetAdapter );
+            
+            //-- Adjust the widget size by regarding the tile size
+            widgetAdapter.Height = ( this.CellSize.Height * widgetAdapter.Widget.TileSize.Height ) - ( this.CellPadding.Top + this.CellPadding.Bottom );
+            widgetAdapter.Width = ( this.CellSize.Width * widgetAdapter.Widget.TileSize.Width ) - ( this.CellPadding.Left + this.CellPadding.Right );
 
             //-- Determine the target cell
             SandWidgetGridCellBase targetCell;
@@ -345,15 +347,36 @@ namespace Sand.Controls
                 targetCell = this.GetNextFreeGridCell( widgetAdapter.Widget );
             }
 
-            //-- Adjust the widget size by regarding the tile size
-            widgetAdapter.Height = ( this.CellSize.Height * widgetAdapter.Widget.TileSize.Height ) - ( this.CellPadding.Top + this.CellPadding.Bottom );
-            widgetAdapter.Width = ( this.CellSize.Width * widgetAdapter.Widget.TileSize.Width ) - ( this.CellPadding.Left + this.CellPadding.Right );
-
             //-- Set the widget to the target cell ...
             targetCell.SetWidget( widgetAdapter );
 
             //-- ... and make the target cell the home cell of the widget
             widgetAdapter.HomeCell = targetCell;
+        }
+
+        /// <summary>
+        /// Gets the current widget allocation of this grid.
+        /// </summary>
+        /// <returns>
+        /// The current widget allocation of this grid.
+        /// </returns>
+        public SandWidgetGridAllocation GetAllocation()
+        {
+            List<SandWidgetAllocationInfo> widgetsAllocationInfo = new List<SandWidgetAllocationInfo>( _widgetAdapters.Count );
+            foreach( var widgetAdapter in _widgetAdapters )
+            {
+                widgetsAllocationInfo.Add( 
+                    
+                    new SandWidgetAllocationInfo( 
+                        
+                        widgetAdapter.Name, 
+                        new Point( widgetAdapter.HomeCell.XCellIndex, widgetAdapter.HomeCell.YCellIndex ),
+                        widgetAdapter.Widget.TileSize
+                    )
+                );
+            }
+
+            return SandWidgetGridAllocation.Create( this.ColumnCount, this.RowCount, widgetsAllocationInfo );
         }
 
         /// <summary>
