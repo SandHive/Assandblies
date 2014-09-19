@@ -20,7 +20,7 @@
         <!-- Debug output -->
         <ListBox 
             DockPanel.Dock="Bottom" 
-            Height="200" 
+            Height="100" 
             Margin="3" 
             Name="_DebugOutputListBox" />
 
