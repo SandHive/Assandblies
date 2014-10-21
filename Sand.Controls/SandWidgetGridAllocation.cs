@@ -35,10 +35,14 @@ namespace Sand.Controls
 
         private int  _rowCount;
 
-        private IList<SandWidgetAllocationInfo>  _widgetsAllocationInfo;
-
         #endregion Fields
-        //---------------------------------------------------------------------
+		//---------------------------------------------------------------------
+		#region Fields
+
+		public IList<SandWidgetAllocationInfo> widgetsAllocationInfo { get; private set; }
+
+		#endregion Fields
+		//---------------------------------------------------------------------
         #region Constructors
 
         /// <summary>
@@ -59,7 +63,7 @@ namespace Sand.Controls
             //-- Apply arguments
             _columnCount = columnCount;
             _rowCount = rowCount;
-            _widgetsAllocationInfo = widgetsAllocationInfo;
+            this.widgetsAllocationInfo = widgetsAllocationInfo;
         }
 
         #endregion Constructors

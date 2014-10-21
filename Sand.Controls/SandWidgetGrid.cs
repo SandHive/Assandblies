@@ -19,9 +19,13 @@
  * IN THE SOFTWARE.
  */
 
+using Sand.Controls.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Windows;
 using System.Windows.Media;
 //-----------------------------------------------------------------------------
@@ -369,7 +373,7 @@ namespace Sand.Controls
                     
                     new SandWidgetAllocationInfo( 
                         
-                        widgetAdapter.Name, 
+                        widgetAdapter.Widget.WidgetFrameworkElement.Name, 
                         new Point( widgetAdapter.HomeCell.XCellIndex, widgetAdapter.HomeCell.YCellIndex ),
                         widgetAdapter.Widget.TileSize
                     )
@@ -548,6 +552,54 @@ namespace Sand.Controls
 
             return occupiedCells;
         }
+
+		public bool LoadAllocation()
+		{
+			var settings = new Settings();
+
+			if( !String.IsNullOrEmpty( settings.GridAllocation ) )
+			{
+				var blubb = Convert.FromBase64String( settings.GridAllocation );
+
+				using( MemoryStream memStream = new MemoryStream( blubb ) )
+				{
+					BinaryFormatter serializer = new BinaryFormatter();
+					var gridAllocation = (SandWidgetGridAllocation) serializer.Deserialize( memStream );
+
+					
+					//foreach( var widgetAdapter in _widgetAdapters )
+					//{
+					//	this.Children.Remove( widgetAdapter );
+					//}
+					//_widgetAdapters.Clear();
+
+					foreach( var widgetAllocationInfo in gridAllocation.widgetsAllocationInfo )
+					{
+						//this.AddWidget( new ImageW)
+					}
+				}
+
+				return true;
+			}
+
+			return false;
+		}
+
+		public void SaveAllocation()
+		{
+			var gridAllocation = this.GetAllocation();
+
+			using( MemoryStream memStream = new MemoryStream() )
+			{
+				BinaryFormatter serializer = new BinaryFormatter();
+				serializer.Serialize( memStream, gridAllocation );
+
+				var settings = new Settings();
+				settings.GridAllocation = Convert.ToBase64String( memStream.ToArray() );
+
+				settings.Save();
+			}
+		}
 
         #endregion Methods
         //---------------------------------------------------------------------

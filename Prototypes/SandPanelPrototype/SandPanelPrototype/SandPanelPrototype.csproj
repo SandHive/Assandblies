@@ -48,10 +48,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="ImageWidget.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -59,9 +55,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ImageWidget.xaml.cs">
-      <DependentUpon>ImageWidget.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -75,12 +68,13 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\convert_icon256.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\..\Sand.Controls\Sand.Controls.csproj">
       <Project>{B469078D-E865-4F5C-9CD1-5D7A7BB3B86D}</Project>
       <Name>Sand.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SandPanelPrototypeWidgets\SandPanelPrototypeWidgets.csproj">
+      <Project>{d41a9f93-1a10-4731-9811-20a9536af3e4}</Project>
+      <Name>SandPanelPrototypeWidgets</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

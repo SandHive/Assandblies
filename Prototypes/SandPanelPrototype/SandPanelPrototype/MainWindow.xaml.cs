@@ -20,6 +20,7 @@
  */
 
 using Sand.Controls;
+using SandPanelPrototypeWidgets;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -27,7 +28,6 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 //-----------------------------------------------------------------------------
 namespace SandPanelPrototype
 {
@@ -368,6 +368,11 @@ namespace SandPanelPrototype
             this.StopManualWidgetMoving();
         }
 
+		private void Window_Closed( object sender, EventArgs e )
+		{
+			_sandWidgetGrid.SaveAllocation();
+		}
+        
         private void Window_KeyDown( object sender, KeyEventArgs e )
         {
             if( _manualMovingWidget == null ) { return; }
@@ -386,10 +391,13 @@ namespace SandPanelPrototype
         {
             Debug.Listeners.Add( new ListBoxTraceListener( _DebugOutputListBox ) );
 
-            _sandWidgetGrid.AddWidget( new ImageWidget() { Name = "_4" } );
-            _sandWidgetGrid.AddWidget( new ImageWidget() { Name = "_5" } );
-            _sandWidgetGrid.AddWidget( new ImageWidget() { Name = "_6" } );
-            _sandWidgetGrid.AddWidget( new ImageWidget() { Name = "_7" }, 3, 3 );
+			if( !_sandWidgetGrid.LoadAllocation() )
+			{
+				_sandWidgetGrid.AddWidget( new ImageWidget() { Name = "_4" } );
+				_sandWidgetGrid.AddWidget( new ImageWidget() { Name = "_5" } );
+				_sandWidgetGrid.AddWidget( new ImageWidget() { Name = "_6" } );
+				_sandWidgetGrid.AddWidget( new ImageWidget() { Name = "_7" }, 3, 3 );
+			}
         }
 
         private void Window_PreviewMouseLeftButtonUp( object sender, MouseButtonEventArgs e )
@@ -547,7 +555,7 @@ namespace SandPanelPrototype
         }
 
         #endregion Methods
-        //---------------------------------------------------------------------
+		//---------------------------------------------------------------------
     }
 }
 //-----------------------------------------------------------------------------

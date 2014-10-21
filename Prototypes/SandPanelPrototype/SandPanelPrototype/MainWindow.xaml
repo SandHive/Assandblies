@@ -4,8 +4,10 @@
     xmlns:local="clr-namespace:SandPanelPrototype"
     xmlns:sc="clr-namespace:Sand.Controls;assembly=Sand.Controls"
     xmlns:scc="clr-namespace:Sand.Controls.Converters;assembly=Sand.Controls"
+    xmlns:widgets="clr-namespace:SandPanelPrototypeWidgets;assembly=SandPanelPrototypeWidgets"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="SandPanelPrototype.MainWindow"
+    Closed="Window_Closed"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     KeyDown="Window_KeyDown"
     Loaded="Window_Loaded"
@@ -170,7 +172,6 @@
 
                 <sc:SandWidgetGrid.Resources>
 
-                    <!-- <Style TargetType="{x:Type sc:SandWidgetAdapter}"> -->
                     <Style TargetType="{x:Type sc:SandWidgetAdapter}">
                         
                         <Style.Triggers>
@@ -196,7 +197,6 @@
 
                     </Style>
 
-                    <!-- <Style TargetType="{x:Type sc:SandWidgetGridCell}"> -->
                     <Style TargetType="{x:Type sc:SandWidgetGridCell}">
                         <Style.Triggers>
                             <Trigger Property="sc:SandWidgetGridCell.IsHome" Value="True">
@@ -210,11 +210,11 @@
 
                 </sc:SandWidgetGrid.Resources>
 
-                <local:ImageWidget x:Name="_1" />
+                <widgets:ImageWidget x:Name="_1" />
 
-                <local:ImageWidget x:Name="_2" />
+                <widgets:ImageWidget x:Name="_2" />
 
-                <local:ImageWidget x:Name="_3" />
+                <widgets:ImageWidget x:Name="_3" />
 
             </sc:SandWidgetGrid>
             

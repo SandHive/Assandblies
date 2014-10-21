@@ -26,11 +26,12 @@ using System.Windows.Media;
 //-----------------------------------------------------------------------------
 namespace Sand.Controls
 {
+	[DebuggerDisplay( "TopLeft={TopLeft}, TileSize={TileSize}, WidgetName={WidgetName}" )]
     [Serializable]
     public struct SandWidgetAllocationInfo
     {
         //---------------------------------------------------------------------
-        #region Fields
+        #region Properties
 
         /// <summary>
         /// Gets the tile size of the widget.
@@ -47,8 +48,8 @@ namespace Sand.Controls
         /// </summary>
         public string WidgetName { get; private set; }
 
-        #endregion Fields
-        //---------------------------------------------------------------------
+		#endregion Properties
+		//---------------------------------------------------------------------
         #region Constructors
 
         public SandWidgetAllocationInfo( string widgetName, Point topLeft, Size tileSize )
