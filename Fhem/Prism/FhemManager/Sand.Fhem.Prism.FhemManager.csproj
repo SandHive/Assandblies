@@ -103,6 +103,12 @@
     <None Include="packages.config" />
     <AppDesigner Include="Properties\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FhemModule\Sand.Fhem.Prism.FhemModule.csproj">
+      <Project>{d0cab8c4-018b-4660-87c9-8e7f7acaed24}</Project>
+      <Name>Sand.Fhem.Prism.FhemModule</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

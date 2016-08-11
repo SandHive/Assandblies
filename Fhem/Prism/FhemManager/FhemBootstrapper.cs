@@ -19,8 +19,9 @@
  * IN THE SOFTWARE.
  */
 
-using System.Windows;
+using Prism.Modularity;
 using Prism.Unity;
+using System.Windows;
 //-----------------------------------------------------------------------------
 namespace Sand.Fhem.Prism.FhemManager
 {
@@ -28,6 +29,13 @@ namespace Sand.Fhem.Prism.FhemManager
     {
         //---------------------------------------------------------------------
         #region UnityBootstrapper Members
+
+        protected override void ConfigureModuleCatalog()
+        {
+            base.ConfigureModuleCatalog();
+
+            this.ModuleCatalog.AddModule( new ModuleInfo( "FhemModule", "Sand.Fhem.Prism.FhemModule.FhemModule, Sand.Fhem.Prism.FhemModule" ) );
+        }
 
         protected override DependencyObject CreateShell()
         {
