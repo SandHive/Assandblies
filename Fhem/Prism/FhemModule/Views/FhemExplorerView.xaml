@@ -5,10 +5,48 @@
     x:Class="Sand.Fhem.Prism.FhemModule.Views.FhemExplorerView"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
-    <Grid>
+    <DockPanel>
 
-        <TextBlock Text="{Binding TestText}" />
+        <GroupBox DockPanel.Dock="Top" Header="Fhem Server Connection" Margin="3" Padding="7">
 
-    </Grid>
+            <StackPanel Orientation="Horizontal">
+
+                <TextBlock Text="Server IP:" />
+                <TextBox Text="{Binding FhemServerIP, Mode=TwoWay}" Margin="3,0" Width="100" />
+
+                <TextBlock Text="Server Port:" />
+                <TextBox Text="{Binding FhemServerPort, Mode=TwoWay}" Margin="3,0" Width="100" />
+
+                <Button Command="{Binding ConnectCommand}" Content="Connect" Margin="3,0" />
+
+            </StackPanel>
+
+        </GroupBox>
+
+        <GroupBox Header="Fhem Command" Margin="3" Padding="7">
+
+            <DockPanel>
+
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="3">
+
+                    <TextBlock Text="Command:" />
+                    <TextBox Margin="3,0" Text="{Binding FhemCommand, Mode=TwoWay}" Width="100" />
+
+                    <Button Command="{Binding SendCommand}" Content="Send" Margin="3,0" />
+
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+
+                    <TextBlock Text="Response:" />
+                    <TextBox ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="500" IsReadOnly="True" Text="{Binding FhemResponse}" Margin="3,0" Width="800" />
+
+                </StackPanel>
+
+            </DockPanel>
+
+        </GroupBox>
+
+    </DockPanel>
 
 </UserControl>

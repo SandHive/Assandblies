@@ -3,9 +3,8 @@
     xmlns:prism="clr-namespace:Prism.Regions;assembly=Prism.Wpf"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="Sand.Fhem.Prism.FhemManager.FhemShell"
-    Height="350" 
     Title="Fhem Manager" 
-    Width="525">
+    SizeToContent="WidthAndHeight">
     
     <StackPanel>
 
