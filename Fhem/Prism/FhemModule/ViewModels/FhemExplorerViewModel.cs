@@ -1,6 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using Sand.Fhem.Basics;
+using System;
 //-----------------------------------------------------------------------------
 namespace Sand.Fhem.Prism.FhemModule.ViewModels
 {
@@ -9,7 +10,7 @@ namespace Sand.Fhem.Prism.FhemModule.ViewModels
         //---------------------------------------------------------------------
         #region Fields
 
-        private FhemClient  m_fhemClient;
+        private FhemClient  m_fhemClient = new FhemClient();
 
         private string  m_fhemResponse;
 
@@ -39,6 +40,8 @@ namespace Sand.Fhem.Prism.FhemModule.ViewModels
 
         public string FhemServerPort { get; set; } = "7072";
 
+        public bool IsFhemClientConnected {  get { return m_fhemClient.IsConnected; } }
+
         public DelegateCommand SendCommand { get; private set; }
 
         //-- Properties
@@ -46,8 +49,14 @@ namespace Sand.Fhem.Prism.FhemModule.ViewModels
         //---------------------------------------------------------------------
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the FhemExplorerViewModel class.
+        /// </summary>
         public FhemExplorerViewModel()
         {
+            //-- Register to events
+            m_fhemClient.IsConnectedChanged += FhemClient_IsConnectedChanged ;
+
             //-- Initialize commands
             this.ConnectCommand = new DelegateCommand( () => this.ConnectCommandAction()  );
             this.SendCommand = new DelegateCommand( () => this.SendCommandAction() );
@@ -56,16 +65,33 @@ namespace Sand.Fhem.Prism.FhemModule.ViewModels
         //-- Constructors
         #endregion
         //---------------------------------------------------------------------
-        #region Methods
+        #region Event Handlers
 
-        private void ConnectCommandAction()
+        private void FhemClient_IsConnectedChanged( object sender, EventArgs e )
         {
-            m_fhemClient = new FhemClient( this.FhemServerIP, int.Parse( this.FhemServerPort ) );
+            //-- Just force an update of the 'IsFhemClientConnected' property
+            this.OnPropertyChanged( "IsFhemClientConnected" );
         }
 
+        //-- Event Handlers
+        #endregion
+        //---------------------------------------------------------------------
+        #region Methods
+
+        /// <summary>
+        /// The action that should be performed when executing the 'ConnectCommand'.
+        /// </summary>
+        private void ConnectCommandAction()
+        {
+            m_fhemClient.Connect( this.FhemServerIP, int.Parse( this.FhemServerPort ) );
+        }
+
+        /// <summary>
+        /// The action that should be performed when executing the 'SendCommand'.
+        /// </summary>
         private void SendCommandAction()
         {
-            this.FhemResponse = m_fhemClient.SendCommand( this.FhemCommand );
+            this.FhemResponse = m_fhemClient.SendNativeCommand( this.FhemCommand );
         }
 
         //-- Methods

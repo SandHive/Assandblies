@@ -7,8 +7,28 @@
 
     <DockPanel>
 
-        <GroupBox DockPanel.Dock="Top" Header="Fhem Server Connection" Margin="3" Padding="7">
+        <GroupBox Name="ConnectionGroupBox" DockPanel.Dock="Top" Header="Fhem Server Connection" Margin="3" Padding="7">
 
+            <GroupBox.Style>
+
+                <Style TargetType="GroupBox">
+
+                    <Setter Property="Background" Value="Yellow" />
+
+                    <Style.Triggers>
+
+                        <DataTrigger Binding="{Binding IsFhemClientConnected}" Value="True">
+
+                            <Setter Property="Background" Value="LimeGreen" />
+
+                        </DataTrigger>
+
+                    </Style.Triggers>
+
+                </Style>
+
+            </GroupBox.Style>
+            
             <StackPanel Orientation="Horizontal">
 
                 <TextBlock Text="Server IP:" />
