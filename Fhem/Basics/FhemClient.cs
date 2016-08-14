@@ -136,6 +136,11 @@ namespace Sand.Fhem.Basics
         /// </returns>
         public string SendNativeCommand( string a_nativeCommandString )
         {
+            if( String.IsNullOrWhiteSpace( a_nativeCommandString ) )
+            {
+                return String.Empty;
+            }
+
             //-- Each FHEM command must end with "\r\n"
             if( !a_nativeCommandString.EndsWith( "\r\n" ) )
             {

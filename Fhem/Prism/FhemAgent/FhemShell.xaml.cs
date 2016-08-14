@@ -21,7 +21,7 @@
 
 using System.Windows;
 //-----------------------------------------------------------------------------
-namespace Sand.Fhem.Prism.FhemManager
+namespace Sand.Fhem.Prism.FhemAgent
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

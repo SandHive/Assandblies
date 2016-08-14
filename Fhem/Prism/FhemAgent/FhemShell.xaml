@@ -2,8 +2,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:prism="clr-namespace:Prism.Regions;assembly=Prism.Wpf"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    x:Class="Sand.Fhem.Prism.FhemManager.FhemShell"
-    Title="Fhem Manager" 
+    x:Class="Sand.Fhem.Prism.FhemAgent.FhemShell"
+    Title="Fhem Agent" 
     SizeToContent="WidthAndHeight">
     
     <StackPanel>

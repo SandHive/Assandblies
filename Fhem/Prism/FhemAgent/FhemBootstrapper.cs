@@ -23,7 +23,7 @@ using Prism.Modularity;
 using Prism.Unity;
 using System.Windows;
 //-----------------------------------------------------------------------------
-namespace Sand.Fhem.Prism.FhemManager
+namespace Sand.Fhem.Prism.FhemAgent
 {
     internal class FhemBootstrapper : UnityBootstrapper
     {
