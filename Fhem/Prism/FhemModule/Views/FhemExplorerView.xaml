@@ -50,7 +50,15 @@
                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="3">
 
                     <TextBlock Text="Command:" />
-                    <TextBox Margin="3,0" Text="{Binding FhemCommand, Mode=TwoWay}" Width="100" />
+                    <TextBox Margin="3,0" Text="{Binding FhemCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100">
+
+                        <TextBox.InputBindings>
+
+                            <KeyBinding Gesture="Enter" Command="{Binding SendCommand}" />
+
+                        </TextBox.InputBindings>
+                        
+                    </TextBox>
 
                     <Button Command="{Binding SendCommand}" Content="Send" Margin="3,0" />
 
