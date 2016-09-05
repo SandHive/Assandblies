@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 //-----------------------------------------------------------------------------
 namespace Sand.Fhem.Basics
 {
@@ -19,6 +22,8 @@ namespace Sand.Fhem.Basics
         #endregion
         //---------------------------------------------------------------------
         #region Fields
+
+        private BinaryReader  m_binaryReader;
 
         private bool  m_isConnected;
 
@@ -86,7 +91,9 @@ namespace Sand.Fhem.Basics
 
         public void Dispose()
         {
+            //-- Clean up everything
             m_networkStream?.Dispose();
+            m_binaryReader?.Dispose();
             m_tcpClient?.Close();
         }
 
@@ -106,10 +113,14 @@ namespace Sand.Fhem.Basics
         /// </param>
         public void Connect( string a_hostName, int a_telnetPort )
         {
+            //-- Create the TCP client
             m_tcpClient = new TcpClient( a_hostName, a_telnetPort );
 
+            //-- Create all other necessary objects
             m_networkStream = m_tcpClient.GetStream();
+            m_binaryReader = new BinaryReader( m_networkStream );
 
+            //-- Set a flag that we are connected
             this.IsConnected = true;
         }
               
@@ -131,6 +142,9 @@ namespace Sand.Fhem.Basics
         /// <param name="a_nativeCommandString">
         /// The native Fhem command.
         /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// The native command string may not be null or empty.
+        /// </exception>
         /// <returns>
         /// The native Fhem response.
         /// </returns>
@@ -138,7 +152,7 @@ namespace Sand.Fhem.Basics
         {
             if( String.IsNullOrWhiteSpace( a_nativeCommandString ) )
             {
-                return String.Empty;
+                throw new ArgumentNullException( "The native command string may not be null or empty!" );
             }
 
             //-- Each FHEM command must end with "\r\n"
@@ -146,55 +160,26 @@ namespace Sand.Fhem.Basics
             {
                 a_nativeCommandString = a_nativeCommandString + "\r\n";
             }
-
+            
+            //-- Convert the native string into a byte array
             var writeBuffer = Encoding.ASCII.GetBytes( a_nativeCommandString );
 
+            //-- Send the byte array
             m_networkStream.Write( writeBuffer, 0, writeBuffer.Length );
             m_networkStream.Flush();
+            
+            //-- Wait a short amount of time for an answer
+            Thread.Sleep( 100 );
 
-            var readingDateTime = DateTime.Now;
+            var resultBytes = new List<byte>();
 
-            var readBuffer = new byte[this.ReadBufferSize];
-
-            StringBuilder stringBuilder = null;
-
-            do
+            while( m_networkStream.DataAvailable )
             {
-                if( m_networkStream.DataAvailable )
-                {
-                    var readBytesCount = m_networkStream.Read( readBuffer, 0, this.ReadBufferSize );
-
-                    if( readBytesCount == this.ReadBufferSize )
-                    {
-                        if( stringBuilder == null )
-                        {
-                            stringBuilder = new StringBuilder();
-                        }
-
-                        string readBufferAsString = Encoding.ASCII.GetString( readBuffer );
-
-                        stringBuilder.Append( readBufferAsString );
-
-                        readingDateTime = DateTime.Now;
-                    }
-                    else
-                    {
-                        string readBufferAsString = Encoding.ASCII.GetString( readBuffer );
-
-                        if( stringBuilder != null )
-                        {
-                            stringBuilder.Append( readBufferAsString );
-
-                            return stringBuilder.ToString();
-                        }
-
-                        return readBufferAsString;
-                    }                                                
-                }
+                //-- Reading single bytes is more reliable than reading strings or several bytes at once
+                resultBytes.Add( m_binaryReader.ReadByte() );
             }
-            while( ( (TimeSpan) ( DateTime.Now - readingDateTime ) ).TotalMilliseconds <= this.ReadTimeoutInMs );
 
-            return String.Empty;
+            return Encoding.ASCII.GetString( resultBytes.ToArray() );
         }
 
         //-- Methods
