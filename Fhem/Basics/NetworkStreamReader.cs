@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-/* Copyright (c) 2016 The Sandman (sandhive@gmail.com)
+﻿/* Copyright (c) 2016 The Sandman (sandhive@gmail.com)
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy 
  * of this software and associated documentation files (the "Software"), to 
@@ -21,6 +18,9 @@ using System.IO;
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS 
  * IN THE SOFTWARE.
  */
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Net.Sockets;
 using System.Text;
 //-----------------------------------------------------------------------------
@@ -75,7 +75,7 @@ namespace Sand.Fhem.Basics
 
         public void Dispose()
         {
-            m_binaryReader.Dispose();
+            m_binaryReader?.Dispose();
         }
 
         //-- IDisposable Members
@@ -83,6 +83,12 @@ namespace Sand.Fhem.Basics
         //---------------------------------------------------------------------
         #region Methods
 
+        /// <summary>
+        /// Reads a string from the network stream.
+        /// </summary>
+        /// <returns>
+        /// The string that was read from the network stream.
+        /// </returns>
         public string ReadString()
         {
             var referenceDateTime = DateTime.Now;
