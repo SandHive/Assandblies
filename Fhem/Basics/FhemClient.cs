@@ -23,11 +23,11 @@ namespace Sand.Fhem.Basics
         //---------------------------------------------------------------------
         #region Fields
 
-        private BinaryReader  m_binaryReader;
-
         private bool  m_isConnected;
 
         private NetworkStream  m_networkStream;
+
+        private NetworkStreamReader  m_networkStreamReader;
 
         private TcpClient  m_tcpClient;
 
@@ -55,11 +55,7 @@ namespace Sand.Fhem.Basics
                 this.IsConnectedChanged?.Invoke( this, EventArgs.Empty );
             }
         }
-
-        public int ReadBufferSize { get; set; } = 1024;
-
-        public int ReadTimeoutInMs { get; set; } = 1000;
-
+        
         //-- Properties
         #endregion
         //---------------------------------------------------------------------
@@ -92,8 +88,8 @@ namespace Sand.Fhem.Basics
         public void Dispose()
         {
             //-- Clean up everything
+            m_networkStreamReader?.Dispose();
             m_networkStream?.Dispose();
-            m_binaryReader?.Dispose();
             m_tcpClient?.Close();
         }
 
@@ -118,7 +114,7 @@ namespace Sand.Fhem.Basics
 
             //-- Create all other necessary objects
             m_networkStream = m_tcpClient.GetStream();
-            m_binaryReader = new BinaryReader( m_networkStream );
+            m_networkStreamReader = new NetworkStreamReader( m_networkStream );
 
             //-- Set a flag that we are connected
             this.IsConnected = true;
@@ -167,19 +163,10 @@ namespace Sand.Fhem.Basics
             //-- Send the byte array
             m_networkStream.Write( writeBuffer, 0, writeBuffer.Length );
             m_networkStream.Flush();
-            
-            //-- Wait a short amount of time for an answer
-            Thread.Sleep( 100 );
 
-            var resultBytes = new List<byte>();
-
-            while( m_networkStream.DataAvailable )
-            {
-                //-- Reading single bytes is more reliable than reading strings or several bytes at once
-                resultBytes.Add( m_binaryReader.ReadByte() );
-            }
-
-            return Encoding.ASCII.GetString( resultBytes.ToArray() );
+            var result = m_networkStreamReader.ReadString();
+                                    
+            return result;
         }
 
         //-- Methods
