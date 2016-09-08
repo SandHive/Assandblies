@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 2016 The Sandhive Project (http://sandhive.org)
+﻿/* Copyright (c) 2016 The Sandman (sandhive@gmail.com)
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy 
  * of this software and associated documentation files (the "Software"), to 
@@ -18,7 +18,6 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS 
  * IN THE SOFTWARE.
  */
-
 using Prism.Modularity;
 using Prism.Unity;
 using System.Windows;
