@@ -18,13 +18,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS 
  * IN THE SOFTWARE.
  */
+using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
 //-----------------------------------------------------------------------------
 namespace Sand.Fhem.Basics
 {
@@ -45,9 +43,9 @@ namespace Sand.Fhem.Basics
 
         private bool  m_isConnected;
 
-        private NetworkStream  m_networkStream;
-
         private NetworkStreamReader  m_networkStreamReader;
+
+        private NetworkStreamWriter  m_networkStreamWriter;
 
         private TcpClient  m_tcpClient;
 
@@ -109,7 +107,6 @@ namespace Sand.Fhem.Basics
         {
             //-- Clean up everything
             m_networkStreamReader?.Dispose();
-            m_networkStream?.Dispose();
             m_tcpClient?.Close();
         }
 
@@ -132,9 +129,10 @@ namespace Sand.Fhem.Basics
             //-- Create the TCP client
             m_tcpClient = new TcpClient( a_hostName, a_telnetPort );
 
-            //-- Create all other necessary objects
-            m_networkStream = m_tcpClient.GetStream();
-            m_networkStreamReader = new NetworkStreamReader( m_networkStream );
+            //-- Get the network stream and create the reader and writer instances
+            var networkStream = m_tcpClient.GetStream();
+            m_networkStreamReader = new NetworkStreamReader( networkStream );
+            m_networkStreamWriter = new NetworkStreamWriter( networkStream );
 
             //-- Set a flag that we are connected
             this.IsConnected = true;
@@ -144,6 +142,16 @@ namespace Sand.Fhem.Basics
         public string GetApplicationTime()
         {
             return this.SendNativeCommand( "apptime" );
+        }
+
+        [DebuggerStepThrough]
+        public string GetJsonList2()
+        {
+            var nativeResponse = this.SendNativeCommand( "jsonlist2" );
+
+            //var blubb = JObject.Parse( nativeResponse );
+
+            return nativeResponse;
         }
 
         [DebuggerStepThrough]
@@ -176,17 +184,14 @@ namespace Sand.Fhem.Basics
             {
                 a_nativeCommandString = a_nativeCommandString + "\r\n";
             }
-            
-            //-- Convert the native string into a byte array
-            var writeBuffer = Encoding.ASCII.GetBytes( a_nativeCommandString );
 
-            //-- Send the byte array
-            m_networkStream.Write( writeBuffer, 0, writeBuffer.Length );
-            m_networkStream.Flush();
+            //-- Write the native command string to the network stream
+            m_networkStreamWriter.Write( a_nativeCommandString );
 
-            var result = m_networkStreamReader.ReadString();
-                                    
-            return result;
+            //-- Read the response from the network stream
+            var nativeResponse = m_networkStreamReader.ReadString();
+
+            return nativeResponse;
         }
 
         //-- Methods
