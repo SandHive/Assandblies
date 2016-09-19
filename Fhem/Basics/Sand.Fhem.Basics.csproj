@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FhemObject.cs" />
+    <Compile Include="FhemObjectRepository.cs" />
     <Compile Include="NetworkStreamWriter.cs" />
     <Compile Include="NetworkStreamReader.cs" />
     <Compile Include="FhemClient.cs" />
