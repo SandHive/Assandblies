@@ -137,29 +137,27 @@ namespace Sand.Fhem.Basics
             //-- Set a flag that we are connected
             this.IsConnected = true;
         }
-              
-        [DebuggerStepThrough]
-        public string GetApplicationTime()
+
+        /// <summary>
+        /// Gets a repository with all available Fhem objects.
+        /// </summary>
+        /// <returns>
+        /// A repository with all available Fhem objects.
+        /// </returns>
+        public FhemObjectRepository GetObjectRepository()
         {
-            return this.SendNativeCommand( "apptime" );
+            //-- Use the 'jsonlist2' command for creating the FHEM object repository
+            var response = this.SendNativeCommand( "jsonlist2" );
+
+            //-- Parse the response into a JSON object
+            var jsonObject = JObject.Parse( response );
+
+            //-- Create the FHEM object repository
+            var fhemObjectRepository = FhemObjectRepository.Create( jsonObject );
+
+            return fhemObjectRepository;
         }
-
-        [DebuggerStepThrough]
-        public string GetJsonList2()
-        {
-            var nativeResponse = this.SendNativeCommand( "jsonlist2" );
-
-            //var blubb = JObject.Parse( nativeResponse );
-
-            return nativeResponse;
-        }
-
-        [DebuggerStepThrough]
-        public string GetXmlList()
-        {
-            return this.SendNativeCommand( "xmllist" );
-        }
-
+        
         /// <summary>
         /// Sends a native Fhem command.
         /// </summary>
@@ -189,9 +187,9 @@ namespace Sand.Fhem.Basics
             m_networkStreamWriter.Write( a_nativeCommandString );
 
             //-- Read the response from the network stream
-            var nativeResponse = m_networkStreamReader.ReadString();
+            var response = m_networkStreamReader.ReadString();
 
-            return nativeResponse;
+            return response;
         }
 
         //-- Methods

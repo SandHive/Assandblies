@@ -43,6 +43,8 @@ namespace Sand.Fhem.Prism.FhemModule.ViewModels
 
         public string FhemCommand { get; set; }
 
+        public FhemObjectRepository FhemObjects { get; private set; }
+
         public string FhemResponse
         {
             get { return m_fhemResponse; }
@@ -104,6 +106,10 @@ namespace Sand.Fhem.Prism.FhemModule.ViewModels
         private void ConnectCommandAction()
         {
             m_fhemClient.Connect( this.FhemServerIP, int.Parse( this.FhemServerPort ) );
+
+            this.FhemObjects = m_fhemClient.GetObjectRepository();
+
+            this.OnPropertyChanged( "FhemObjects" );
         }
 
         /// <summary>

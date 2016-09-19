@@ -43,37 +43,73 @@
 
         </GroupBox>
 
-        <GroupBox Header="Fhem Command" Margin="3" Padding="7">
+        <Grid>
 
-            <DockPanel>
+            <Grid.ColumnDefinitions>
 
-                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="3">
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="3*" />
 
-                    <TextBlock Text="Command:" />
-                    <TextBox Margin="3,0" Text="{Binding FhemCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100">
+            </Grid.ColumnDefinitions>
 
-                        <TextBox.InputBindings>
+            <TreeView Grid.Column="0" MinWidth="300" ItemsSource="{Binding FhemObjects}">
 
-                            <KeyBinding Gesture="Enter" Command="{Binding SendCommand}" />
+                <TreeView.ItemTemplate>
 
-                        </TextBox.InputBindings>
-                        
-                    </TextBox>
+                    <DataTemplate>
 
-                    <Button Command="{Binding SendCommand}" Content="Send" Margin="3,0" />
+                        <TextBlock Text="{Binding Name}" />
 
-                </StackPanel>
+                    </DataTemplate>
+                    
+                </TreeView.ItemTemplate>
+                
+                
+            </TreeView>
+            
+            <GridSplitter Grid.Column="1" Width="3" />
 
-                <StackPanel Orientation="Horizontal">
+            <GroupBox Grid.Column="2" Header="Fhem Command" Margin="3" Padding="7">
 
-                    <TextBlock Text="Response:" />
-                    <TextBox ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="500" IsReadOnly="True" Text="{Binding FhemResponse}" Margin="3,0" Width="800" />
+                <DockPanel>
 
-                </StackPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="3">
 
-            </DockPanel>
+                        <TextBlock Text="Command:" />
+                        <TextBox Margin="3,0" Text="{Binding FhemCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100">
 
-        </GroupBox>
+                            <TextBox.InputBindings>
+
+                                <KeyBinding Gesture="Enter" Command="{Binding SendCommand}" />
+
+                            </TextBox.InputBindings>
+
+                        </TextBox>
+
+                        <Button Command="{Binding SendCommand}" Content="Send" Margin="3,0" />
+
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="Response:" />
+                        <TextBox Text="{Binding FhemResponse}"  
+                        Height="500" 
+                        IsReadOnly="True" 
+                        Margin="3,0" 
+                        ScrollViewer.CanContentScroll="True" 
+                        ScrollViewer.HorizontalScrollBarVisibility="Visible" 
+                        ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                        Width="800" />
+
+                    </StackPanel>
+
+                </DockPanel>
+
+            </GroupBox>
+
+        </Grid>
 
     </DockPanel>
 
