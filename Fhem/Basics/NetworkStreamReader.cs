@@ -113,6 +113,11 @@ namespace Sand.Fhem.Basics
             }
             while( pastTimSpan < this.WaitingTimeSpanForResponse );
 
+            if( resultBytes.Count == 0 )
+            {
+                throw new TimeoutException();
+            }
+
             return Encoding.ASCII.GetString( resultBytes.ToArray() );
         }
 
