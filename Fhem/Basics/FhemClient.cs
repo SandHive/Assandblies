@@ -20,9 +20,7 @@
  */
 using Newtonsoft.Json.Linq;
 using System;
-using System.Diagnostics;
 using System.Net.Sockets;
-using System.Text;
 //-----------------------------------------------------------------------------
 namespace Sand.Fhem.Basics
 {

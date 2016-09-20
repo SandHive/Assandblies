@@ -77,31 +77,31 @@
                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="3">
 
                         <TextBlock Text="Command:" />
-                        <TextBox Margin="3,0" Text="{Binding FhemCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100">
+                        <TextBox Margin="3,0" Text="{Binding NativeCommandString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100">
 
                             <TextBox.InputBindings>
 
-                                <KeyBinding Gesture="Enter" Command="{Binding SendCommand}" />
+                                <KeyBinding Gesture="Enter" Command="{Binding SendNativeCommandStringCommand}" />
 
                             </TextBox.InputBindings>
 
                         </TextBox>
 
-                        <Button Command="{Binding SendCommand}" Content="Send" Margin="3,0" />
+                        <Button Command="{Binding SendNativeCommandStringCommand}" Content="Send" Margin="3,0" />
 
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
 
                         <TextBlock Text="Response:" />
-                        <TextBox Text="{Binding FhemResponse}"  
-                        Height="500" 
-                        IsReadOnly="True" 
-                        Margin="3,0" 
-                        ScrollViewer.CanContentScroll="True" 
-                        ScrollViewer.HorizontalScrollBarVisibility="Visible" 
-                        ScrollViewer.VerticalScrollBarVisibility="Visible" 
-                        Width="800" />
+                        <TextBox Text="{Binding FhemResponse, Mode=OneWay}"  
+                                 Height="500" 
+                                 IsReadOnly="True" 
+                                 Margin="3,0" 
+                                 ScrollViewer.CanContentScroll="True" 
+                                 ScrollViewer.HorizontalScrollBarVisibility="Visible" 
+                                 ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                                 Width="800" />
 
                     </StackPanel>
 

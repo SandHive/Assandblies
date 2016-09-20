@@ -39,32 +39,59 @@ namespace Sand.Fhem.Prism.FhemModule.ViewModels
         //---------------------------------------------------------------------
         #region Properties
 
+        /// <summary>
+        /// Gets the command for connecting to the Fhem server.
+        /// </summary>
         public DelegateCommand ConnectCommand { get; private set; }
 
-        public string FhemCommand { get; set; }
+        /// <summary>
+        /// Gets or sets the native command string. 
+        /// </summary>
+        public string NativeCommandString { get; set; }
 
+        /// <summary>
+        /// Gets the repository of all Fhem objects.
+        /// </summary>
         public FhemObjectRepository FhemObjects { get; private set; }
 
+        /// <summary>
+        /// Gets the response of the native command string.
+        /// </summary>
         public string FhemResponse
         {
             get { return m_fhemResponse; }
-            set
+            private set
             {
+                //-- Check that the value has really changed
                 if( value == m_fhemResponse ) { return; }
 
+                //-- Apply value
                 m_fhemResponse = value;
 
+                //-- Propagate the change
                 this.OnPropertyChanged();
             }
         }
 
+        /// <summary>
+        /// Gets or sets the IP adress of the Fhem server.
+        /// </summary>
         public string FhemServerIP { get; set; } = "192.168.178.50";
 
+        /// <summary>
+        /// Gets or sets the port of the Fhem server.
+        /// </summary>
         public string FhemServerPort { get; set; } = "7072";
 
+        /// <summary>
+        /// Gets a flag that specifies whether a Fhem client is connected.
+        /// </summary>
         public bool IsFhemClientConnected {  get { return m_fhemClient.IsConnected; } }
 
-        public DelegateCommand SendCommand { get; private set; }
+        /// <summary>
+        /// Gets the command for sending a native command string.
+        /// </summary>
+        public DelegateCommand SendNativeCommandStringCommand { get; private set; }
 
         //-- Properties
         #endregion
@@ -81,7 +108,7 @@ namespace Sand.Fhem.Prism.FhemModule.ViewModels
 
             //-- Initialize commands
             this.ConnectCommand = new DelegateCommand( () => this.ConnectCommandAction()  );
-            this.SendCommand = new DelegateCommand( () => this.SendCommandAction() );
+            this.SendNativeCommandStringCommand = new DelegateCommand( () => this.SendNativeCommandStringCommandAction() );
         }
 
         //-- Constructors
@@ -105,19 +132,20 @@ namespace Sand.Fhem.Prism.FhemModule.ViewModels
         /// </summary>
         private void ConnectCommandAction()
         {
+            //-- Connect to the Fhem server
             m_fhemClient.Connect( this.FhemServerIP, int.Parse( this.FhemServerPort ) );
 
+            //-- Get the Fhem object repository and propagate its objects
             this.FhemObjects = m_fhemClient.GetObjectRepository();
-
             this.OnPropertyChanged( "FhemObjects" );
         }
 
         /// <summary>
-        /// The action that should be performed when executing the 'SendCommand'.
+        /// The action that should be performed when executing the 'SendNativeCommandStringCommand'.
         /// </summary>
-        private void SendCommandAction()
+        private void SendNativeCommandStringCommandAction()
         {
-            this.FhemResponse = m_fhemClient.SendNativeCommand( this.FhemCommand );
+            this.FhemResponse = m_fhemClient.SendNativeCommand( this.NativeCommandString );
         }
 
         //-- Methods
