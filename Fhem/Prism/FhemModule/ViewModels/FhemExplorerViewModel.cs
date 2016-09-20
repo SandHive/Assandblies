@@ -22,6 +22,8 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Sand.Fhem.Basics;
 using System;
+using System.ComponentModel;
+using System.Windows.Data;
 //-----------------------------------------------------------------------------
 namespace Sand.Fhem.Prism.FhemModule.ViewModels
 {
@@ -52,7 +54,7 @@ namespace Sand.Fhem.Prism.FhemModule.ViewModels
         /// <summary>
         /// Gets the repository of all Fhem objects.
         /// </summary>
-        public FhemObjectRepository FhemObjects { get; private set; }
+        public ICollectionView FhemObjects { get; private set; }
 
         /// <summary>
         /// Gets the response of the native command string.
@@ -135,8 +137,16 @@ namespace Sand.Fhem.Prism.FhemModule.ViewModels
             //-- Connect to the Fhem server
             m_fhemClient.Connect( this.FhemServerIP, int.Parse( this.FhemServerPort ) );
 
-            //-- Get the Fhem object repository and propagate its objects
-            this.FhemObjects = m_fhemClient.GetObjectRepository();
+            //-- Get the Fhem object repository 
+            var fhemObjectRepository = m_fhemClient.GetObjectRepository();
+
+            //-- Use the Fhem object repository as source for the collection view 
+            this.FhemObjects = CollectionViewSource.GetDefaultView( fhemObjectRepository );
+
+            //-- Sort the Fhem objects by their names
+            this.FhemObjects.SortDescriptions.Add( new SortDescription( "Name", ListSortDirection.Ascending ) );
+
+            //-- Force a property update
             this.OnPropertyChanged( "FhemObjects" );
         }
 
